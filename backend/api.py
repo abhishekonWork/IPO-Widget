@@ -94,6 +94,24 @@ def health():
     }
 
 
+@app.get("/api/debug/frontend")
+def debug_frontend():
+    """Temporary diagnostic: shows exactly what the deployed server sees on
+    disk for the frontend folder, to debug a 404 without needing to find
+    Render's log viewer. Safe to remove once the site is confirmed working."""
+    frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
+    repo_root = Path(__file__).resolve().parent.parent
+    return {
+        "backend_file_location": str(Path(__file__).resolve()),
+        "computed_repo_root": str(repo_root),
+        "repo_root_contents": sorted(p.name for p in repo_root.iterdir()) if repo_root.exists() else "REPO ROOT MISSING",
+        "computed_frontend_dir": str(frontend_dir),
+        "frontend_dir_exists": frontend_dir.exists(),
+        "frontend_dir_contents": sorted(p.name for p in frontend_dir.iterdir()) if frontend_dir.exists() else "FRONTEND DIR MISSING",
+        "index_html_exists": (frontend_dir / "index.html").exists(),
+    }
+
+
 @app.get("/api/ipos/open")
 def get_open_ipos():
     cache = scraper.load_cache("open")
