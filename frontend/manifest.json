@@ -1,0 +1,14 @@
+{
+  "name": "Mainboard IPOs Live",
+  "short_name": "IPO Live",
+  "description": "Live GMP and subscription tracker for Indian Mainboard IPOs",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0e14",
+  "theme_color": "#0b0e14",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

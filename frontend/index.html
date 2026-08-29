@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mainboard IPOs Live</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.ico">
+<meta name="theme-color" content="#0b0e14">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h1>📊 Mainboard IPOs</h1>
+  <div class="updated-row" id="updatedRow">
+    <span id="updatedText">Loading…</span>
+    <span id="nextUpdateText"></span>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-tab="open">🔥 Open</button>
+    <button class="tab" data-tab="upcoming">📅 Upcoming</button>
+    <button class="tab" data-tab="closed">⏳ Closed</button>
+  </div>
+  <div class="searchbar">
+    <input id="searchInput" type="text" placeholder="Search Mainboard IPO">
+  </div>
+</header>
+
+<main id="cardList">
+  <div class="empty-state">Loading IPOs…</div>
+</main>
+
+<div class="disclaimer">
+  GMP (Indicative) is unofficial grey-market data and does not guarantee listing gains. Source: InvestorGain.
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
