@@ -140,12 +140,38 @@ def scrape_upcoming_mainboard_ipos() -> list[IPORecord]:
     return _scrape_gmp_report(status_filter="upcoming")
 
 
+def _derive_status(open_d: Optional[str], close_d: Optional[str], site_status: str) -> str:
+    """Determines Open/Upcoming/Closed from actual dates rather than trusting
+    InvestorGain's own status flag alone -- observed in practice to lag or
+    stay stuck on 'Open' well after an IPO's close/listing date has passed.
+    Falls back to the site's flag only when we have no usable dates at all."""
+    today = datetime.now().date()
+    try:
+        open_dt = datetime.strptime(open_d, "%Y-%m-%d").date() if open_d else None
+        close_dt = datetime.strptime(close_d, "%Y-%m-%d").date() if close_d else None
+    except ValueError:
+        open_dt = close_dt = None
+
+    if close_dt is not None:
+        if today > close_dt:
+            return "closed"
+        if open_dt is not None and today < open_dt:
+            return "upcoming"
+        if open_dt is not None and open_dt <= today <= close_dt:
+            return "open"
+        # Only a close date, no open date -- still safe to say open if not yet closed
+        if today <= close_dt:
+            return "open"
+
+    return STATUS_MAP.get(site_status, "unknown")
+
+
 def scrape_closed_mainboard_ipos() -> list[IPORecord]:
-    """Covers both 'closed, not yet listed' (C/CT) and 'listed' (L) rows --
-    the GMP report includes recently-closed IPOs too, so this needs no
-    extra request beyond what scrape_open/scrape_upcoming already make."""
+    """Covers both 'closed, not yet listed' and 'listed' rows -- the GMP
+    report includes recently-closed IPOs too, so this needs no extra
+    request beyond what scrape_open/scrape_upcoming already make."""
     all_rows = _scrape_gmp_report(status_filter=None)
-    return [r for r in all_rows if r.status in ("closed", "listed")]
+    return [r for r in all_rows if r.status == "closed"]
 
 
 def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
@@ -154,22 +180,18 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
     records: list[IPORecord] = []
 
     for row in rows:
-        # ~IPO_Category and ~ipo_status1 are authoritative, row-level fields
-        # confirmed present in every captured row -- read these directly
-        # instead of regex-parsing badges out of the "Name" HTML fragment,
-        # which is fragile (badge count/order isn't guaranteed) and was the
-        # source of IPOs being dropped or bucketed into the wrong tab.
+        # ~IPO_Category is authoritative and reliable for mainboard/SME.
+        # ~ipo_status1 (the site's own O/U/C/L flag), however, has been
+        # observed to lag -- staying "O" days after the real close/listing
+        # date has passed. We read it as a fallback only; the real status
+        # is derived from dates below, once we've parsed them.
         category_text = row.get("~IPO_Category") or ""
-        status_text = row.get("~ipo_status1") or ""
+        site_status_text = row.get("~ipo_status1") or ""
         company_name, badge_category, badge_status = _parse_name_cell(row.get("Name", ""))
         category_text = category_text or badge_category
-        status_text = status_text or badge_status
+        site_status_text = site_status_text or badge_status
 
         if not company_name or not _is_mainboard(category_text):
-            continue
-
-        status = STATUS_MAP.get(status_text, status_filter or "unknown")
-        if status_filter and status != status_filter:
             continue
 
         gmp_raw = _strip_tags(row.get("GMP", ""))
@@ -190,6 +212,10 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
         boa_d = row.get("~Srt_BoA_Dt") or _parse_date(row.get("BoA Dt"))
         listing_d = row.get("~Str_Listing") or _parse_date(row.get("Listing"))
         updated_text = _strip_tags(row.get("Updated-On", "")) or None
+
+        status = _derive_status(open_d, close_d, site_status_text)
+        if status_filter and status != status_filter:
+            continue
 
         rec = IPORecord(
             company_name=company_name,
