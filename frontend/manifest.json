@@ -1,6 +1,6 @@
 {
-  "name": "Mainboard IPOs Live",
-  "short_name": "IPO Live",
+  "name": "IPOAbhi — Invest se Pehle Observe",
+  "short_name": "IPOAbhi",
   "description": "Live GMP and subscription tracker for Indian Mainboard IPOs",
   "start_url": "./index.html",
   "display": "standalone",
