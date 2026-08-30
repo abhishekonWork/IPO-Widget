@@ -37,6 +37,13 @@ header.topbar {
   letter-spacing: 0.2px;
 }
 
+.tagline {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
 .updated-row {
   display: flex;
   justify-content: space-between;
@@ -178,4 +185,19 @@ main {
   text-align: center;
   padding: 6px 16px 20px;
   line-height: 1.4;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 0 16px 24px;
+  font-size: 11px;
+}
+
+.site-footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
 }
