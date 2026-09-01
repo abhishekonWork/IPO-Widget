@@ -47,6 +47,7 @@ from models import IPORecord, Subscription, now_iso
 BASE = "https://webnodejs.investorgain.com/cloud/v2/report/data-read"
 GMP_REPORT_ID = 331
 SUBSCRIPTION_REPORT_ID = 333
+PERFORMANCE_REPORT_ID = 377  # "IPO GMP Performance Tracker" -- actual listing price vs issue price
 
 HEADERS = {
     "User-Agent": (
@@ -177,6 +178,10 @@ def scrape_closed_mainboard_ipos() -> list[IPORecord]:
 def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
     rows = fetch_report(GMP_REPORT_ID)
     sub_map = scrape_subscription_breakdown()
+    # Only worth fetching the performance report when we might actually
+    # show closed/listed IPOs -- skip the extra request for a pure "open"
+    # or "upcoming" call.
+    perf_map = scrape_listing_performance() if status_filter in (None, "closed") else {}
     records: list[IPORecord] = []
 
     for row in rows:
@@ -247,9 +252,68 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
                 rec.subscription.total = detail["total"]
             rec.subscription.started = True
 
+        perf = perf_map.get(company_name)
+        if perf:
+            rec.listing_price = perf.get("listing_price")
+            rec.listing_gain_percent = perf.get("listing_gain_percent")
+
         records.append(rec)
 
     return records
+
+
+def scrape_listing_performance() -> dict[str, dict]:
+    """Returns {company_name: {listing_price, issue_price, listing_gain_percent}}
+    from InvestorGain's dedicated GMP Performance Tracker report (id 377),
+    which is the source they show real listing-day performance on -- this
+    is the ACTUAL price change, not a GMP-based estimate.
+
+    Report 377 takes `year` as a query param rather than in the URL path
+    like reports 331/333 do -- confirmed via
+    investorgain.com/report/ipo-gmp-performance-tracker/377/ipo/?year=2026"""
+    result: dict[str, dict] = {}
+    year = datetime.now().year
+    url = f"{BASE}/{PERFORMANCE_REPORT_ID}/1/8/{year}/all/0/all?year={year}"
+    try:
+        resp = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
+        resp.raise_for_status()
+        rows = resp.json().get("reportTableData", [])
+    except (requests.RequestException, ValueError) as e:
+        print(f"WARNING: listing performance fetch failed: {e}", file=sys.stderr)
+        return result
+
+    for row in rows:
+        category_text = row.get("~IPO_Category") or ""
+        company_name, badge_category, _status = _parse_name_cell(row.get("Name", ""))
+        category_text = category_text or badge_category
+        if not company_name or not _is_mainboard(category_text):
+            continue
+
+        # Field names mirror the pattern seen in reports 331/333: a plain
+        # display column plus a "~"-prefixed clean numeric column when
+        # available. We try the clean field first, fall back to parsing
+        # the display text so a naming difference here doesn't silently
+        # drop the whole feature.
+        listing_price = row.get("~Listing_Price") or _first_number(_strip_tags(row.get("Listing Price", "")))
+        issue_price = row.get("~Issue_Price") or _first_number(_strip_tags(row.get("Issue Price", "")))
+        gain_pct = row.get("~Listing_Gain_Percent")
+        if gain_pct is None:
+            gain_text = _strip_tags(row.get("Listing Gain", "") or row.get("Gain %", ""))
+            gain_pct = _first_number(gain_text)
+        elif isinstance(gain_pct, str):
+            gain_pct = _first_number(gain_pct)
+
+        # If we have both prices but no explicit percent field, compute it
+        # ourselves rather than leaving it blank.
+        if gain_pct is None and listing_price is not None and issue_price:
+            gain_pct = round((listing_price - issue_price) / issue_price * 100, 2)
+
+        result[company_name] = {
+            "listing_price": listing_price,
+            "issue_price": issue_price,
+            "listing_gain_percent": gain_pct,
+        }
+    return result
 
 
 def scrape_subscription_breakdown() -> dict[str, dict]:
