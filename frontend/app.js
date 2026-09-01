@@ -4,6 +4,16 @@
 const API_BASE = "/api";
 const REFRESH_MS = 5 * 60 * 1000; // matches backend GMP_REFRESH_SECONDS default
 
+// Backend stores dates as ISO "YYYY-MM-DD" (correct for sorting/storage).
+// This converts to DD-MM-YYYY only for on-screen display.
+function formatDateDMY(isoDate) {
+  if (!isoDate) return "—";
+  const parts = isoDate.split("-");
+  if (parts.length !== 3) return isoDate; // not ISO -- show as-is rather than mangle it
+  const [y, m, d] = parts;
+  return `${d}-${m}-${y}`;
+}
+
 let currentTab = "open";
 let allRecords = [];
 let searchTerm = "";
@@ -119,9 +129,10 @@ function renderCard(r) {
   const gmpRupeeText = r.gmp === null || r.gmp === undefined ? "" : `₹${r.gmp}`;
   const sub = r.subscription || {};
   const subText = (v) => (sub.started === false ? "—" : (v === null || v === undefined ? "N/A" : `${v.toFixed(2)}x`));
+  const sentiment = gmpClass(gmpPct); // "pos" | "mid" | "neg" | "neu" — also drives the card's accent bar
 
   return `
-    <div class="card">
+    <div class="card accent-${sentiment}">
       <div class="name-row">
         <div class="name">${escapeHtml(r.company_name)}</div>
       </div>
@@ -140,16 +151,26 @@ function renderCard(r) {
         <span>Issue Size</span>
         <span>${r.issue_size_cr ? `₹${r.issue_size_cr} Cr` : "Not Available"}</span>
       </div>
+      ${r.status === "closed" || r.status === "listed" ? `
+      <div class="meta-row">
+        <span>Actual Listing Gain</span>
+        <span class="${listingGainClass(r.listing_gain_percent)}">${r.listing_gain_percent != null ? `${r.listing_gain_percent > 0 ? "+" : ""}${r.listing_gain_percent}%` : "Not Available"}</span>
+      </div>` : ""}
       <div class="dates-row">
-        <span>Open ${r.open_date || "—"}</span>
-        <span>Close ${r.close_date || "—"}</span>
+        <span>Open ${formatDateDMY(r.open_date)}</span>
+        <span>Close ${formatDateDMY(r.close_date)}</span>
       </div>
       <div class="dates-row">
-        <span>BOA ${r.boa_date || "—"}</span>
-        <span>Listing ${r.listing_date || "—"}</span>
+        <span>BOA ${formatDateDMY(r.boa_date)}</span>
+        <span>Listing ${formatDateDMY(r.listing_date)}</span>
       </div>
     </div>
   `;
+}
+
+function listingGainClass(pct) {
+  if (pct == null) return "";
+  return pct >= 0 ? "gain-positive" : "gain-negative";
 }
 
 if ("serviceWorker" in navigator) {
