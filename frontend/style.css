@@ -1,107 +1,186 @@
+/* ============================================================
+   IPOAbhi — design tokens
+   Palette: deep indigo-navy ground (not pure black) + warm
+   marigold accent, evoking Indian market/investing context
+   without literally copying an exchange's brand colors.
+   Type: Manrope (geometric, confident — for numbers/headlines,
+   since GMP figures are the thing people scan for first) paired
+   with system sans for body/labels, at a clearly distinct weight.
+   ============================================================ */
 :root {
-  --bg: #0b0e14;
-  --surface: #12151d;
-  --surface-2: #191d27;
-  --border: #232838;
-  --text: #e8ebf2;
-  --text-dim: #8b93a7;
-  --green: #22c55e;
-  --yellow: #eab308;
-  --red: #ef4444;
-  --blue: #3b82f6;
+  --bg: #0e1220;
+  --bg-elevated: #141a2e;
+  --surface: #1a2138;
+  --surface-2: #212a45;
+  --border: #2a3454;
+  --border-soft: #232c4a;
+
+  --text: #eef1fb;
+  --text-dim: #96a0c2;
+  --text-faint: #626d94;
+
+  --marigold: #f5a524;
+  --marigold-dim: #7a5817;
+  --indigo-accent: #6d8bff;
+
+  --green: #2fd97f;
+  --green-dim: #143224;
+  --yellow: #f5c518;
+  --red: #ff5c72;
+  --red-dim: #341620;
+
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --radius-sm: 9px;
+
+  --font-display: "Manrope", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
 
 * { box-sizing: border-box; }
 
-body {
+html, body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  padding: 0;
 }
+
+body {
+  background:
+    radial-gradient(1200px 480px at 15% -10%, rgba(245,165,36,0.10), transparent 60%),
+    radial-gradient(900px 420px at 100% 0%, rgba(109,139,255,0.08), transparent 55%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ---------------- Header ---------------- */
 
 header.topbar {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--bg);
-  padding: 14px 16px 10px;
-  border-bottom: 1px solid var(--border);
+  background: rgba(14, 18, 32, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .topbar h1 {
   margin: 0;
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.topbar h1::before {
+  content: "";
 }
 
 .tagline {
   margin: 2px 0 0;
-  font-size: 11.5px;
-  color: var(--text-dim);
-  font-style: italic;
+  font-size: 12px;
+  color: var(--marigold);
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .updated-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 10px;
   font-size: 12px;
-  color: var(--text-dim);
+  color: var(--text-faint);
 }
 
 .updated-row.stale { color: var(--yellow); }
 
 .tabs {
   display: flex;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-top: 12px;
   overflow-x: auto;
+  scrollbar-width: none;
 }
+.tabs::-webkit-scrollbar { display: none; }
 
 .tab {
   flex: 0 0 auto;
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: var(--surface-2);
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
   color: var(--text-dim);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   border: 1px solid var(--border);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-.tab.active { background: var(--blue); color: white; border-color: var(--blue); }
+.tab.active {
+  background: var(--marigold);
+  color: #201304;
+  border-color: var(--marigold);
+}
 
 .searchbar {
-  margin: 10px 0 0;
+  margin: 12px 0 0;
 }
 
 .searchbar input {
   width: 100%;
-  padding: 9px 12px;
-  border-radius: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text);
   font-size: 14px;
 }
 
+.searchbar input::placeholder { color: var(--text-faint); }
+.searchbar input:focus {
+  outline: none;
+  border-color: var(--marigold);
+}
+
+/* ---------------- Main / cards ---------------- */
+
 main {
-  padding: 12px 12px 32px;
-  max-width: 520px;
+  padding: 16px 12px 40px;
+  max-width: 540px;
   margin: 0 auto;
 }
 
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 12px;
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-elevated), var(--surface));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  padding: 16px 16px 14px 22px;
+  margin-bottom: 14px;
+  overflow: hidden;
 }
+
+/* Left accent bar signals GMP sentiment at a glance, before reading
+   a single number — this is the card's one deliberate signature
+   element rather than uniform borders/shadows on everything. */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--border);
+}
+.card.accent-pos::before { background: var(--green); }
+.card.accent-mid::before { background: var(--yellow); }
+.card.accent-neg::before { background: var(--red); }
+.card.accent-neu::before { background: var(--indigo-accent); }
 
 .card .name-row {
   display: flex;
@@ -110,94 +189,121 @@ main {
 }
 
 .card .name {
-  font-size: 16px;
+  font-family: var(--font-display);
+  font-size: 16.5px;
   font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.005em;
+}
+
+.gmp-label {
+  font-size: 11px;
+  color: var(--text-faint);
+  font-weight: 600;
+  margin-top: 10px;
 }
 
 .card .gmp {
-  font-size: 20px;
+  font-family: var(--font-display);
+  font-size: 26px;
   font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-top: 2px;
 }
 
 .gmp-rupee {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-dim);
-}
-
-.gmp-label {
-  font-size: 10px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .sub-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin: 10px 0;
+  gap: 8px;
+  margin: 14px 0 4px;
 }
 
 .sub-cell {
   background: var(--surface-2);
-  border-radius: 8px;
-  padding: 6px 4px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
   text-align: center;
 }
 
-.sub-cell .k { font-size: 10px; color: var(--text-dim); }
-.sub-cell .v { font-size: 14px; font-weight: 700; margin-top: 2px; }
+.sub-cell .k {
+  font-size: 10px;
+  color: var(--text-faint);
+  font-weight: 600;
+}
+.sub-cell .v {
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 700;
+  margin-top: 3px;
+}
 
 .meta-row {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  align-items: center;
+  font-size: 12.5px;
   color: var(--text-dim);
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .dates-row {
   display: flex;
   justify-content: space-between;
   font-size: 11.5px;
-  color: var(--text-dim);
-  margin-top: 6px;
-  border-top: 1px dashed var(--border);
-  padding-top: 8px;
+  color: var(--text-faint);
+  margin-top: 8px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 10px;
 }
 
 .pos { color: var(--green); }
 .mid { color: var(--yellow); }
 .neg { color: var(--red); }
-.neu { color: var(--blue); }
+.neu { color: var(--indigo-accent); }
+
+.gain-positive { color: var(--green); font-weight: 700; }
+.gain-negative { color: var(--red); font-weight: 700; }
+
+/* ---------------- Empty / error states ---------------- */
 
 .empty-state, .error-state {
   text-align: center;
   color: var(--text-dim);
-  padding: 40px 16px;
+  padding: 56px 16px;
   font-size: 14px;
 }
 
+/* ---------------- Footer ---------------- */
+
 .disclaimer {
   font-size: 10.5px;
-  color: var(--text-dim);
+  color: var(--text-faint);
   text-align: center;
-  padding: 6px 16px 20px;
-  line-height: 1.4;
+  padding: 10px 20px 6px;
+  line-height: 1.5;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .site-footer {
   text-align: center;
-  padding: 0 16px 24px;
-  font-size: 11px;
+  padding: 10px 16px 28px;
+  font-size: 11.5px;
 }
 
 .site-footer a {
   color: var(--text-dim);
   text-decoration: none;
+  font-weight: 600;
 }
 
 .site-footer a:hover {
-  text-decoration: underline;
+  color: var(--marigold);
 }
