@@ -265,6 +265,14 @@ main {
   color: var(--indigo-accent);
 }
 
+.registrar-value {
+  font-family: var(--font-body) !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: var(--text) !important;
+  text-align: right;
+}
+
 .dates-row {
   display: flex;
   justify-content: space-between;
