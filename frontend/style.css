@@ -253,14 +253,41 @@ main {
   margin-top: 10px;
 }
 
+.meta-row span:last-child {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--marigold);
+}
+
+.issue-size-row span:last-child {
+  font-size: 15.5px;
+  color: var(--indigo-accent);
+}
+
 .dates-row {
   display: flex;
   justify-content: space-between;
-  font-size: 11.5px;
-  color: var(--text-faint);
+  font-size: 13.5px;
+  color: var(--text);
+  font-weight: 700;
   margin-top: 8px;
   border-top: 1px solid var(--border-soft);
   padding-top: 10px;
+}
+
+.dates-row span {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.date-label {
+  font-size: 10px;
+  color: var(--text-faint);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .pos { color: var(--green); }
