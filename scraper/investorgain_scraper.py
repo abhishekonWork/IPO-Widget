@@ -62,6 +62,7 @@ REQUEST_TIMEOUT = 20  # seconds
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
 CACHE_FILE = DATA_DIR / "ipo_cache.json"
+REGISTRAR_CACHE_FILE = DATA_DIR / "registrar_cache.json"
 
 STATUS_MAP = {"O": "open", "U": "upcoming", "C": "closed", "CT": "closed", "L": "listed"}
 
@@ -133,24 +134,8 @@ def _is_mainboard(category_text: str) -> bool:
     return "SME" not in category_text.upper()
 
 
-def scrape_open_mainboard_ipos(include_registrar: bool = True) -> list[IPORecord]:
-    records = _scrape_gmp_report(status_filter="open")
-    if include_registrar and records:
-        # Registrar needs one extra page-fetch per IPO, so it's only worth
-        # doing for the Open tab (small list, and the tab where "who do I
-        # check allotment status with" actually matters most) -- never for
-        # historical/closed data.
-        try:
-            raw_rows = fetch_report(GMP_REPORT_ID)
-            rows_by_name = {}
-            for row in raw_rows:
-                name, badge_cat, _s = _parse_name_cell(row.get("Name", ""))
-                if name:
-                    rows_by_name[name] = row
-            enrich_with_registrar(records, rows_by_name)
-        except Exception as e:
-            print(f"WARNING: registrar enrichment skipped: {e}", file=sys.stderr)
-    return records
+def scrape_open_mainboard_ipos() -> list[IPORecord]:
+    return _scrape_gmp_report(status_filter="open")
 
 
 def scrape_upcoming_mainboard_ipos() -> list[IPORecord]:
@@ -274,6 +259,20 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
             rec.listing_gain_percent = perf.get("listing_gain_percent")
 
         records.append(rec)
+
+    # Registrar is cheap here because enrich_with_registrar caches by IPO id
+    # permanently (see its docstring) -- only genuinely new IPOs trigger a
+    # live page fetch, so this is safe to run for every tab (Open/Upcoming/
+    # Closed), not just Open.
+    try:
+        rows_by_name = {}
+        for row in rows:
+            name, badge_cat, _s = _parse_name_cell(row.get("Name", ""))
+            if name:
+                rows_by_name[name] = row
+        enrich_with_registrar(records, rows_by_name)
+    except Exception as e:
+        print(f"WARNING: registrar enrichment skipped: {e}", file=sys.stderr)
 
     return records
 
@@ -437,10 +436,38 @@ def scrape_registrar(url_slug: str, ipo_id: int) -> Optional[str]:
     return None
 
 
+def _load_registrar_cache() -> dict[str, str]:
+    if not REGISTRAR_CACHE_FILE.exists():
+        return {}
+    try:
+        return json.loads(REGISTRAR_CACHE_FILE.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_registrar_cache(cache: dict[str, str]) -> None:
+    try:
+        REGISTRAR_CACHE_FILE.write_text(json.dumps(cache, indent=2), encoding="utf-8")
+    except OSError as e:
+        print(f"WARNING: could not save registrar cache: {e}", file=sys.stderr)
+
+
 def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, dict]) -> None:
-    """Mutates records in place, adding .registrar by fetching each IPO's
-    detail page. ONE request per IPO -- call this only for a small list
-    (e.g. the Open tab), never for the full historical set."""
+    """Mutates records in place, adding .registrar.
+
+    Registrar is decided once at IPO filing and never changes afterward,
+    so this uses a PERMANENT cache keyed by IPO id (registrar_cache.json)
+    instead of refetching every refresh cycle -- only genuinely new IPOs
+    (not yet in the cache) trigger a live page fetch. This is what makes
+    it affordable to show registrar on every tab (Open/Upcoming/Closed)
+    rather than just Open.
+
+    Note: Render's free-tier filesystem resets on every redeploy, so this
+    cache persists between refresh cycles but not across deploys -- still
+    a large reduction in fetches versus no caching at all."""
+    cache = _load_registrar_cache()
+    cache_dirty = False
+
     for rec in records:
         row = gmp_rows_by_name.get(rec.company_name)
         if not row:
@@ -448,7 +475,19 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
         slug, ipo_id = _extract_url_slug_and_id(row)
         if not slug or not ipo_id:
             continue
-        rec.registrar = scrape_registrar(slug, ipo_id)
+
+        cache_key = str(ipo_id)
+        if cache_key in cache:
+            rec.registrar = cache[cache_key] or None
+            continue
+
+        registrar_name = scrape_registrar(slug, ipo_id)
+        rec.registrar = registrar_name
+        cache[cache_key] = registrar_name or ""  # cache the miss too, so we don't retry every cycle
+        cache_dirty = True
+
+    if cache_dirty:
+        _save_registrar_cache(cache)
 
 
 def save_cache(records: list[IPORecord], key: str = "open") -> None:
