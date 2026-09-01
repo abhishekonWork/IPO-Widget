@@ -40,6 +40,7 @@ class IPORecord:
     status: str = "unknown"          # "open" | "upcoming" | "closed" | "listed"
     listing_price: Optional[float] = None       # actual price on listing day, from report 377
     listing_gain_percent: Optional[float] = None  # actual (listing_price - issue_price)/issue_price * 100 -- NOT the GMP estimate
+    registrar: Optional[str] = None              # e.g. "Bigshare Services Pvt.Ltd." -- from the individual IPO detail page
     source_url: Optional[str] = None
     last_updated: Optional[str] = None    # when WE fetched it, ISO datetime
     source: str = "InvestorGain"
