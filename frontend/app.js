@@ -151,6 +151,11 @@ function renderCard(r) {
         <span>Issue Size</span>
         <span>${r.issue_size_cr ? `₹${r.issue_size_cr} Cr` : "Not Available"}</span>
       </div>
+      ${r.registrar ? `
+      <div class="meta-row">
+        <span>Registrar</span>
+        <span class="registrar-value">${escapeHtml(r.registrar)}</span>
+      </div>` : ""}
       ${r.status === "closed" || r.status === "listed" ? `
       <div class="meta-row">
         <span>Actual Listing Gain</span>
