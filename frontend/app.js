@@ -147,7 +147,7 @@ function renderCard(r) {
         <div class="sub-cell"><div class="k">Total</div><div class="v ${subClass(sub.total)}">${subText(sub.total)}</div></div>
       </div>`}
 
-      <div class="meta-row">
+      <div class="meta-row issue-size-row">
         <span>Issue Size</span>
         <span>${r.issue_size_cr ? `₹${r.issue_size_cr} Cr` : "Not Available"}</span>
       </div>
@@ -157,12 +157,12 @@ function renderCard(r) {
         <span class="${listingGainClass(r.listing_gain_percent)}">${r.listing_gain_percent != null ? `${r.listing_gain_percent > 0 ? "+" : ""}${r.listing_gain_percent}%` : "Not Available"}</span>
       </div>` : ""}
       <div class="dates-row">
-        <span>Open ${formatDateDMY(r.open_date)}</span>
-        <span>Close ${formatDateDMY(r.close_date)}</span>
+        <span><b class="date-label">Open</b> ${formatDateDMY(r.open_date)}</span>
+        <span><b class="date-label">Close</b> ${formatDateDMY(r.close_date)}</span>
       </div>
       <div class="dates-row">
-        <span>BOA ${formatDateDMY(r.boa_date)}</span>
-        <span>Listing ${formatDateDMY(r.listing_date)}</span>
+        <span><b class="date-label">BOA</b> ${formatDateDMY(r.boa_date)}</span>
+        <span><b class="date-label">Listing</b> ${formatDateDMY(r.listing_date)}</span>
       </div>
     </div>
   `;
