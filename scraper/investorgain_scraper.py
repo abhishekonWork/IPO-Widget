@@ -133,8 +133,24 @@ def _is_mainboard(category_text: str) -> bool:
     return "SME" not in category_text.upper()
 
 
-def scrape_open_mainboard_ipos() -> list[IPORecord]:
-    return _scrape_gmp_report(status_filter="open")
+def scrape_open_mainboard_ipos(include_registrar: bool = True) -> list[IPORecord]:
+    records = _scrape_gmp_report(status_filter="open")
+    if include_registrar and records:
+        # Registrar needs one extra page-fetch per IPO, so it's only worth
+        # doing for the Open tab (small list, and the tab where "who do I
+        # check allotment status with" actually matters most) -- never for
+        # historical/closed data.
+        try:
+            raw_rows = fetch_report(GMP_REPORT_ID)
+            rows_by_name = {}
+            for row in raw_rows:
+                name, badge_cat, _s = _parse_name_cell(row.get("Name", ""))
+                if name:
+                    rows_by_name[name] = row
+            enrich_with_registrar(records, rows_by_name)
+        except Exception as e:
+            print(f"WARNING: registrar enrichment skipped: {e}", file=sys.stderr)
+    return records
 
 
 def scrape_upcoming_mainboard_ipos() -> list[IPORecord]:
@@ -365,6 +381,74 @@ def scrape_subscription_breakdown() -> dict[str, dict]:
             "retail": _first_number(row.get("RII", "")),
         }
     return result
+
+
+def _extract_url_slug_and_id(row: dict) -> tuple[Optional[str], Optional[int]]:
+    """Pulls the slug + numeric id out of a "~URLRewrite_Folder_Name"-style
+    field (case has been observed to vary between reports -- check both).
+    e.g. "/gmp/rays-of-belief-ipo/2041/" -> ("rays-of-belief-ipo", 2041)."""
+    raw = row.get("~URLRewrite_Folder_Name") or row.get("~urlrewrite_folder_name") or ""
+    parts = [p for p in raw.split("/") if p]
+    if len(parts) < 2:
+        return None, None
+    slug = parts[-2]
+    try:
+        ipo_id = int(parts[-1])
+    except ValueError:
+        return slug, None
+    return slug, ipo_id
+
+
+def scrape_registrar(url_slug: str, ipo_id: int) -> Optional[str]:
+    """Fetches ONE IPO's individual detail page and extracts the registrar
+    name from its "IPO Details" table.
+
+    Unlike reports 331/333/377, this page is genuinely server-rendered
+    HTML (confirmed via a live fetch of investorgain.com/ipo/kfin-
+    technologies-ipo/446/ -- "Registrar" and its value sit directly in a
+    <table> row, not loaded via a separate JS/JSON call). That's good for
+    reliability (a fixed table structure, not a moving API) but does mean
+    ONE extra network request per IPO -- callers should use this sparingly
+    (e.g. only for the Open tab) rather than for every IPO on every
+    refresh.
+
+    url_slug/ipo_id come from _extract_url_slug_and_id() on a row that
+    already has a "~URLRewrite_Folder_Name" field (reports 331/333/377 all
+    have this). The individual detail page swaps that field's "/gmp/" or
+    "/subscription/" prefix for "/ipo/"."""
+    url = f"https://www.investorgain.com/ipo/{url_slug}/{ipo_id}/"
+    try:
+        resp = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        print(f"WARNING: registrar page fetch failed for {url}: {e}", file=sys.stderr)
+        return None
+
+    try:
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(resp.text, "html.parser")
+        for row_el in soup.find_all("tr"):
+            cells = row_el.find_all(["td", "th"])
+            if len(cells) == 2 and _strip_tags(cells[0].get_text()).strip().lower() == "registrar":
+                registrar_name = _strip_tags(cells[1].get_text()).strip()
+                return registrar_name or None
+    except Exception as e:
+        print(f"WARNING: registrar page parse failed for {url}: {e}", file=sys.stderr)
+    return None
+
+
+def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, dict]) -> None:
+    """Mutates records in place, adding .registrar by fetching each IPO's
+    detail page. ONE request per IPO -- call this only for a small list
+    (e.g. the Open tab), never for the full historical set."""
+    for rec in records:
+        row = gmp_rows_by_name.get(rec.company_name)
+        if not row:
+            continue
+        slug, ipo_id = _extract_url_slug_and_id(row)
+        if not slug or not ipo_id:
+            continue
+        rec.registrar = scrape_registrar(slug, ipo_id)
 
 
 def save_cache(records: list[IPORecord], key: str = "open") -> None:
