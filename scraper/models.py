@@ -38,6 +38,8 @@ class IPORecord:
     boa_date: Optional[str] = None
     listing_date: Optional[str] = None
     status: str = "unknown"          # "open" | "upcoming" | "closed" | "listed"
+    listing_price: Optional[float] = None       # actual price on listing day, from report 377
+    listing_gain_percent: Optional[float] = None  # actual (listing_price - issue_price)/issue_price * 100 -- NOT the GMP estimate
     source_url: Optional[str] = None
     last_updated: Optional[str] = None    # when WE fetched it, ISO datetime
     source: str = "InvestorGain"
