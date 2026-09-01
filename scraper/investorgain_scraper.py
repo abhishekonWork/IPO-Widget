@@ -252,7 +252,7 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
                 rec.subscription.total = detail["total"]
             rec.subscription.started = True
 
-        perf = perf_map.get(company_name)
+        perf = perf_map.get(_normalize_company_name(company_name))
         if perf:
             rec.listing_price = perf.get("listing_price")
             rec.listing_gain_percent = perf.get("listing_gain_percent")
@@ -262,15 +262,36 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
     return records
 
 
+def _normalize_company_name(name: str) -> str:
+    """Report 377 has been observed with trailing/extra whitespace in
+    company names (e.g. 'Symbiotec Pharmalab ') that reports 331/333 don't
+    have -- normalize before using as a merge key across reports, or
+    matches silently fail."""
+    return " ".join((name or "").split())
+
+
 def scrape_listing_performance() -> dict[str, dict]:
-    """Returns {company_name: {listing_price, issue_price, listing_gain_percent}}
-    from InvestorGain's dedicated GMP Performance Tracker report (id 377),
-    which is the source they show real listing-day performance on -- this
-    is the ACTUAL price change, not a GMP-based estimate.
+    """Returns {normalized_company_name: {listing_price, issue_price,
+    listing_gain_percent, closing_gain_percent}} from InvestorGain's
+    dedicated GMP Performance Tracker report (id 377) -- the ACTUAL
+    listing-day price change, not a GMP-based estimate.
+
+    Confirmed real field names via a live capture of this report
+    (2026-09-01), which differ from reports 331/333 in several ways:
+      - company name field is "IPO", not "Name" (and may have trailing
+        whitespace -- see _normalize_company_name)
+      - "IPO Price" is the clean issue price (not "Issue Price")
+      - "~str_listing_gain_in_per" is the ready-made actual listing-day
+        gain % -- this is the number we want, no HTML parsing needed
+      - "~str_closing_gain_in_per" is gain as of latest close (not just
+        listing day) -- kept as a secondary field, not the primary one,
+        since "listing gain" specifically means listing-day performance
+      - "Listing Price" is an HTML-wrapped fragment like
+        "<span class='text-success'>₹988.00 (0.00%)</span>" -- only used
+        as a fallback if the clean ~str_listing_gain_in_per is ever absent
 
     Report 377 takes `year` as a query param rather than in the URL path
-    like reports 331/333 do -- confirmed via
-    investorgain.com/report/ipo-gmp-performance-tracker/377/ipo/?year=2026"""
+    like reports 331/333 do."""
     result: dict[str, dict] = {}
     year = datetime.now().year
     url = f"{BASE}/{PERFORMANCE_REPORT_ID}/1/8/{year}/all/0/all?year={year}"
@@ -284,34 +305,38 @@ def scrape_listing_performance() -> dict[str, dict]:
 
     for row in rows:
         category_text = row.get("~IPO_Category") or ""
-        company_name, badge_category, _status = _parse_name_cell(row.get("Name", ""))
-        category_text = category_text or badge_category
+        company_name = _normalize_company_name(row.get("IPO", ""))
         if not company_name or not _is_mainboard(category_text):
             continue
 
-        # Field names mirror the pattern seen in reports 331/333: a plain
-        # display column plus a "~"-prefixed clean numeric column when
-        # available. We try the clean field first, fall back to parsing
-        # the display text so a naming difference here doesn't silently
-        # drop the whole feature.
-        listing_price = row.get("~Listing_Price") or _first_number(_strip_tags(row.get("Listing Price", "")))
-        issue_price = row.get("~Issue_Price") or _first_number(_strip_tags(row.get("Issue Price", "")))
-        gain_pct = row.get("~Listing_Gain_Percent")
-        if gain_pct is None:
-            gain_text = _strip_tags(row.get("Listing Gain", "") or row.get("Gain %", ""))
-            gain_pct = _first_number(gain_text)
-        elif isinstance(gain_pct, str):
-            gain_pct = _first_number(gain_pct)
+        issue_price = _first_number(unescape(row.get("IPO Price", "")))
 
-        # If we have both prices but no explicit percent field, compute it
-        # ourselves rather than leaving it blank.
-        if gain_pct is None and listing_price is not None and issue_price:
-            gain_pct = round((listing_price - issue_price) / issue_price * 100, 2)
+        gain_pct = row.get("~str_listing_gain_in_per")
+        if gain_pct is not None:
+            gain_pct = float(gain_pct)
+        else:
+            # Fallback: parse the % out of the HTML-wrapped "Listing Price"
+            # fragment, e.g. "...(0.00%)</span>" -- only reached if
+            # InvestorGain ever removes the clean field above.
+            listing_price_html = unescape(row.get("Listing Price", ""))
+            pct_match = re.search(r"\(([-\d.]+)\s*%\)", listing_price_html)
+            gain_pct = float(pct_match.group(1)) if pct_match else None
+
+        listing_price = None
+        if issue_price is not None and gain_pct is not None:
+            listing_price = round(issue_price * (1 + gain_pct / 100), 2)
+        else:
+            listing_price_html = unescape(row.get("Listing Price", ""))
+            listing_price = _first_number(_strip_tags(listing_price_html).split("(")[0])
+
+        closing_gain_pct = row.get("~str_closing_gain_in_per")
+        closing_gain_pct = float(closing_gain_pct) if closing_gain_pct is not None else None
 
         result[company_name] = {
             "listing_price": listing_price,
             "issue_price": issue_price,
             "listing_gain_percent": gain_pct,
+            "closing_gain_percent": closing_gain_pct,
         }
     return result
 
