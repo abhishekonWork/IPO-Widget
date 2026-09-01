@@ -112,6 +112,39 @@ def debug_frontend():
     }
 
 
+@app.get("/api/debug/listing-performance-raw")
+def debug_listing_performance_raw():
+    """Temporary diagnostic: fetches InvestorGain's report 377 (GMP
+    Performance Tracker) directly and returns the raw first row, so we can
+    see the REAL field names their API uses instead of guessing. Safe to
+    remove once listing-gain data is confirmed working."""
+    import requests as _requests
+    from datetime import datetime as _dt
+    year = _dt.now().year
+    url = f"https://webnodejs.investorgain.com/cloud/v2/report/data-read/377/1/8/{year}/all/0/all?year={year}"
+    try:
+        resp = _requests.get(
+            url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+                "Referer": "https://www.investorgain.com/",
+                "Accept": "application/json",
+            },
+            timeout=20,
+        )
+        data = resp.json()
+        rows = data.get("reportTableData", [])
+        return {
+            "url_fetched": url,
+            "http_status": resp.status_code,
+            "row_count": len(rows),
+            "first_row_raw": rows[0] if rows else None,
+            "all_field_names_in_first_row": sorted(rows[0].keys()) if rows else [],
+        }
+    except Exception as e:
+        return {"url_fetched": url, "error": str(e)}
+
+
 @app.get("/api/ipos/open")
 def get_open_ipos():
     cache = scraper.load_cache("open")
