@@ -1,46 +1,45 @@
 /* ============================================================
-   IPOAbhi — "Ledger" theme
-   Skeuomorphic light design grounded in the physical vernacular
-   of Indian financial paperwork: a stock ledger / passbook /
-   stamped subscription form. Warm cream paper, brass ledger
-   hardware, rubber-stamp figures, wax-seal status badges.
-   Not glassmorphism, not dark mode, not generic SaaS cards.
+   IPOAbhi — clean professional light theme
+   Grounded in real Indian investment-platform UI conventions
+   (Zerodha/Groww-style): white background, precise data
+   typography, restrained color used only to signal gain/loss/
+   status -- never as decoration. No skeuomorphism, no stamps,
+   no dark mode.
    ============================================================ */
 :root {
-  --paper: #f7f3e9;
-  --paper-shadow: #e2d9c3;
-  --paper-deep: #d8cbac;
-  --card: #fbf8f0;
+  --bg: #ffffff;
+  --surface: #f7f8fa;
+  --surface-2: #eef1f5;
+  --border: #e4e7ec;
+  --border-soft: #edeff3;
 
-  --ink: #2b2620;
-  --ink-soft: #6b6153;
-  --ink-faint: #948a76;
+  --text: #14181f;
+  --text-dim: #667085;
+  --text-faint: #98a2b3;
 
-  --stamp-red: #a8362b;
-  --stamp-red-soft: #f3e2df;
-  --seal-green: #2f6e4f;
-  --seal-green-soft: #e2ecE4;
-  --brass: #b8873d;
-  --brass-dark: #8f6526;
-  --brass-soft: #f1e3c8;
+  --accent: #155eef;
+  --accent-soft: #eaf1ff;
 
-  --rule: #c9bc9c;
+  --green: #17825a;
+  --green-soft: #e7f6ee;
+  --red: #d92d20;
+  --red-soft: #fef1f0;
+  --amber: #b54708;
+  --amber-soft: #fff6e8;
 
-  --font-serif: "Fraunces", "Georgia", serif;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 
 body {
-  background:
-    radial-gradient(1000px 600px at 20% -10%, rgba(184,135,61,0.07), transparent 55%),
-    linear-gradient(180deg, var(--paper), var(--paper) 40%, var(--paper-shadow) 400%);
-  color: var(--ink);
-  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-feature-settings: "tnum" 1; /* tabular numbers -- figures align cleanly, reads as a real data product */
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
@@ -51,27 +50,25 @@ header.topbar {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--paper);
-  padding: 18px 16px 14px;
-  border-bottom: 3px double var(--brass);
-  box-shadow: 0 4px 10px -6px rgba(43,38,32,0.25);
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--border);
 }
 
 .topbar h1 {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: var(--text);
 }
 
 .tagline {
-  margin: 3px 0 0;
-  font-family: var(--font-serif);
-  font-size: 12.5px;
-  font-style: italic;
-  color: var(--brass-dark);
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--text-dim);
   font-weight: 500;
 }
 
@@ -79,17 +76,16 @@ header.topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 12px;
+  margin-top: 10px;
   font-size: 11.5px;
-  color: var(--ink-faint);
-  font-family: var(--font-sans);
+  color: var(--text-faint);
 }
 
-.updated-row.stale { color: var(--stamp-red); }
+.updated-row.stale { color: var(--amber); }
 
 .tabs {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   margin-top: 12px;
   overflow-x: auto;
   scrollbar-width: none;
@@ -98,22 +94,19 @@ header.topbar {
 
 .tab {
   flex: 0 0 auto;
-  padding: 7px 15px;
-  border-radius: 4px;
-  background: var(--card);
-  color: var(--ink-soft);
+  padding: 7px 14px;
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text-dim);
   font-size: 13px;
   font-weight: 600;
-  border: 1.5px solid var(--rule);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 2px rgba(43,38,32,0.08);
-  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  border: 1px solid var(--border);
 }
 
 .tab.active {
-  background: var(--brass);
-  color: var(--paper);
-  border-color: var(--brass-dark);
-  box-shadow: inset 0 1px 3px rgba(43,38,32,0.35);
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
 }
 
 .searchbar { margin: 12px 0 0; }
@@ -121,160 +114,117 @@ header.topbar {
 .searchbar input {
   width: 100%;
   padding: 10px 14px;
-  border-radius: 4px;
-  border: 1.5px solid var(--rule);
-  background: var(--card);
-  color: var(--ink);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
   font-size: 14px;
-  box-shadow: inset 0 2px 4px rgba(43,38,32,0.08);
 }
 
-.searchbar input::placeholder { color: var(--ink-faint); }
+.searchbar input::placeholder { color: var(--text-faint); }
 .searchbar input:focus {
   outline: none;
-  border-color: var(--brass);
+  border-color: var(--accent);
+  background: var(--bg);
 }
 
-/* ---------------- Main / ledger cards ---------------- */
+/* ---------------- Main / cards ---------------- */
 
 main {
-  padding: 18px 12px 40px;
+  padding: 16px 12px 40px;
   max-width: 540px;
   margin: 0 auto;
 }
 
 .card {
   position: relative;
-  background:
-    linear-gradient(180deg, var(--card), var(--paper) 96%);
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  padding: 18px 18px 16px;
-  margin-bottom: 20px;
-  /* Raised-paper depth: soft outer shadow (card lifted off the desk)
-     plus a faint inner highlight along the top edge. */
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.7) inset,
-    0 10px 20px -12px rgba(43,38,32,0.35),
-    0 2px 6px -2px rgba(43,38,32,0.15);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 16px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 2px rgba(20,24,31,0.04);
 }
-
-/* Corner wax-seal status badge -- a circular stamp, not a flat pill */
-.seal {
-  position: absolute;
-  top: -14px;
-  right: 16px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-serif);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--paper);
-  box-shadow: 0 4px 8px -2px rgba(43,38,32,0.45), inset 0 -2px 3px rgba(0,0,0,0.2), inset 0 2px 2px rgba(255,255,255,0.15);
-  transform: rotate(-8deg);
-  border: 3px solid var(--paper);
-  z-index: 2;
-}
-.seal.seal-open { background: var(--seal-green); }
-.seal.seal-upcoming { background: var(--brass); }
-.seal.seal-closed, .seal.seal-listed { background: var(--ink-soft); }
 
 .card .name-row {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  padding-right: 40px;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .card .name {
-  font-family: var(--font-serif);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--text);
   letter-spacing: -0.005em;
 }
 
-/* Letterpress rule under the header */
-.card .name-row {
-  border-bottom: 1.5px solid var(--rule);
-  padding-bottom: 10px;
-  margin-bottom: 4px;
+/* Status: small colored dot + label, not a badge/seal/pill graphic */
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 3px 8px 3px 6px;
+  border-radius: 6px;
 }
+.status-tag .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.status-tag.status-open { background: var(--green-soft); color: var(--green); }
+.status-tag.status-open .dot { background: var(--green); }
+.status-tag.status-upcoming { background: var(--amber-soft); color: var(--amber); }
+.status-tag.status-upcoming .dot { background: var(--amber); }
+.status-tag.status-closed, .status-tag.status-listed { background: var(--surface-2); color: var(--text-dim); }
+.status-tag.status-closed .dot, .status-tag.status-listed .dot { background: var(--text-faint); }
 
 .gmp-label {
-  font-size: 10.5px;
-  color: var(--ink-faint);
+  font-size: 11px;
+  color: var(--text-faint);
   font-weight: 600;
   margin-top: 12px;
-  text-transform: none;
 }
 
-/* GMP figure styled as a rubber ink stamp */
 .card .gmp {
-  display: inline-block;
-  font-family: var(--font-serif);
-  font-size: 27px;
+  font-size: 28px;
   font-weight: 800;
-  letter-spacing: -0.005em;
-  margin-top: 4px;
-  padding: 3px 10px;
-  border: 2.5px solid currentColor;
-  border-radius: 5px;
-  transform: rotate(-1.2deg);
-  position: relative;
-}
-.card .gmp::after {
-  /* subtle stamp-texture edge */
-  content: "";
-  position: absolute;
-  inset: -3px;
-  border: 1px solid currentColor;
-  border-radius: 6px;
-  opacity: 0.25;
-  pointer-events: none;
+  letter-spacing: -0.01em;
+  margin-top: 2px;
 }
 
 .gmp-rupee {
-  font-family: var(--font-sans);
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--ink-soft);
-  margin-left: 8px;
+  color: var(--text-dim);
 }
 
 .sub-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  margin: 16px 0 4px;
-  border: 1.5px solid var(--rule);
-  border-radius: 4px;
-  overflow: hidden;
-  background: var(--paper-shadow);
+  gap: 8px;
+  margin: 14px 0 4px;
 }
 
 .sub-cell {
-  background: var(--card);
+  background: var(--surface);
+  border-radius: 8px;
   padding: 8px 4px;
   text-align: center;
-  border-right: 1px solid var(--rule);
 }
-.sub-cell:last-child { border-right: none; }
 
 .sub-cell .k {
-  font-size: 9.5px;
-  color: var(--ink-faint);
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-size: 10px;
+  color: var(--text-faint);
+  font-weight: 600;
 }
 .sub-cell .v {
-  font-family: var(--font-serif);
   font-size: 14.5px;
   font-weight: 700;
   margin-top: 3px;
@@ -285,51 +235,35 @@ main {
   justify-content: space-between;
   align-items: center;
   font-size: 12.5px;
-  color: var(--ink-soft);
-  margin-top: 12px;
+  color: var(--text-dim);
+  margin-top: 10px;
 }
 
 .meta-row span:last-child {
-  font-family: var(--font-serif);
-  font-size: 14.5px;
-  font-weight: 800;
-  color: var(--brass-dark);
+  font-weight: 700;
+  color: var(--text);
 }
 
 .issue-size-row span:last-child {
-  color: var(--ink);
+  color: var(--accent);
 }
 
 .registrar-value {
-  font-family: var(--font-sans) !important;
   font-size: 12px !important;
   font-weight: 600 !important;
-  color: var(--ink) !important;
+  color: var(--text) !important;
   text-align: right;
-}
-
-/* Perforated tear-line before the dates, like a ledger stub */
-.dates-row:first-of-type {
-  position: relative;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: none;
-}
-.dates-row:first-of-type::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 0;
-  border-top: 2px dashed var(--rule);
 }
 
 .dates-row {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  color: var(--ink);
-  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--text);
+  font-weight: 600;
   margin-top: 8px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 10px;
 }
 
 .dates-row span {
@@ -339,39 +273,37 @@ main {
 }
 
 .date-label {
-  font-size: 9.5px;
-  color: var(--ink-faint);
-  font-weight: 700;
+  font-size: 10px;
+  color: var(--text-faint);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
 
-.pos { color: var(--seal-green); }
-.mid { color: var(--brass-dark); }
-.neg { color: var(--stamp-red); }
-.neu { color: var(--ink-soft); }
+.pos { color: var(--green); }
+.mid { color: var(--amber); }
+.neg { color: var(--red); }
+.neu { color: var(--accent); }
 
-.gain-positive { color: var(--seal-green); font-weight: 700; }
-.gain-negative { color: var(--stamp-red); font-weight: 700; }
+.gain-positive { color: var(--green); font-weight: 700; }
+.gain-negative { color: var(--red); font-weight: 700; }
 
 /* ---------------- Empty / error states ---------------- */
 
 .empty-state, .error-state {
   text-align: center;
-  color: var(--ink-soft);
-  padding: 56px 20px;
+  color: var(--text-dim);
+  padding: 56px 16px;
   font-size: 14px;
-  font-family: var(--font-serif);
-  font-style: italic;
 }
 
 /* ---------------- Footer ---------------- */
 
 .disclaimer {
   font-size: 10.5px;
-  color: var(--ink-faint);
+  color: var(--text-faint);
   text-align: center;
-  padding: 12px 20px 6px;
+  padding: 10px 20px 6px;
   line-height: 1.5;
   max-width: 480px;
   margin: 0 auto;
@@ -379,17 +311,16 @@ main {
 
 .site-footer {
   text-align: center;
-  padding: 10px 16px 30px;
+  padding: 10px 16px 28px;
   font-size: 11.5px;
 }
 
 .site-footer a {
-  color: var(--brass-dark);
+  color: var(--text-dim);
   text-decoration: none;
-  font-weight: 700;
-  border-bottom: 1px dotted var(--brass);
+  font-weight: 600;
 }
 
 .site-footer a:hover {
-  color: var(--stamp-red);
+  color: var(--accent);
 }
