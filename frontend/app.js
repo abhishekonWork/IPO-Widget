@@ -112,8 +112,13 @@ function render() {
   if (searchTerm) {
     records = records.filter((r) => r.company_name.toLowerCase().includes(searchTerm));
   }
-  // Default sort: closing date / active priority
-  records = [...records].sort((a, b) => (a.close_date || "").localeCompare(b.close_date || ""));
+  // Sort direction depends on the tab: Open/Upcoming want the soonest
+  // date first (what's closing soonest, what's opening soonest); Closed
+  // wants the OPPOSITE -- most recently closed IPO first, not oldest.
+  records = [...records].sort((a, b) => {
+    const cmp = (a.close_date || "").localeCompare(b.close_date || "");
+    return currentTab === "closed" ? -cmp : cmp;
+  });
 
   if (records.length === 0) {
     cardList.innerHTML = `<div class="empty-state">No ${currentTab} Mainboard IPOs right now.</div>`;
