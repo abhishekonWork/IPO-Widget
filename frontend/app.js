@@ -134,10 +134,12 @@ function renderCard(r) {
   const gmpRupeeText = r.gmp === null || r.gmp === undefined ? "" : `₹${r.gmp}`;
   const sub = r.subscription || {};
   const subText = (v) => (sub.started === false ? "—" : (v === null || v === undefined ? "N/A" : `${v.toFixed(2)}x`));
-  const sentiment = gmpClass(gmpPct); // "pos" | "mid" | "neg" | "neu" — also drives the card's accent bar
+  const sentiment = gmpClass(gmpPct); // "pos" | "mid" | "neg" | "neu"
+  const sealLabel = { open: "Open", upcoming: "Soon", closed: "Closed", listed: "Listed" }[r.status] || "—";
 
   return `
-    <div class="card accent-${sentiment}">
+    <div class="card">
+      <div class="seal seal-${r.status}">${sealLabel}</div>
       <div class="name-row">
         <div class="name">${escapeHtml(r.company_name)}</div>
       </div>
