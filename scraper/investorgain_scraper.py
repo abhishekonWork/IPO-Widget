@@ -88,7 +88,10 @@ def _strip_tags(text: str) -> str:
 def _first_number(text: str) -> Optional[float]:
     if not text:
         return None
-    m = re.search(r"[\d,]+\.?\d*", text.replace(",", ""))
+    # Includes an optional leading "-" so negative GMP / negative listing
+    # gain (a real, meaningful value -- grey market expects a listing
+    # BELOW issue price) isn't silently turned positive or dropped.
+    m = re.search(r"-?[\d,]+\.?\d*", text.replace(",", ""))
     return float(m.group().replace(",", "")) if m else None
 
 
@@ -202,7 +205,7 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
 
         gmp_raw = _strip_tags(row.get("GMP", ""))
         gmp_val = None if "--" in gmp_raw.split("(")[0] else _first_number(gmp_raw)
-        gmp_pct_match = re.search(r"\(([\d.]+)\s*%\)", gmp_raw)
+        gmp_pct_match = re.search(r"\((-?[\d.]+)\s*%\)", gmp_raw)
         gmp_pct = float(gmp_pct_match.group(1)) if gmp_pct_match else None
 
         sub_text = _strip_tags(row.get("Sub", ""))
