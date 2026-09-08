@@ -135,13 +135,13 @@ function renderCard(r) {
   const sub = r.subscription || {};
   const subText = (v) => (sub.started === false ? "—" : (v === null || v === undefined ? "N/A" : `${v.toFixed(2)}x`));
   const sentiment = gmpClass(gmpPct); // "pos" | "mid" | "neg" | "neu"
-  const sealLabel = { open: "Open", upcoming: "Soon", closed: "Closed", listed: "Listed" }[r.status] || "—";
+  const statusLabel = { open: "Open", upcoming: "Upcoming", closed: "Closed", listed: "Listed" }[r.status] || r.status;
 
   return `
     <div class="card">
-      <div class="seal seal-${r.status}">${sealLabel}</div>
       <div class="name-row">
         <div class="name">${escapeHtml(r.company_name)}</div>
+        <span class="status-tag status-${r.status}"><span class="dot"></span>${statusLabel}</span>
       </div>
       <div class="gmp-label">GMP (Indicative)</div>
       <div class="gmp ${gmpClass(gmpPct)}">${gmpText}${gmpRupeeText ? ` <span class="gmp-rupee">(${gmpRupeeText})</span>` : ""}</div>
