@@ -51,10 +51,9 @@ function minutesAgo(iso) {
 
 function gmpClass(pct) {
   if (pct === null || pct === undefined) return "neu";
-  if (pct >= 50) return "pos";
-  if (pct >= 15) return "mid";
-  if (pct > 0) return "mid";
-  return "neg";
+  if (pct > 0) return "pos";   // any positive GMP reads as a clear gain signal -- green
+  if (pct < 0) return "neg";   // any negative GMP -- red
+  return "neu";                 // exactly 0% -- flat, neither gain nor loss
 }
 
 function subClass(v) {
