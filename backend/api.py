@@ -64,14 +64,18 @@ def _refresh_loop():
         try:
             upcoming = scraper.scrape_upcoming_mainboard_ipos()
             scraper.save_cache(upcoming, "upcoming")
-        except Exception:
-            pass  # Upcoming failures don't block Open, which is the priority tab
+        except Exception as e:
+            print(f"WARNING: upcoming-tab refresh failed: {e}", file=sys.stderr)
 
         try:
             closed = scraper.scrape_closed_mainboard_ipos()
             scraper.save_cache(closed, "closed")
-        except Exception:
-            pass  # Closed failures don't block Open either
+        except Exception as e:
+            # Previously silently swallowed -- this hid real failures (e.g.
+            # a registrar page timeout) and caused "closed" to freeze on an
+            # old fetched_at while Open/Upcoming kept refreshing fine,
+            # showing as a growing "stale" warning on the Closed tab only.
+            print(f"WARNING: closed-tab refresh failed: {e}", file=sys.stderr)
 
         time.sleep(GMP_REFRESH_SECONDS)
 
@@ -86,11 +90,21 @@ def start_background_refresh():
 
 @app.get("/api/health")
 def health():
+    # Per-tab freshness, not just the Open tab -- this is what would have
+    # caught "closed" silently going stale while "open" looked fine.
+    tabs = {}
+    for key in ("open", "upcoming", "closed"):
+        cache = scraper.load_cache(key)
+        tabs[key] = {
+            "fetched_at": cache.get("fetched_at"),
+            "record_count": len(cache.get("records", [])),
+        }
     return {
         "status": "ok",
         "last_refresh_ok": _last_refresh_ok,
         "last_refresh_error": _last_refresh_error,
         "refresh_interval_seconds": GMP_REFRESH_SECONDS,
+        "tabs": tabs,
     }
 
 
