@@ -1,58 +1,46 @@
 /* ============================================================
-   IPOAbhi — design tokens
-   Palette: deep indigo-navy ground (not pure black) + warm
-   marigold accent, evoking Indian market/investing context
-   without literally copying an exchange's brand colors.
-   Type: Manrope (geometric, confident — for numbers/headlines,
-   since GMP figures are the thing people scan for first) paired
-   with system sans for body/labels, at a clearly distinct weight.
+   IPOAbhi — "Ledger" theme
+   Skeuomorphic light design grounded in the physical vernacular
+   of Indian financial paperwork: a stock ledger / passbook /
+   stamped subscription form. Warm cream paper, brass ledger
+   hardware, rubber-stamp figures, wax-seal status badges.
+   Not glassmorphism, not dark mode, not generic SaaS cards.
    ============================================================ */
 :root {
-  --bg: #0e1220;
-  --bg-elevated: #141a2e;
-  --surface: #1a2138;
-  --surface-2: #212a45;
-  --border: #2a3454;
-  --border-soft: #232c4a;
+  --paper: #f7f3e9;
+  --paper-shadow: #e2d9c3;
+  --paper-deep: #d8cbac;
+  --card: #fbf8f0;
 
-  --text: #eef1fb;
-  --text-dim: #96a0c2;
-  --text-faint: #626d94;
+  --ink: #2b2620;
+  --ink-soft: #6b6153;
+  --ink-faint: #948a76;
 
-  --marigold: #f5a524;
-  --marigold-dim: #7a5817;
-  --indigo-accent: #6d8bff;
+  --stamp-red: #a8362b;
+  --stamp-red-soft: #f3e2df;
+  --seal-green: #2f6e4f;
+  --seal-green-soft: #e2ecE4;
+  --brass: #b8873d;
+  --brass-dark: #8f6526;
+  --brass-soft: #f1e3c8;
 
-  --green: #2fd97f;
-  --green-dim: #143224;
-  --yellow: #f5c518;
-  --red: #ff5c72;
-  --red-dim: #341620;
+  --rule: #c9bc9c;
 
-  --radius-card: 16px;
-  --radius-pill: 999px;
-  --radius-sm: 9px;
-
-  --font-display: "Manrope", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Fraunces", "Georgia", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&display=swap');
 
 * { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  padding: 0;
-}
+html, body { margin: 0; padding: 0; }
 
 body {
   background:
-    radial-gradient(1200px 480px at 15% -10%, rgba(245,165,36,0.10), transparent 60%),
-    radial-gradient(900px 420px at 100% 0%, rgba(109,139,255,0.08), transparent 55%),
-    var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
+    radial-gradient(1000px 600px at 20% -10%, rgba(184,135,61,0.07), transparent 55%),
+    linear-gradient(180deg, var(--paper), var(--paper) 40%, var(--paper-shadow) 400%);
+  color: var(--ink);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
@@ -63,44 +51,41 @@ header.topbar {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(14, 18, 32, 0.86);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 16px 16px 12px;
-  border-bottom: 1px solid var(--border-soft);
+  background: var(--paper);
+  padding: 18px 16px 14px;
+  border-bottom: 3px double var(--brass);
+  box-shadow: 0 4px 10px -6px rgba(43,38,32,0.25);
 }
 
 .topbar h1 {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 19px;
+  font-family: var(--font-serif);
+  font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.01em;
-  color: var(--text);
-}
-
-.topbar h1::before {
-  content: "";
+  color: var(--ink);
 }
 
 .tagline {
-  margin: 2px 0 0;
-  font-size: 12px;
-  color: var(--marigold);
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  margin: 3px 0 0;
+  font-family: var(--font-serif);
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--brass-dark);
+  font-weight: 500;
 }
 
 .updated-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
-  font-size: 12px;
-  color: var(--text-faint);
+  margin-top: 12px;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  font-family: var(--font-sans);
 }
 
-.updated-row.stale { color: var(--yellow); }
+.updated-row.stale { color: var(--stamp-red); }
 
 .tabs {
   display: flex;
@@ -113,132 +98,183 @@ header.topbar {
 
 .tab {
   flex: 0 0 auto;
-  padding: 7px 14px;
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  color: var(--text-dim);
+  padding: 7px 15px;
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--ink-soft);
   font-size: 13px;
-  font-weight: 700;
-  border: 1px solid var(--border);
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  font-weight: 600;
+  border: 1.5px solid var(--rule);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 2px rgba(43,38,32,0.08);
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .tab.active {
-  background: var(--marigold);
-  color: #201304;
-  border-color: var(--marigold);
+  background: var(--brass);
+  color: var(--paper);
+  border-color: var(--brass-dark);
+  box-shadow: inset 0 1px 3px rgba(43,38,32,0.35);
 }
 
-.searchbar {
-  margin: 12px 0 0;
-}
+.searchbar { margin: 12px 0 0; }
 
 .searchbar input {
   width: 100%;
   padding: 10px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
+  border-radius: 4px;
+  border: 1.5px solid var(--rule);
+  background: var(--card);
+  color: var(--ink);
   font-size: 14px;
+  box-shadow: inset 0 2px 4px rgba(43,38,32,0.08);
 }
 
-.searchbar input::placeholder { color: var(--text-faint); }
+.searchbar input::placeholder { color: var(--ink-faint); }
 .searchbar input:focus {
   outline: none;
-  border-color: var(--marigold);
+  border-color: var(--brass);
 }
 
-/* ---------------- Main / cards ---------------- */
+/* ---------------- Main / ledger cards ---------------- */
 
 main {
-  padding: 16px 12px 40px;
+  padding: 18px 12px 40px;
   max-width: 540px;
   margin: 0 auto;
 }
 
 .card {
   position: relative;
-  background: linear-gradient(180deg, var(--bg-elevated), var(--surface));
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-card);
-  padding: 16px 16px 14px 22px;
-  margin-bottom: 14px;
-  overflow: hidden;
+  background:
+    linear-gradient(180deg, var(--card), var(--paper) 96%);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 18px 18px 16px;
+  margin-bottom: 20px;
+  /* Raised-paper depth: soft outer shadow (card lifted off the desk)
+     plus a faint inner highlight along the top edge. */
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.7) inset,
+    0 10px 20px -12px rgba(43,38,32,0.35),
+    0 2px 6px -2px rgba(43,38,32,0.15);
 }
 
-/* Left accent bar signals GMP sentiment at a glance, before reading
-   a single number — this is the card's one deliberate signature
-   element rather than uniform borders/shadows on everything. */
-.card::before {
-  content: "";
+/* Corner wax-seal status badge -- a circular stamp, not a flat pill */
+.seal {
   position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 4px;
-  background: var(--border);
+  top: -14px;
+  right: 16px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--paper);
+  box-shadow: 0 4px 8px -2px rgba(43,38,32,0.45), inset 0 -2px 3px rgba(0,0,0,0.2), inset 0 2px 2px rgba(255,255,255,0.15);
+  transform: rotate(-8deg);
+  border: 3px solid var(--paper);
+  z-index: 2;
 }
-.card.accent-pos::before { background: var(--green); }
-.card.accent-mid::before { background: var(--yellow); }
-.card.accent-neg::before { background: var(--red); }
-.card.accent-neu::before { background: var(--indigo-accent); }
+.seal.seal-open { background: var(--seal-green); }
+.seal.seal-upcoming { background: var(--brass); }
+.seal.seal-closed, .seal.seal-listed { background: var(--ink-soft); }
 
 .card .name-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  padding-right: 40px;
 }
 
 .card .name {
-  font-family: var(--font-display);
-  font-size: 16.5px;
+  font-family: var(--font-serif);
+  font-size: 18px;
   font-weight: 700;
-  color: var(--text);
+  color: var(--ink);
   letter-spacing: -0.005em;
 }
 
-.gmp-label {
-  font-size: 11px;
-  color: var(--text-faint);
-  font-weight: 600;
-  margin-top: 10px;
+/* Letterpress rule under the header */
+.card .name-row {
+  border-bottom: 1.5px solid var(--rule);
+  padding-bottom: 10px;
+  margin-bottom: 4px;
 }
 
+.gmp-label {
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin-top: 12px;
+  text-transform: none;
+}
+
+/* GMP figure styled as a rubber ink stamp */
 .card .gmp {
-  font-family: var(--font-display);
-  font-size: 26px;
+  display: inline-block;
+  font-family: var(--font-serif);
+  font-size: 27px;
   font-weight: 800;
-  letter-spacing: -0.01em;
-  margin-top: 2px;
+  letter-spacing: -0.005em;
+  margin-top: 4px;
+  padding: 3px 10px;
+  border: 2.5px solid currentColor;
+  border-radius: 5px;
+  transform: rotate(-1.2deg);
+  position: relative;
+}
+.card .gmp::after {
+  /* subtle stamp-texture edge */
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  opacity: 0.25;
+  pointer-events: none;
 }
 
 .gmp-rupee {
-  font-size: 13px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
   font-weight: 600;
-  color: var(--text-dim);
+  color: var(--ink-soft);
+  margin-left: 8px;
 }
 
 .sub-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin: 14px 0 4px;
+  gap: 0;
+  margin: 16px 0 4px;
+  border: 1.5px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--paper-shadow);
 }
 
 .sub-cell {
-  background: var(--surface-2);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-sm);
+  background: var(--card);
   padding: 8px 4px;
   text-align: center;
+  border-right: 1px solid var(--rule);
 }
+.sub-cell:last-child { border-right: none; }
 
 .sub-cell .k {
-  font-size: 10px;
-  color: var(--text-faint);
-  font-weight: 600;
+  font-size: 9.5px;
+  color: var(--ink-faint);
+  font-weight: 700;
+  letter-spacing: 0.03em;
 }
 .sub-cell .v {
-  font-family: var(--font-display);
+  font-family: var(--font-serif);
   font-size: 14.5px;
   font-weight: 700;
   margin-top: 3px;
@@ -249,39 +285,51 @@ main {
   justify-content: space-between;
   align-items: center;
   font-size: 12.5px;
-  color: var(--text-dim);
-  margin-top: 10px;
+  color: var(--ink-soft);
+  margin-top: 12px;
 }
 
 .meta-row span:last-child {
-  font-family: var(--font-display);
-  font-size: 14px;
+  font-family: var(--font-serif);
+  font-size: 14.5px;
   font-weight: 800;
-  color: var(--marigold);
+  color: var(--brass-dark);
 }
 
 .issue-size-row span:last-child {
-  font-size: 15.5px;
-  color: var(--indigo-accent);
+  color: var(--ink);
 }
 
 .registrar-value {
-  font-family: var(--font-body) !important;
-  font-size: 12.5px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 12px !important;
   font-weight: 600 !important;
-  color: var(--text) !important;
+  color: var(--ink) !important;
   text-align: right;
+}
+
+/* Perforated tear-line before the dates, like a ledger stub */
+.dates-row:first-of-type {
+  position: relative;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: none;
+}
+.dates-row:first-of-type::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  border-top: 2px dashed var(--rule);
 }
 
 .dates-row {
   display: flex;
   justify-content: space-between;
-  font-size: 13.5px;
-  color: var(--text);
+  font-size: 13px;
+  color: var(--ink);
   font-weight: 700;
   margin-top: 8px;
-  border-top: 1px solid var(--border-soft);
-  padding-top: 10px;
 }
 
 .dates-row span {
@@ -291,37 +339,39 @@ main {
 }
 
 .date-label {
-  font-size: 10px;
-  color: var(--text-faint);
-  font-weight: 600;
+  font-size: 9.5px;
+  color: var(--ink-faint);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
-.pos { color: var(--green); }
-.mid { color: var(--yellow); }
-.neg { color: var(--red); }
-.neu { color: var(--indigo-accent); }
+.pos { color: var(--seal-green); }
+.mid { color: var(--brass-dark); }
+.neg { color: var(--stamp-red); }
+.neu { color: var(--ink-soft); }
 
-.gain-positive { color: var(--green); font-weight: 700; }
-.gain-negative { color: var(--red); font-weight: 700; }
+.gain-positive { color: var(--seal-green); font-weight: 700; }
+.gain-negative { color: var(--stamp-red); font-weight: 700; }
 
 /* ---------------- Empty / error states ---------------- */
 
 .empty-state, .error-state {
   text-align: center;
-  color: var(--text-dim);
-  padding: 56px 16px;
+  color: var(--ink-soft);
+  padding: 56px 20px;
   font-size: 14px;
+  font-family: var(--font-serif);
+  font-style: italic;
 }
 
 /* ---------------- Footer ---------------- */
 
 .disclaimer {
   font-size: 10.5px;
-  color: var(--text-faint);
+  color: var(--ink-faint);
   text-align: center;
-  padding: 10px 20px 6px;
+  padding: 12px 20px 6px;
   line-height: 1.5;
   max-width: 480px;
   margin: 0 auto;
@@ -329,16 +379,17 @@ main {
 
 .site-footer {
   text-align: center;
-  padding: 10px 16px 28px;
+  padding: 10px 16px 30px;
   font-size: 11.5px;
 }
 
 .site-footer a {
-  color: var(--text-dim);
+  color: var(--brass-dark);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
+  border-bottom: 1px dotted var(--brass);
 }
 
 .site-footer a:hover {
-  color: var(--marigold);
+  color: var(--stamp-red);
 }
