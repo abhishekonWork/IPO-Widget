@@ -2,7 +2,7 @@
 // Left as relative /api by default assuming the backend is reverse-proxied
 // on the same origin — change to e.g. "https://your-server:8000/api" if not.
 const API_BASE = "/api";
-const REFRESH_MS = 5 * 60 * 1000; // matches backend GMP_REFRESH_SECONDS default
+const REFRESH_MS = 2 * 60 * 1000; // matches backend GMP_REFRESH_SECONDS default
 
 // Backend stores dates as ISO "YYYY-MM-DD" (correct for sorting/storage).
 // This converts to DD-MM-YYYY only for on-screen display.
@@ -73,7 +73,14 @@ async function loadTab(tab) {
     }
     const data = await res.json();
     allRecords = data.records || [];
-    updateFreshness(data.fetched_at);
+    // data_changed_at is the honest "did the numbers actually change"
+    // signal; attempted_at proves the refresh loop itself is alive even
+    // during a quiet period where nothing changed. Falls back to the
+    // older "fetched_at" field for backward compatibility.
+    updateFreshness(
+      data.data_changed_at || data.fetched_at,
+      data.attempted_at || data.fetched_at
+    );
     render();
   } catch (err) {
     cardList.innerHTML = `<div class="error-state">⚠ Could not load live data.<br>${escapeHtml(err.message)}<br><br>Showing nothing rather than guessed numbers — pull to retry.</div>`;
@@ -82,22 +89,38 @@ async function loadTab(tab) {
   }
 }
 
-function updateFreshness(fetchedAt) {
-  const mins = minutesAgo(fetchedAt);
-  if (mins === null) {
+function updateFreshness(dataChangedAt, attemptedAt) {
+  // Two different questions, answered honestly instead of conflated:
+  //   1. "Is the refresh loop actually alive?" -> use attemptedAt for the
+  //      stale/broken warning (if this goes quiet, something's wrong)
+  //   2. "When did the numbers on screen last genuinely change?" -> show
+  //      dataChangedAt as the human-readable text (this can legitimately
+  //      stay the same for a while if GMP just hasn't moved -- that's not
+  //      staleness, that's real market quiet)
+  const attemptMins = minutesAgo(attemptedAt || dataChangedAt);
+  const changedMins = minutesAgo(dataChangedAt);
+
+  if (attemptMins === null) {
     updatedText.textContent = "Never updated";
     updatedRow.classList.add("stale");
     return;
   }
-  updatedText.textContent = `Last Updated: ${fmtTime(fetchedAt)}`;
-  if (mins > 15) {
-    updatedText.textContent += ` (⚠ ${mins} min ago)`;
+
+  updatedText.textContent = changedMins !== null && changedMins > 0
+    ? `Last Changed: ${fmtTime(dataChangedAt)} (${changedMins} min ago)`
+    : `Last Checked: ${fmtTime(attemptedAt || dataChangedAt)}`;
+
+  // Warn only if the refresh loop itself appears to have stopped running
+  // (roughly 3x the refresh interval with no attempt at all) -- NOT just
+  // because the data hasn't changed, since that can be entirely normal.
+  if (attemptMins > 6) {
+    updatedText.textContent += ` — ⚠ refresh may be stuck (${attemptMins} min since last check)`;
     updatedRow.classList.add("stale");
   } else {
     updatedRow.classList.remove("stale");
   }
-  const next = new Date(new Date(fetchedAt).getTime() + REFRESH_MS);
-  nextUpdateText.textContent = `Next: ${fmtTime(next.toISOString())}`;
+  const next = new Date(new Date(attemptedAt || dataChangedAt).getTime() + REFRESH_MS);
+  nextUpdateText.textContent = `Next check: ${fmtTime(next.toISOString())}`;
 }
 
 function escapeHtml(s) {
