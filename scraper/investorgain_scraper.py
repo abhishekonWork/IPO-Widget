@@ -494,21 +494,61 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
 
 
 def save_cache(records: list[IPORecord], key: str = "open") -> None:
+    """Writes cache with THREE honest timestamps instead of one that
+    conflates "we tried" with "data actually changed":
+      - attempted_at: every call, no matter what (proves the refresh loop
+        is alive at all)
+      - data_changed_at: only advances when the new records are genuinely
+        different from what was cached before -- this is what answers
+        "is this ACTUALLY current data" rather than "did a request run"
+      - fetch_returned_records: whether this attempt got any data at all
+        (an empty/failed scrape shouldn't silently look identical to a
+        successful one that happened to find zero matching IPOs)
+
+    This directly addresses a real bug found 2026-09-09: the old version
+    stamped fetched_at on every call regardless of whether the scrape
+    actually produced new data, so the UI could claim "just updated" while
+    showing content that hadn't truly changed in a while."""
     cache = {}
     if CACHE_FILE.exists():
         cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
+
+    prev_entry = cache.get(key, {})
+    new_records_data = [r.to_dict() for r in records]
+
+    # Compare against the previous snapshot's records (ignoring volatile
+    # fields that always differ, like last_updated timestamps we stamp
+    # ourselves) to decide if the data GENUINELY changed.
+    def _comparable(rec_list):
+        stripped = []
+        for r in rec_list:
+            r2 = dict(r)
+            r2.pop("last_updated", None)
+            stripped.append(r2)
+        return stripped
+
+    prev_comparable = _comparable(prev_entry.get("records", []))
+    new_comparable = _comparable(new_records_data)
+    data_actually_changed = prev_comparable != new_comparable
+
+    now = now_iso()
+    data_changed_at = now if (data_actually_changed or not prev_entry.get("data_changed_at")) else prev_entry.get("data_changed_at")
+
     cache[key] = {
-        "fetched_at": now_iso(),
-        "records": [r.to_dict() for r in records],
+        "attempted_at": now,
+        "data_changed_at": data_changed_at,
+        "fetch_returned_records": len(records) > 0,
+        "fetched_at": now,  # kept for backward compatibility with older frontend builds
+        "records": new_records_data,
     }
     CACHE_FILE.write_text(json.dumps(cache, indent=2), encoding="utf-8")
 
 
 def load_cache(key: str = "open") -> dict:
     if not CACHE_FILE.exists():
-        return {"fetched_at": None, "records": []}
+        return {"fetched_at": None, "attempted_at": None, "data_changed_at": None, "records": []}
     cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
-    return cache.get(key, {"fetched_at": None, "records": []})
+    return cache.get(key, {"fetched_at": None, "attempted_at": None, "data_changed_at": None, "records": []})
 
 
 if __name__ == "__main__":
