@@ -28,8 +28,8 @@ import investorgain_scraper as scraper  # noqa: E402
 
 load_dotenv()
 
-GMP_REFRESH_SECONDS = int(os.getenv("GMP_REFRESH_SECONDS", "300"))          # 5 min
-SUBSCRIPTION_REFRESH_SECONDS = int(os.getenv("SUBSCRIPTION_REFRESH_SECONDS", "300"))
+GMP_REFRESH_SECONDS = int(os.getenv("GMP_REFRESH_SECONDS", "120"))          # 2 min
+SUBSCRIPTION_REFRESH_SECONDS = int(os.getenv("SUBSCRIPTION_REFRESH_SECONDS", "120"))
 METADATA_REFRESH_SECONDS = int(os.getenv("METADATA_REFRESH_SECONDS", "3600"))  # 1 hr
 
 app = FastAPI(title="Mainboard IPO Widget API")
@@ -96,7 +96,8 @@ def health():
     for key in ("open", "upcoming", "closed"):
         cache = scraper.load_cache(key)
         tabs[key] = {
-            "fetched_at": cache.get("fetched_at"),
+            "attempted_at": cache.get("attempted_at") or cache.get("fetched_at"),
+            "data_changed_at": cache.get("data_changed_at") or cache.get("fetched_at"),
             "record_count": len(cache.get("records", [])),
         }
     return {
