@@ -7,9 +7,9 @@ services:
     startCommand: "cd backend && uvicorn api:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: GMP_REFRESH_SECONDS
-        value: "300"
+        value: "120"
       - key: SUBSCRIPTION_REFRESH_SECONDS
-        value: "300"
+        value: "120"
       - key: METADATA_REFRESH_SECONDS
         value: "3600"
       - key: ALLOWED_ORIGINS
