@@ -66,7 +66,16 @@ function subClass(v) {
 async function loadTab(tab) {
   cardList.innerHTML = `<div class="empty-state">Loading…</div>`;
   try {
-    const res = await fetch(`${API_BASE}/ipos/${tab}`);
+    // Two layers against stale data being served instead of a real fetch:
+    // 1. cache: "no-store" tells the browser itself to skip its HTTP
+    //    cache entirely for this request, not just the service worker
+    //    (which already excludes /api/ calls, but the browser's own
+    //    cache is a separate layer the service worker doesn't control).
+    // 2. A cache-busting query param defeats any intermediate proxy/CDN
+    //    (e.g. on some mobile carriers) that ignores cache headers and
+    //    caches by URL alone -- this is why two phones could disagree on
+    //    "X mins ago" even though the backend itself was current on both.
+    const res = await fetch(`${API_BASE}/ipos/${tab}?_=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
       throw new Error(body.detail || `Server returned ${res.status}`);
