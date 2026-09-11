@@ -7,7 +7,7 @@
 // deletes any OLD-named cache automatically, which is what lets a phone
 // pick up a new deploy without the person needing to manually clear
 // their browser cache.
-const SHELL_CACHE = "ipo-widget-shell-v3";
+const SHELL_CACHE = "ipo-widget-shell-v4";
 const SHELL_FILES = ["./index.html", "./style.css", "./app.js", "./manifest.json"];
 
 self.addEventListener("install", (event) => {
