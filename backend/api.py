@@ -18,7 +18,7 @@ import threading
 import time
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
@@ -89,7 +89,8 @@ def start_background_refresh():
 
 
 @app.get("/api/health")
-def health():
+def health(response: Response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
     # Per-tab freshness, not just the Open tab -- this is what would have
     # caught "closed" silently going stale while "open" looked fine.
     tabs = {}
@@ -161,7 +162,15 @@ def debug_listing_performance_raw():
 
 
 @app.get("/api/ipos/open")
-def get_open_ipos():
+def get_open_ipos(response: Response):
+    # Explicit no-cache headers on this response itself -- this is the
+    # authoritative fix: it tells every layer (browser HTTP cache, any
+    # carrier/CDN proxy, the service worker) not to reuse this response,
+    # rather than relying only on the frontend's request-side settings
+    # which not every client/network respects equally. This is what was
+    # letting two phones disagree on "X mins ago" at the same moment even
+    # though the backend itself was current on both.
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
     cache = scraper.load_cache("open")
     if not cache["records"]:
         raise HTTPException(
@@ -173,13 +182,15 @@ def get_open_ipos():
 
 
 @app.get("/api/ipos/upcoming")
-def get_upcoming_ipos():
+def get_upcoming_ipos(response: Response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
     cache = scraper.load_cache("upcoming")
     return cache  # empty is a valid state here, unlike /open
 
 
 @app.get("/api/ipos/closed")
-def get_closed_ipos():
+def get_closed_ipos(response: Response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
     cache = scraper.load_cache("closed")
     return cache
 
