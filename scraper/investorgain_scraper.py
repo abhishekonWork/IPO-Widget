@@ -32,7 +32,9 @@ essentially all year except right at a Dec -> Jan boundary.
 from __future__ import annotations
 
 import argparse
+import base64
 import json
+import os
 import re
 import sys
 from datetime import datetime
@@ -64,6 +66,108 @@ DATA_DIR.mkdir(exist_ok=True)
 CACHE_FILE = DATA_DIR / "ipo_cache.json"
 REGISTRAR_CACHE_FILE = DATA_DIR / "registrar_cache.json"
 GMP_DIRECTION_STATE_FILE = DATA_DIR / "gmp_direction_state.json"
+
+# --- GitHub-backed persistence for GMP direction memory --------------------
+# Render's free tier wipes local disk on every redeploy, which was silently
+# breaking the "unchanged since yesterday's close" rule (needs memory to
+# survive across days/deploys -- see the 2026-09-12 conversation this was
+# built from). Instead of local-disk-only storage, this state is also
+# pushed to a JSON file in this same GitHub repo via GitHub's Contents API,
+# which is permanent free storage. Requires a GITHUB_TOKEN environment
+# variable (a fine-grained personal access token scoped to ONLY this repo,
+# with "Contents: Read and write" permission -- nothing else) set in
+# Render's dashboard, NOT committed to the repo itself.
+#
+# If GITHUB_TOKEN isn't set, everything still works exactly as before
+# (local-disk-only, resets on redeploy) -- this is a pure enhancement, not
+# a hard requirement, so a missing/misconfigured token never breaks the
+# core app.
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GITHUB_REPO = os.getenv("GITHUB_REPO", "abhishekonWork/IPO-Widget")
+GITHUB_BRANCH = os.getenv("GITHUB_BRANCH", "main")
+GMP_DIRECTION_STATE_GITHUB_PATH = "data/gmp_direction_state.json"
+GITHUB_API_BASE = "https://api.github.com"
+_github_file_sha_cache: dict[str, str] = {}  # path -> last-known sha, avoids a GET before every PUT
+
+
+def _github_get_file(repo_path: str) -> Optional[dict]:
+    """Reads and JSON-decodes a file from the repo via GitHub's Contents
+    API. Returns None (never raises) if GITHUB_TOKEN isn't set, the file
+    doesn't exist yet, or any request fails -- callers should treat None
+    exactly like "no state file existed yet", never as a hard error."""
+    if not GITHUB_TOKEN:
+        return None
+    url = f"{GITHUB_API_BASE}/repos/{GITHUB_REPO}/contents/{repo_path}?ref={GITHUB_BRANCH}"
+    try:
+        resp = requests.get(
+            url,
+            headers={
+                "Authorization": f"Bearer {GITHUB_TOKEN}",
+                "Accept": "application/vnd.github+json",
+            },
+            timeout=REQUEST_TIMEOUT,
+        )
+        if resp.status_code == 404:
+            return None  # file doesn't exist yet -- not an error, just "no memory yet"
+        resp.raise_for_status()
+        payload = resp.json()
+        _github_file_sha_cache[repo_path] = payload["sha"]  # needed for the next PUT
+        content_b64 = payload["content"]
+        decoded = base64.b64decode(content_b64).decode("utf-8")
+        return json.loads(decoded)
+    except Exception as e:
+        print(f"WARNING: GitHub state read failed for {repo_path}: {e}", file=sys.stderr)
+        return None
+
+
+def _github_put_file(repo_path: str, data: dict, commit_message: str) -> bool:
+    """Writes (creates or updates) a JSON file in the repo via GitHub's
+    Contents API. Returns True/False, never raises -- a failed write here
+    should never take down the actual IPO-data refresh, since the local
+    disk copy is always written first as a safety net (see _save_gmp_direction_state)."""
+    if not GITHUB_TOKEN:
+        return False
+    url = f"{GITHUB_API_BASE}/repos/{GITHUB_REPO}/contents/{repo_path}"
+    content_b64 = base64.b64encode(json.dumps(data, indent=2).encode("utf-8")).decode("ascii")
+    body = {
+        "message": commit_message,
+        "content": content_b64,
+        "branch": GITHUB_BRANCH,
+    }
+    sha = _github_file_sha_cache.get(repo_path)
+    if sha:
+        body["sha"] = sha  # required by GitHub's API when updating an existing file
+    try:
+        resp = requests.put(
+            url,
+            headers={
+                "Authorization": f"Bearer {GITHUB_TOKEN}",
+                "Accept": "application/vnd.github+json",
+            },
+            json=body,
+            timeout=REQUEST_TIMEOUT,
+        )
+        if resp.status_code == 409 or (resp.status_code == 422 and sha):
+            # Our cached sha is stale (someone/something else wrote the
+            # file since our last GET) -- fetch the current sha once and
+            # retry exactly once, rather than looping or failing silently.
+            fresh = _github_get_file(repo_path)
+            body["sha"] = _github_file_sha_cache.get(repo_path)
+            resp = requests.put(
+                url,
+                headers={
+                    "Authorization": f"Bearer {GITHUB_TOKEN}",
+                    "Accept": "application/vnd.github+json",
+                },
+                json=body,
+                timeout=REQUEST_TIMEOUT,
+            )
+        resp.raise_for_status()
+        _github_file_sha_cache[repo_path] = resp.json()["content"]["sha"]
+        return True
+    except Exception as e:
+        print(f"WARNING: GitHub state write failed for {repo_path}: {e}", file=sys.stderr)
+        return False
 
 STATUS_MAP = {"O": "open", "U": "upcoming", "C": "closed", "CT": "closed", "L": "listed"}
 
@@ -495,6 +599,14 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
 
 
 def _load_gmp_direction_state() -> dict:
+    """Loads GMP direction memory. Tries GitHub first (survives redeploys
+    -- see _github_get_file), falls back to the local disk copy, which is
+    only reliable WITHIN a single running process since Render's free tier
+    wipes local disk on every redeploy. See module docstring note on
+    GITHUB_TOKEN for why this exists."""
+    github_state = _github_get_file(GMP_DIRECTION_STATE_GITHUB_PATH)
+    if github_state is not None:
+        return github_state
     if not GMP_DIRECTION_STATE_FILE.exists():
         return {}
     try:
@@ -504,10 +616,18 @@ def _load_gmp_direction_state() -> dict:
 
 
 def _save_gmp_direction_state(state: dict) -> None:
+    # Always write the local copy too -- fast, and a safety net if the
+    # GitHub push below fails for any reason (rate limit, network blip).
     try:
         GMP_DIRECTION_STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
     except OSError as e:
-        print(f"WARNING: could not save gmp_direction_state: {e}", file=sys.stderr)
+        print(f"WARNING: could not save gmp_direction_state locally: {e}", file=sys.stderr)
+
+    _github_put_file(
+        GMP_DIRECTION_STATE_GITHUB_PATH,
+        state,
+        commit_message="Update GMP direction memory [automated]",
+    )
 
 
 def _update_gmp_direction(company_name: str, new_gmp, state: dict) -> Optional[str]:
@@ -618,17 +738,30 @@ def save_cache(records: list[IPORecord], key: str = "open") -> None:
     prev_entry = cache.get(key, {})
     prev_records = prev_entry.get("records", [])
 
-    direction_state = _load_gmp_direction_state()
-    new_records_data = []
-    for r in records:
-        d = r.to_dict()
-        d["gmp_direction"] = _update_gmp_direction(
-            company_name=d.get("company_name"),
-            new_gmp=d.get("gmp"),
-            state=direction_state,
-        )
-        new_records_data.append(d)
-    _save_gmp_direction_state(direction_state)
+    # GMP direction only makes sense for the Open tab -- Upcoming IPOs
+    # don't have a GMP to compare yet, and Closed IPOs' GMP is frozen
+    # history, not something moving. Skipping direction tracking (and the
+    # GitHub write that comes with it) for those tabs avoids 2/3 of the
+    # unnecessary GitHub API calls every refresh cycle.
+    if key == "open":
+        direction_state = _load_gmp_direction_state()
+        state_before = json.dumps(direction_state, sort_keys=True)
+        new_records_data = []
+        for r in records:
+            d = r.to_dict()
+            d["gmp_direction"] = _update_gmp_direction(
+                company_name=d.get("company_name"),
+                new_gmp=d.get("gmp"),
+                state=direction_state,
+            )
+            new_records_data.append(d)
+        # Only push to GitHub if the state genuinely changed this cycle --
+        # most 2-minute cycles won't move any IPO's GMP, so this avoids a
+        # commit every 2 minutes all day when nothing actually happened.
+        if json.dumps(direction_state, sort_keys=True) != state_before:
+            _save_gmp_direction_state(direction_state)
+    else:
+        new_records_data = [r.to_dict() for r in records]
 
     # Compare against the previous snapshot's records (ignoring volatile
     # fields that always differ, like last_updated timestamps and the
