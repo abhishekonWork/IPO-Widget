@@ -56,6 +56,21 @@ function gmpClass(pct) {
   return "neu";                 // exactly 0% -- flat, neither gain nor loss
 }
 
+function directionIndicator(direction) {
+  // Computed server-side using a specific rule (see _update_gmp_direction
+  // in investorgain_scraper.py): "up"/"down" reflect the most recent
+  // REAL change and persist through quiet refresh cycles where GMP
+  // hasn't moved -- they don't reset to flat just because nothing changed
+  // in the last 2 minutes. "flat" is reserved for ONE specific case: the
+  // first check of the day found GMP unchanged from yesterday's closing
+  // value. direction is null for a brand-new IPO with no prior value to
+  // compare against -- showing nothing in that case is intentional.
+  if (direction === "up") return ` <span class="gmp-dir gmp-dir-up" title="GMP has risen — still up since its last real move">▲</span>`;
+  if (direction === "down") return ` <span class="gmp-dir gmp-dir-down" title="GMP has fallen — still down since its last real move">▼</span>`;
+  if (direction === "flat") return ` <span class="gmp-dir gmp-dir-flat" title="GMP unchanged from yesterday's closing value">—</span>`;
+  return ""; // no prior data to compare -- show nothing rather than guess
+}
+
 function subClass(v) {
   if (v === null || v === undefined) return "neu";
   if (v >= 5) return "pos";
@@ -175,7 +190,7 @@ function renderCard(r) {
         <span class="status-tag status-${r.status}"><span class="dot"></span>${statusLabel}</span>
       </div>
       <div class="gmp-label">GMP (Indicative)</div>
-      <div class="gmp ${gmpClass(gmpPct)}">${gmpText}${gmpRupeeText ? ` <span class="gmp-rupee">(${gmpRupeeText})</span>` : ""}</div>
+      <div class="gmp ${gmpClass(gmpPct)}">${gmpText}${directionIndicator(r.gmp_direction)}${gmpRupeeText ? ` <span class="gmp-rupee">(${gmpRupeeText})</span>` : ""}</div>
 
       ${sub.started === false ? `<div class="meta-row"><span>Subscription: Not Started</span></div>` : `
       <div class="sub-grid">
