@@ -63,6 +63,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
 CACHE_FILE = DATA_DIR / "ipo_cache.json"
 REGISTRAR_CACHE_FILE = DATA_DIR / "registrar_cache.json"
+GMP_DIRECTION_STATE_FILE = DATA_DIR / "gmp_direction_state.json"
 
 STATUS_MAP = {"O": "open", "U": "upcoming", "C": "closed", "CT": "closed", "L": "listed"}
 
@@ -493,6 +494,100 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
         _save_registrar_cache(cache)
 
 
+def _load_gmp_direction_state() -> dict:
+    if not GMP_DIRECTION_STATE_FILE.exists():
+        return {}
+    try:
+        return json.loads(GMP_DIRECTION_STATE_FILE.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_gmp_direction_state(state: dict) -> None:
+    try:
+        GMP_DIRECTION_STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
+    except OSError as e:
+        print(f"WARNING: could not save gmp_direction_state: {e}", file=sys.stderr)
+
+
+def _update_gmp_direction(company_name: str, new_gmp, state: dict) -> Optional[str]:
+    """Implements the exact rule specified by the site owner (2026-09-12):
+
+    1. FIRST check of a new calendar day for a given IPO: compare today's
+       GMP to YESTERDAY's last recorded GMP.
+         - equal      -> "flat" (grey dash) -- the ONLY time flat can appear
+         - higher     -> "up"
+         - lower      -> "down"
+    2. EVERY check after that, same day: compare to the immediately
+       previous check (normal 2-minute comparison).
+         - higher     -> "up"
+         - lower      -> "down"
+         - unchanged  -> KEEP the existing direction as-is (persists
+           through quiet gaps -- never falls back to "flat" again that
+           day, even if the value happens to revisit yesterday's number)
+
+    Mutates `state` in place (per-company entries) and returns the
+    direction to attach to this record. `state` is persisted to
+    GMP_DIRECTION_STATE_FILE by the caller after processing all records.
+
+    No prior state at all for this company (brand new IPO) -> None, never
+    a guessed direction. This is decision-relevant data; see the original
+    2026-09-11 direction-indicator notes for why we refuse to guess."""
+    if new_gmp is None:
+        return None  # can't judge direction without a real number
+
+    today = datetime.now().date().isoformat()
+    entry = state.get(company_name)
+
+    if entry is None:
+        # Never seen this IPO before -- nothing to compare against yet.
+        state[company_name] = {
+            "last_gmp": new_gmp,
+            "last_direction": None,
+            "last_seen_day": today,
+            "prev_day_close_gmp": None,
+        }
+        return None
+
+    if entry.get("last_seen_day") != today:
+        # First check of a NEW day for this IPO -- the special "vs
+        # yesterday's close" comparison, the only path that can produce "flat".
+        yesterday_gmp = entry.get("last_gmp")  # last value recorded before today
+        if yesterday_gmp is None:
+            direction = None
+        elif new_gmp == yesterday_gmp:
+            direction = "flat"
+        elif new_gmp > yesterday_gmp:
+            direction = "up"
+        else:
+            direction = "down"
+
+        state[company_name] = {
+            "last_gmp": new_gmp,
+            "last_direction": direction,
+            "last_seen_day": today,
+            "prev_day_close_gmp": yesterday_gmp,
+        }
+        return direction
+
+    # Same day as last check -- normal comparison; unchanged PERSISTS the
+    # existing direction rather than reverting to flat.
+    prev_gmp = entry.get("last_gmp")
+    if prev_gmp is None:
+        direction = entry.get("last_direction")
+    elif new_gmp > prev_gmp:
+        direction = "up"
+    elif new_gmp < prev_gmp:
+        direction = "down"
+    else:
+        direction = entry.get("last_direction")  # unchanged -- keep prior direction, no flat
+
+    entry["last_gmp"] = new_gmp
+    entry["last_direction"] = direction
+    state[company_name] = entry
+    return direction
+
+
 def save_cache(records: list[IPORecord], key: str = "open") -> None:
     """Writes cache with THREE honest timestamps instead of one that
     conflates "we tried" with "data actually changed":
@@ -508,26 +603,46 @@ def save_cache(records: list[IPORecord], key: str = "open") -> None:
     This directly addresses a real bug found 2026-09-09: the old version
     stamped fetched_at on every call regardless of whether the scrape
     actually produced new data, so the UI could claim "just updated" while
-    showing content that hadn't truly changed in a while."""
+    showing content that hadn't truly changed in a while.
+
+    Also computes gmp_direction ("up"/"down"/"flat"/None) per record by
+    comparing THIS fetch's GMP to the PREVIOUS fetch's GMP for the same
+    company -- explicitly None (not "flat") when there's no prior value to
+    compare against, so a brand-new IPO never shows a fake "unchanged"
+    signal. This is decision-relevant data, so correctness here matters
+    more than in most of the app -- see the docstring on _compute_gmp_direction."""
     cache = {}
     if CACHE_FILE.exists():
         cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
 
     prev_entry = cache.get(key, {})
-    new_records_data = [r.to_dict() for r in records]
+    prev_records = prev_entry.get("records", [])
+
+    direction_state = _load_gmp_direction_state()
+    new_records_data = []
+    for r in records:
+        d = r.to_dict()
+        d["gmp_direction"] = _update_gmp_direction(
+            company_name=d.get("company_name"),
+            new_gmp=d.get("gmp"),
+            state=direction_state,
+        )
+        new_records_data.append(d)
+    _save_gmp_direction_state(direction_state)
 
     # Compare against the previous snapshot's records (ignoring volatile
-    # fields that always differ, like last_updated timestamps we stamp
-    # ourselves) to decide if the data GENUINELY changed.
+    # fields that always differ, like last_updated timestamps and the
+    # gmp_direction we just computed) to decide if the data GENUINELY changed.
     def _comparable(rec_list):
         stripped = []
         for r in rec_list:
             r2 = dict(r)
             r2.pop("last_updated", None)
+            r2.pop("gmp_direction", None)
             stripped.append(r2)
         return stripped
 
-    prev_comparable = _comparable(prev_entry.get("records", []))
+    prev_comparable = _comparable(prev_records)
     new_comparable = _comparable(new_records_data)
     data_actually_changed = prev_comparable != new_comparable
 
