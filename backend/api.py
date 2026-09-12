@@ -161,6 +161,37 @@ def debug_listing_performance_raw():
         return {"url_fetched": url, "error": str(e)}
 
 
+@app.get("/api/debug/github-persistence")
+def debug_github_persistence():
+    """Diagnostic: confirms whether GMP-direction memory is actually
+    surviving redeploys via GitHub, or silently falling back to
+    local-disk-only (which resets every deploy). Checks:
+      1. Is GITHUB_TOKEN even set?
+      2. Can we successfully read gmp_direction_state.json from the repo?
+      3. What's actually in it right now?
+    Safe to leave in permanently -- it never exposes the token itself,
+    only whether one is configured."""
+    token_configured = bool(scraper.GITHUB_TOKEN)
+    result = {
+        "github_token_configured": token_configured,
+        "github_repo": scraper.GITHUB_REPO,
+        "github_branch": scraper.GITHUB_BRANCH,
+    }
+    if not token_configured:
+        result["status"] = "NOT CONFIGURED -- GMP direction memory will reset on every redeploy. Set GITHUB_TOKEN in Render's Environment tab."
+        return result
+
+    state = scraper._github_get_file(scraper.GMP_DIRECTION_STATE_GITHUB_PATH)
+    if state is None:
+        result["status"] = "TOKEN SET, but could not read state file yet (may not exist until the first Open-tab refresh writes it, or the token/repo/permissions are misconfigured -- check server logs for the exact WARNING)"
+        result["companies_tracked"] = 0
+    else:
+        result["status"] = "WORKING -- state is being read from GitHub successfully"
+        result["companies_tracked"] = len(state)
+        result["sample"] = dict(list(state.items())[:3])  # first few entries, not the whole thing
+    return result
+
+
 @app.get("/api/ipos/open")
 def get_open_ipos(response: Response):
     # Explicit no-cache headers on this response itself -- this is the
