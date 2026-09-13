@@ -34,5 +34,65 @@
     "last_direction": null,
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
+  },
+  "Manipal Payment and Identity Solutions": {
+    "last_gmp": -3,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Steamhouse": {
+    "last_gmp": 21,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "LCC Projects": {
+    "last_gmp": 60,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Karamtara Engineering": {
+    "last_gmp": 69,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Rentomojo": {
+    "last_gmp": 160,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Asset Reconstruction": {
+    "last_gmp": 14,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Kanohar Electricals": {
+    "last_gmp": 240,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Glass Wall Systems": {
+    "last_gmp": 50,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Prasol Chemicals": {
+    "last_gmp": -15,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Pranav Constructions": {
+    "last_gmp": 45,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
   }
 }
