@@ -218,6 +218,55 @@ main {
   color: var(--text-dim);
 }
 
+/* GMP direction indicator -- a small glowing pill, not just colored text.
+   Soft pulsing box-shadow gives it a "live market" feel without being
+   distracting; the pulse is slow and subtle (3s cycle), not flashy. */
+.gmp-dir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+.gmp-dir-up {
+  color: var(--green);
+  background: var(--green-soft);
+  animation: glow-green 2.6s ease-in-out infinite;
+}
+.gmp-dir-down {
+  color: var(--red);
+  background: var(--red-soft);
+  animation: glow-red 2.6s ease-in-out infinite;
+}
+/* Dash: reframed as a small steady "pulse" dot rather than a flat line --
+   reads as "stable / actively tracked", not "missing data". Amber, not
+   grey, so it doesn't look broken or empty next to the green/red pills. */
+.gmp-dir-flat {
+  color: var(--amber);
+  background: var(--amber-soft);
+  font-size: 13px;
+  animation: glow-amber 3.2s ease-in-out infinite;
+}
+
+@keyframes glow-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(23, 130, 90, 0.35); }
+  50% { box-shadow: 0 0 9px 2px rgba(23, 130, 90, 0.45); }
+}
+@keyframes glow-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 45, 32, 0.35); }
+  50% { box-shadow: 0 0 9px 2px rgba(217, 45, 32, 0.45); }
+}
+@keyframes glow-amber {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(181, 71, 8, 0.25); }
+  50% { box-shadow: 0 0 7px 1px rgba(181, 71, 8, 0.35); }
+}
+
 .sub-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
