@@ -132,13 +132,13 @@
     }
   },
   "Asset Reconstruction": {
-    "last_gmp": 14,
-    "last_direction": null,
+    "last_gmp": 15,
+    "last_direction": "up",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null,
     "gmp_extremes": {
       "opening": 10.07,
-      "highest": 10.07,
+      "highest": 10.79,
       "lowest": 10.07,
       "frozen": false
     }
