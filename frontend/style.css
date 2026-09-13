@@ -269,7 +269,7 @@ main {
 
 .sub-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   margin: 14px 0 4px;
 }
@@ -277,17 +277,17 @@ main {
 .sub-cell {
   background: var(--surface);
   border-radius: 8px;
-  padding: 8px 4px;
+  padding: 8px 3px;
   text-align: center;
 }
 
 .sub-cell .k {
-  font-size: 10px;
+  font-size: 9.5px;
   color: var(--text-faint);
   font-weight: 600;
 }
 .sub-cell .v {
-  font-size: 14.5px;
+  font-size: 13.5px;
   font-weight: 700;
   margin-top: 3px;
 }
