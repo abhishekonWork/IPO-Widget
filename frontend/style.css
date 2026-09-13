@@ -262,33 +262,54 @@ main {
   color: var(--text-dim);
 }
 
-/* Opening/Highest/Lowest GMP -- deliberately compact and quiet compared
-   to the hero GMP number above it, so it reads as supporting context, not
-   competing for attention. Three-up inline row, small caps labels. */
+/* Opening/Highest/Lowest GMP -- same glowing-pill language as the
+   up/down/flat indicator, but sized for a labeled value rather than a
+   bare icon. Kept visually quieter than the hero GMP number above (no
+   pulse on Opening, since it never changes -- pulsing something static
+   would be misleading motion). Highest/Lowest DO pulse, matching the
+   up/down glow, since they're live-updating numbers. */
 .gmp-extremes-row {
   display: flex;
-  gap: 14px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-top: 10px;
 }
 .gmp-extreme {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  flex: 1;
 }
 .ge-k {
-  font-size: 9.5px;
+  font-size: 9px;
   color: var(--text-faint);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 .ge-v {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 800;
 }
-.ge-high { color: var(--green); }
-.ge-low { color: var(--red); }
+
+.ge-opening {
+  background: var(--surface);
+}
+.ge-opening .ge-v { color: var(--text-dim); }
+
+.ge-highest {
+  background: var(--green-soft);
+  animation: glow-green 2.8s ease-in-out infinite;
+}
+.ge-highest .ge-v { color: var(--green); }
+
+.ge-lowest {
+  background: var(--red-soft);
+  animation: glow-red 2.8s ease-in-out infinite;
+}
+.ge-lowest .ge-v { color: var(--red); }
 
 /* GMP direction indicator -- a small glowing pill, not just colored text.
    Soft pulsing box-shadow gives it a "live market" feel without being
