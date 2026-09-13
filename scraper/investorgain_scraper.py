@@ -738,12 +738,12 @@ def save_cache(records: list[IPORecord], key: str = "open") -> None:
     prev_entry = cache.get(key, {})
     prev_records = prev_entry.get("records", [])
 
-    # GMP direction only makes sense for the Open tab -- Upcoming IPOs
-    # don't have a GMP to compare yet, and Closed IPOs' GMP is frozen
-    # history, not something moving. Skipping direction tracking (and the
-    # GitHub write that comes with it) for those tabs avoids 2/3 of the
-    # unnecessary GitHub API calls every refresh cycle.
-    if key == "open":
+    # GMP direction is meaningful for Open AND Upcoming (InvestorGain often
+    # shows early/indicative GMP before an IPO opens, and that can move too)
+    # -- but not Closed, where GMP is frozen historical data, not something
+    # actively changing. Skipping Closed avoids an unnecessary GitHub write
+    # for data that will never move again.
+    if key in ("open", "upcoming"):
         direction_state = _load_gmp_direction_state()
         state_before = json.dumps(direction_state, sort_keys=True)
         new_records_data = []
