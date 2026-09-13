@@ -120,13 +120,13 @@
     }
   },
   "Rentomojo": {
-    "last_gmp": 145,
-    "last_direction": "down",
+    "last_gmp": 157,
+    "last_direction": "up",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null,
     "gmp_extremes": {
       "opening": 35.89,
-      "highest": 35.89,
+      "highest": 38.86,
       "lowest": 35.89,
       "frozen": false
     }
@@ -144,14 +144,14 @@
     }
   },
   "Kanohar Electricals": {
-    "last_gmp": 244,
-    "last_direction": "up",
+    "last_gmp": 241,
+    "last_direction": "down",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null,
     "gmp_extremes": {
       "opening": 38.61,
       "highest": 38.61,
-      "lowest": 38.61,
+      "lowest": 38.13,
       "frozen": false
     }
   },
