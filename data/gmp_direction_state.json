@@ -3,13 +3,25 @@
     "last_gmp": 11,
     "last_direction": "down",
     "last_seen_day": "2026-09-13",
-    "prev_day_close_gmp": 15
+    "prev_day_close_gmp": 15,
+    "gmp_extremes": {
+      "opening": 25.58,
+      "highest": 25.58,
+      "lowest": 25.58,
+      "frozen": false
+    }
   },
   "Veegaland Developers": {
     "last_gmp": 15,
     "last_direction": "flat",
     "last_seen_day": "2026-09-13",
-    "prev_day_close_gmp": 15
+    "prev_day_close_gmp": 15,
+    "gmp_extremes": {
+      "opening": 10.71,
+      "highest": 10.71,
+      "lowest": 10.71,
+      "frozen": false
+    }
   },
   "NSE": {
     "last_gmp": 208,
