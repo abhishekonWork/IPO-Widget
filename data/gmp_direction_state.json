@@ -36,8 +36,8 @@
     "prev_day_close_gmp": null
   },
   "Manipal Payment and Identity Solutions": {
-    "last_gmp": 1,
-    "last_direction": "up",
+    "last_gmp": -2,
+    "last_direction": "down",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
   },
@@ -60,8 +60,8 @@
     "prev_day_close_gmp": null
   },
   "Rentomojo": {
-    "last_gmp": 160,
-    "last_direction": null,
+    "last_gmp": 145,
+    "last_direction": "down",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
   },
@@ -78,7 +78,7 @@
     "prev_day_close_gmp": null
   },
   "Glass Wall Systems": {
-    "last_gmp": 51,
+    "last_gmp": 52,
     "last_direction": "up",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
