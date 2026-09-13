@@ -510,45 +510,74 @@ def _extract_url_slug_and_id(row: dict) -> tuple[Optional[str], Optional[int]]:
     return slug, ipo_id
 
 
-def scrape_registrar(url_slug: str, ipo_id: int) -> Optional[str]:
-    """Fetches ONE IPO's individual detail page and extracts the registrar
-    name from its "IPO Details" table.
+def _parse_price_band(raw_text: str) -> tuple[Optional[float], Optional[float]]:
+    """Parses InvestorGain's "Price Band" table value, confirmed live
+    2026-09-13 via investorgain.com/ipo/manika-plastech-ipo/1806/ to be
+    formatted like "₹40.00-43.00 per share". Returns (floor, cap).
 
-    Unlike reports 331/333/377, this page is genuinely server-rendered
-    HTML (confirmed via a live fetch of investorgain.com/ipo/kfin-
-    technologies-ipo/446/ -- "Registrar" and its value sit directly in a
-    <table> row, not loaded via a separate JS/JSON call). That's good for
-    reliability (a fixed table structure, not a moving API) but does mean
-    ONE extra network request per IPO -- callers should use this sparingly
-    (e.g. only for the Open tab) rather than for every IPO on every
-    refresh.
+    Falls back to treating a single number as both floor and cap for the
+    rare fixed-price issue case (no real range), rather than failing
+    silently -- but never invents a range that wasn't actually there."""
+    if not raw_text:
+        return None, None
+    clean = raw_text.replace("₹", "").replace("per share", "").strip()
+    range_match = re.search(r"([\d,]+\.?\d*)\s*-\s*([\d,]+\.?\d*)", clean)
+    if range_match:
+        floor = _first_number(range_match.group(1))
+        cap = _first_number(range_match.group(2))
+        return floor, cap
+    single_match = re.search(r"([\d,]+\.?\d*)", clean)
+    if single_match:
+        price = _first_number(single_match.group(1))
+        return price, price  # fixed-price issue -- floor == cap, not a guessed range
+    return None, None
 
-    url_slug/ipo_id come from _extract_url_slug_and_id() on a row that
-    already has a "~URLRewrite_Folder_Name" field (reports 331/333/377 all
-    have this). The individual detail page swaps that field's "/gmp/" or
-    "/subscription/" prefix for "/ipo/"."""
+
+def scrape_ipo_detail_page(url_slug: str, ipo_id: int) -> dict:
+    """Fetches ONE IPO's individual detail page ONCE and extracts BOTH
+    registrar and price band from it -- these used to be two separate
+    functions each doing their own fetch; combined into one request since
+    both values live on the same page (confirmed via the same live fetch
+    that verified the Price Band field format above).
+
+    This page is genuinely server-rendered HTML (not a JS/JSON API like
+    reports 331/333/377) -- good for reliability, but means ONE extra
+    network request per IPO, so callers should cache aggressively (see
+    enrich_with_ipo_details below) rather than refetch every cycle.
+
+    Returns {"registrar": str|None, "price_band_floor": float|None,
+    "price_band_cap": float|None}. Never raises -- a fetch/parse failure
+    just means all three come back None, exactly as if the row wasn't found."""
+    result = {"registrar": None, "price_band_floor": None, "price_band_cap": None}
     url = f"https://www.investorgain.com/ipo/{url_slug}/{ipo_id}/"
     try:
         resp = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
     except requests.RequestException as e:
-        print(f"WARNING: registrar page fetch failed for {url}: {e}", file=sys.stderr)
-        return None
+        print(f"WARNING: IPO detail page fetch failed for {url}: {e}", file=sys.stderr)
+        return result
 
     try:
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(resp.text, "html.parser")
         for row_el in soup.find_all("tr"):
             cells = row_el.find_all(["td", "th"])
-            if len(cells) == 2 and _strip_tags(cells[0].get_text()).strip().lower() == "registrar":
-                registrar_name = _strip_tags(cells[1].get_text()).strip()
-                return registrar_name or None
+            if len(cells) != 2:
+                continue
+            label = _strip_tags(cells[0].get_text()).strip().lower()
+            value = _strip_tags(cells[1].get_text()).strip()
+            if label == "registrar":
+                result["registrar"] = value or None
+            elif label == "price band":
+                floor, cap = _parse_price_band(value)
+                result["price_band_floor"] = floor
+                result["price_band_cap"] = cap
     except Exception as e:
-        print(f"WARNING: registrar page parse failed for {url}: {e}", file=sys.stderr)
-    return None
+        print(f"WARNING: IPO detail page parse failed for {url}: {e}", file=sys.stderr)
+    return result
 
 
-def _load_registrar_cache() -> dict[str, str]:
+def _load_registrar_cache() -> dict[str, dict]:
     if not REGISTRAR_CACHE_FILE.exists():
         return {}
     try:
@@ -557,26 +586,29 @@ def _load_registrar_cache() -> dict[str, str]:
         return {}
 
 
-def _save_registrar_cache(cache: dict[str, str]) -> None:
+def _save_registrar_cache(cache: dict[str, dict]) -> None:
     try:
         REGISTRAR_CACHE_FILE.write_text(json.dumps(cache, indent=2), encoding="utf-8")
     except OSError as e:
-        print(f"WARNING: could not save registrar cache: {e}", file=sys.stderr)
+        print(f"WARNING: could not save registrar/price-band cache: {e}", file=sys.stderr)
 
 
 def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, dict]) -> None:
-    """Mutates records in place, adding .registrar.
-
-    Registrar is decided once at IPO filing and never changes afterward,
-    so this uses a PERMANENT cache keyed by IPO id (registrar_cache.json)
-    instead of refetching every refresh cycle -- only genuinely new IPOs
-    (not yet in the cache) trigger a live page fetch. This is what makes
-    it affordable to show registrar on every tab (Open/Upcoming/Closed)
-    rather than just Open.
+    """Mutates records in place, adding .registrar, .price_band_floor, and
+    .price_band_cap -- all three come from the same individual IPO detail
+    page (see scrape_ipo_detail_page), fetched ONCE per IPO and cached
+    permanently (registrar_cache.json) since none of these three values
+    ever change once an IPO is filed. Only genuinely new IPOs (not yet in
+    the cache) trigger a live page fetch -- this is what makes it
+    affordable to show these on every tab (Open/Upcoming/Closed).
 
     Note: Render's free-tier filesystem resets on every redeploy, so this
     cache persists between refresh cycles but not across deploys -- still
-    a large reduction in fetches versus no caching at all."""
+    a large reduction in fetches versus no caching at all. (Unlike GMP
+    direction state, this cache is NOT GitHub-backed -- registrar/price
+    band are cheap to re-fetch once per IPO after a redeploy, so the
+    added complexity wasn't worth it the way it was for GMP direction,
+    which needs to survive across CALENDAR DAYS, not just redeploys.)"""
     cache = _load_registrar_cache()
     cache_dirty = False
 
@@ -590,12 +622,23 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
 
         cache_key = str(ipo_id)
         if cache_key in cache:
-            rec.registrar = cache[cache_key] or None
+            cached = cache[cache_key]
+            # Backward compatibility: older cache entries (before this
+            # feature) stored a plain string, not a dict -- treat those as
+            # registrar-only with no price band cached yet.
+            if isinstance(cached, str):
+                rec.registrar = cached or None
+            else:
+                rec.registrar = cached.get("registrar")
+                rec.price_band_floor = cached.get("price_band_floor")
+                rec.price_band_cap = cached.get("price_band_cap")
             continue
 
-        registrar_name = scrape_registrar(slug, ipo_id)
-        rec.registrar = registrar_name
-        cache[cache_key] = registrar_name or ""  # cache the miss too, so we don't retry every cycle
+        detail = scrape_ipo_detail_page(slug, ipo_id)
+        rec.registrar = detail["registrar"]
+        rec.price_band_floor = detail["price_band_floor"]
+        rec.price_band_cap = detail["price_band_cap"]
+        cache[cache_key] = detail  # caches the miss too (all-None), so we don't retry every cycle
         cache_dirty = True
 
     if cache_dirty:
@@ -712,6 +755,51 @@ def _update_gmp_direction(company_name: str, new_gmp, state: dict) -> Optional[s
     return direction
 
 
+def _update_gmp_extremes(company_name: str, new_gmp_percent, status: str, state: dict) -> dict:
+    """Tracks Opening / Highest / Lowest GMP PERCENT for one company,
+    per the site owner's exact rule (2026-09-13):
+      - Opening: the very FIRST GMP% ever recorded for this IPO. Frozen
+        forever once set -- never overwritten, no matter what happens later.
+      - Highest / Lowest: keep updating live (grows/shrinks as real values
+        come in) for as long as the IPO is actively tracked -- Upcoming,
+        Open, or Closed-but-not-yet-listed.
+      - The moment status becomes "listed", all three FREEZE permanently --
+        no more grey-market price discovery happens after real trading starts.
+
+    Returns {"opening": float|None, "highest": float|None, "lowest": float|None}
+    to attach to the record. Mutates `state` in place; persisted by the
+    caller exactly like _update_gmp_direction's state (same file, same
+    GitHub-backed persistence -- see _load_gmp_direction_state)."""
+    entry = state.get(company_name, {})
+    extremes = entry.get("gmp_extremes", {
+        "opening": None,
+        "highest": None,
+        "lowest": None,
+        "frozen": False,  # True once the IPO has listed -- stop updating highest/lowest forever
+    })
+
+    if extremes.get("frozen"):
+        # Already listed -- these numbers are permanent history now, never touch them again.
+        entry["gmp_extremes"] = extremes
+        state[company_name] = entry
+        return {"opening": extremes["opening"], "highest": extremes["highest"], "lowest": extremes["lowest"]}
+
+    if new_gmp_percent is not None:
+        if extremes["opening"] is None:
+            extremes["opening"] = new_gmp_percent  # first real value ever seen -- set once, never again
+        if extremes["highest"] is None or new_gmp_percent > extremes["highest"]:
+            extremes["highest"] = new_gmp_percent
+        if extremes["lowest"] is None or new_gmp_percent < extremes["lowest"]:
+            extremes["lowest"] = new_gmp_percent
+
+    if status == "listed":
+        extremes["frozen"] = True  # from here on, no further updates ever
+
+    entry["gmp_extremes"] = extremes
+    state[company_name] = entry
+    return {"opening": extremes["opening"], "highest": extremes["highest"], "lowest": extremes["lowest"]}
+
+
 def save_cache(records: list[IPORecord], key: str = "open") -> None:
     """Writes cache with THREE honest timestamps instead of one that
     conflates "we tried" with "data actually changed":
@@ -760,6 +848,15 @@ def save_cache(records: list[IPORecord], key: str = "open") -> None:
                 new_gmp=d.get("gmp"),
                 state=direction_state,
             )
+            extremes = _update_gmp_extremes(
+                company_name=d.get("company_name"),
+                new_gmp_percent=d.get("gmp_percent"),
+                status=d.get("status"),
+                state=direction_state,
+            )
+            d["gmp_opening"] = extremes["opening"]
+            d["gmp_highest"] = extremes["highest"]
+            d["gmp_lowest"] = extremes["lowest"]
             new_records_data.append(d)
         # Only push to GitHub if the state genuinely changed this cycle --
         # most 2-minute cycles won't move any IPO's GMP, so this avoids a
