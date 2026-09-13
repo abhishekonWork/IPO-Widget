@@ -193,9 +193,9 @@ function renderCard(r) {
       <div class="gmp ${gmpClass(gmpPct)}">${gmpText}${directionIndicator(r.gmp_direction)}${gmpRupeeText ? ` <span class="gmp-rupee">(${gmpRupeeText})</span>` : ""}</div>
       ${(r.gmp_opening != null || r.gmp_highest != null || r.gmp_lowest != null) ? `
       <div class="gmp-extremes-row">
-        <div class="gmp-extreme"><span class="ge-k">Opening</span><span class="ge-v">${r.gmp_opening != null ? r.gmp_opening.toFixed(2) + "%" : "—"}</span></div>
-        <div class="gmp-extreme"><span class="ge-k">Highest</span><span class="ge-v ge-high">${r.gmp_highest != null ? r.gmp_highest.toFixed(2) + "%" : "—"}</span></div>
-        <div class="gmp-extreme"><span class="ge-k">Lowest</span><span class="ge-v ge-low">${r.gmp_lowest != null ? r.gmp_lowest.toFixed(2) + "%" : "—"}</span></div>
+        <div class="gmp-extreme ge-opening"><span class="ge-k">Opening</span><span class="ge-v">${r.gmp_opening != null ? r.gmp_opening.toFixed(2) + "%" : "—"}</span></div>
+        <div class="gmp-extreme ge-highest"><span class="ge-k">Highest</span><span class="ge-v">${r.gmp_highest != null ? r.gmp_highest.toFixed(2) + "%" : "—"}</span></div>
+        <div class="gmp-extreme ge-lowest"><span class="ge-k">Lowest</span><span class="ge-v">${r.gmp_lowest != null ? r.gmp_lowest.toFixed(2) + "%" : "—"}</span></div>
       </div>` : ""}
 
       ${sub.started === false ? `<div class="meta-row"><span>Subscription: Not Started</span></div>` : `
