@@ -198,6 +198,66 @@ def debug_subscription_raw():
         return {"url_fetched": url, "error": str(e)}
 
 
+@app.get("/api/debug/price-band-raw")
+def debug_price_band_raw():
+    """Diagnostic: fetches ONE real, currently-open IPO's individual detail
+    page (same page type already used for Registrar) and returns the raw
+    table rows so we can see the EXACT label InvestorGain uses for price
+    band before writing any parsing logic that guesses at it -- same
+    careful approach used for report 377 and the SHNI/BHNI fields. Safe to
+    remove once price band is confirmed working correctly."""
+    try:
+        open_records = scraper.scrape_open_mainboard_ipos()
+    except Exception as e:
+        return {"error": f"Could not fetch open IPOs to test against: {e}"}
+    if not open_records:
+        return {"error": "No open IPOs available right now to test against"}
+
+    # Re-fetch the raw GMP report rows so we can find this IPO's exact
+    # URL slug/id, same lookup registrar enrichment already does.
+    try:
+        raw_rows = scraper.fetch_report(scraper.GMP_REPORT_ID)
+    except Exception as e:
+        return {"error": f"Could not fetch raw GMP report: {e}"}
+
+    target_name = open_records[0].company_name
+    matching_row = None
+    for row in raw_rows:
+        name, _cat, _status = scraper._parse_name_cell(row.get("Name", ""))
+        if name == target_name:
+            matching_row = row
+            break
+    if not matching_row:
+        return {"error": f"Could not find raw row for {target_name}"}
+
+    slug, ipo_id = scraper._extract_url_slug_and_id(matching_row)
+    if not slug or not ipo_id:
+        return {"error": f"Could not extract slug/id for {target_name}", "raw_row": matching_row}
+
+    url = f"https://www.investorgain.com/ipo/{slug}/{ipo_id}/"
+    try:
+        resp = scraper.requests.get(url, headers=scraper.HEADERS, timeout=scraper.REQUEST_TIMEOUT)
+        resp.raise_for_status()
+    except Exception as e:
+        return {"error": f"Could not fetch detail page: {e}", "url_tried": url}
+
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(resp.text, "html.parser")
+    table_rows = []
+    for row_el in soup.find_all("tr"):
+        cells = row_el.find_all(["td", "th"])
+        if len(cells) == 2:
+            label = scraper._strip_tags(cells[0].get_text()).strip()
+            value = scraper._strip_tags(cells[1].get_text()).strip()
+            table_rows.append({"label": label, "value": value})
+
+    return {
+        "company_tested": target_name,
+        "url_fetched": url,
+        "all_two_column_table_rows": table_rows,
+    }
+
+
 @app.get("/api/debug/github-persistence")
 def debug_github_persistence():
     """Diagnostic: confirms whether GMP-direction memory is actually
