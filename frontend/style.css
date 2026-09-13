@@ -262,6 +262,34 @@ main {
   color: var(--text-dim);
 }
 
+/* Opening/Highest/Lowest GMP -- deliberately compact and quiet compared
+   to the hero GMP number above it, so it reads as supporting context, not
+   competing for attention. Three-up inline row, small caps labels. */
+.gmp-extremes-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+}
+.gmp-extreme {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.ge-k {
+  font-size: 9.5px;
+  color: var(--text-faint);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.ge-v {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+.ge-high { color: var(--green); }
+.ge-low { color: var(--red); }
+
 /* GMP direction indicator -- a small glowing pill, not just colored text.
    Soft pulsing box-shadow gives it a "live market" feel without being
    distracting; the pulse is slow and subtle (3s cycle), not flashy. */
