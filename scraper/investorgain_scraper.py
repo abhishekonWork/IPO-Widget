@@ -708,6 +708,13 @@ def _update_gmp_direction(company_name: str, new_gmp, state: dict) -> Optional[s
 
     if entry is None:
         # Never seen this IPO before -- nothing to compare against yet.
+        # IMPORTANT: only set OUR OWN keys, never replace the whole dict --
+        # _update_gmp_extremes (called right after this, same company, same
+        # state dict) stores its own "gmp_extremes" key here too. A full
+        # dict replacement here would silently wipe that out. This was a
+        # real bug (fixed 2026-09-13): Opening/Highest/Lowest kept
+        # resetting to the same number every day because THIS function's
+        # day-rollover branch was clobbering the whole entry.
         state[company_name] = {
             "last_gmp": new_gmp,
             "last_direction": None,
@@ -729,12 +736,15 @@ def _update_gmp_direction(company_name: str, new_gmp, state: dict) -> Optional[s
         else:
             direction = "down"
 
-        state[company_name] = {
-            "last_gmp": new_gmp,
-            "last_direction": direction,
-            "last_seen_day": today,
-            "prev_day_close_gmp": yesterday_gmp,
-        }
+        # Mutate the EXISTING entry in place rather than replacing it --
+        # preserves "gmp_extremes" (and any other keys other functions
+        # sharing this same state dict may have written). See the note
+        # above the entry-is-None branch for the bug this fixes.
+        entry["last_gmp"] = new_gmp
+        entry["last_direction"] = direction
+        entry["last_seen_day"] = today
+        entry["prev_day_close_gmp"] = yesterday_gmp
+        state[company_name] = entry
         return direction
 
     # Same day as last check -- normal comparison; unchanged PERSISTS the
