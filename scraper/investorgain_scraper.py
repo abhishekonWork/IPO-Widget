@@ -742,12 +742,14 @@ def save_cache(records: list[IPORecord], key: str = "open") -> None:
     prev_entry = cache.get(key, {})
     prev_records = prev_entry.get("records", [])
 
-    # GMP direction is meaningful for Open AND Upcoming (InvestorGain often
-    # shows early/indicative GMP before an IPO opens, and that can move too)
-    # -- but not Closed, where GMP is frozen historical data, not something
-    # actively changing. Skipping Closed avoids an unnecessary GitHub write
-    # for data that will never move again.
-    if key in ("open", "upcoming"):
+    # GMP direction is meaningful for Open, Upcoming, AND Closed --
+    # InvestorGain often shows indicative GMP before an IPO opens, and
+    # crucially GMP keeps moving for a Closed IPO too, right up until its
+    # actual listing day (the stock hasn't started trading yet, so grey
+    # market pricing is still live). Once an IPO is fully listed, GMP
+    # naturally stops changing on its own -- no special-casing needed here,
+    # the direction will just stay flat/last-known since nothing new comes in.
+    if key in ("open", "upcoming", "closed"):
         direction_state = _load_gmp_direction_state()
         state_before = json.dumps(direction_state, sort_keys=True)
         new_records_data = []
