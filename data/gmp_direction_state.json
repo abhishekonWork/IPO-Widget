@@ -10,5 +10,29 @@
     "last_direction": "flat",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": 15
+  },
+  "NSE": {
+    "last_gmp": 200,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "SS Retail": {
+    "last_gmp": 106,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Hero Motors": {
+    "last_gmp": 24,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
+  },
+  "Jindal Supreme": {
+    "last_gmp": 25,
+    "last_direction": null,
+    "last_seen_day": "2026-09-13",
+    "prev_day_close_gmp": null
   }
 }
