@@ -43,6 +43,11 @@ class IPORecord:
     listing_price: Optional[float] = None       # actual price on listing day, from report 377
     listing_gain_percent: Optional[float] = None  # actual (listing_price - issue_price)/issue_price * 100 -- NOT the GMP estimate
     registrar: Optional[str] = None              # e.g. "Bigshare Services Pvt.Ltd." -- from the individual IPO detail page
+    price_band_floor: Optional[float] = None      # e.g. 40.00 -- from the "Price Band" row on the individual IPO detail page. Fixed at filing, cached permanently once fetched, same pattern as registrar.
+    price_band_cap: Optional[float] = None         # e.g. 43.00 -- may equal price_band_floor for a fixed-price issue (rare), never guessed
+    gmp_opening: Optional[float] = None            # the VERY FIRST GMP % we ever recorded for this IPO -- frozen forever once set, never updated again
+    gmp_highest: Optional[float] = None            # all-time highest GMP % recorded while actively tracked (Upcoming/Open/Closed-not-yet-listed) -- freezes permanently once the IPO lists
+    gmp_lowest: Optional[float] = None             # all-time lowest GMP % recorded, same freeze rule as gmp_highest
     source_url: Optional[str] = None
     last_updated: Optional[str] = None    # when WE fetched it, ISO datetime
     source: str = "InvestorGain"
