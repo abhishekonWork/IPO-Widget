@@ -355,6 +355,8 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
         detail = sub_map.get(company_name)
         if detail:
             rec.subscription.qib = detail.get("qib")
+            rec.subscription.shni = detail.get("shni")
+            rec.subscription.bhni = detail.get("bhni")
             rec.subscription.nii = detail.get("nii")
             rec.subscription.retail = detail.get("retail")
             if detail.get("total") is not None:
@@ -484,6 +486,8 @@ def scrape_subscription_breakdown() -> dict[str, dict]:
         result[company_name] = {
             "total": _first_number(_strip_tags(row.get("Total", ""))),
             "qib": _first_number(row.get("QIB", "")),
+            "shni": _first_number(row.get("SHNI", "")),  # Small HNI (₹2-10L bids) -- confirmed real field name, live-verified 2026-09-13
+            "bhni": _first_number(row.get("BHNI", "")),  # Big HNI (₹10L+ bids) -- same
             "nii": _first_number(row.get("NII", "")),
             "retail": _first_number(row.get("RII", "")),
         }
