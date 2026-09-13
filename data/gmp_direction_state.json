@@ -27,25 +27,49 @@
     "last_gmp": 208,
     "last_direction": "down",
     "last_seen_day": "2026-09-13",
-    "prev_day_close_gmp": null
+    "prev_day_close_gmp": null,
+    "gmp_extremes": {
+      "opening": 11.65,
+      "highest": 11.65,
+      "lowest": 11.65,
+      "frozen": false
+    }
   },
   "SS Retail": {
     "last_gmp": 110,
     "last_direction": "up",
     "last_seen_day": "2026-09-13",
-    "prev_day_close_gmp": null
+    "prev_day_close_gmp": null,
+    "gmp_extremes": {
+      "opening": 25.94,
+      "highest": 25.94,
+      "lowest": 25.94,
+      "frozen": false
+    }
   },
   "Hero Motors": {
     "last_gmp": 24,
     "last_direction": null,
     "last_seen_day": "2026-09-13",
-    "prev_day_close_gmp": null
+    "prev_day_close_gmp": null,
+    "gmp_extremes": {
+      "opening": 28.57,
+      "highest": 28.57,
+      "lowest": 28.57,
+      "frozen": false
+    }
   },
   "Jindal Supreme": {
     "last_gmp": 25,
     "last_direction": null,
     "last_seen_day": "2026-09-13",
-    "prev_day_close_gmp": null
+    "prev_day_close_gmp": null,
+    "gmp_extremes": {
+      "opening": 26.88,
+      "highest": 26.88,
+      "lowest": 26.88,
+      "frozen": false
+    }
   },
   "Manipal Payment and Identity Solutions": {
     "last_gmp": -2,
@@ -106,5 +130,21 @@
     "last_direction": null,
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
+  },
+  "A-One Steels": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
+  },
+  "Sonaselection India": {
+    "gmp_extremes": {
+      "opening": 0.0,
+      "highest": 0.0,
+      "lowest": 0.0,
+      "frozen": false
+    }
   }
 }
