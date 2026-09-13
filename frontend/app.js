@@ -195,6 +195,8 @@ function renderCard(r) {
       ${sub.started === false ? `<div class="meta-row"><span>Subscription: Not Started</span></div>` : `
       <div class="sub-grid">
         <div class="sub-cell"><div class="k">QIB</div><div class="v ${subClass(sub.qib)}">${subText(sub.qib)}</div></div>
+        <div class="sub-cell"><div class="k">SHNI</div><div class="v ${subClass(sub.shni)}">${subText(sub.shni)}</div></div>
+        <div class="sub-cell"><div class="k">BHNI</div><div class="v ${subClass(sub.bhni)}">${subText(sub.bhni)}</div></div>
         <div class="sub-cell"><div class="k">NII</div><div class="v ${subClass(sub.nii)}">${subText(sub.nii)}</div></div>
         <div class="sub-cell"><div class="k">Retail</div><div class="v ${subClass(sub.retail)}">${subText(sub.retail)}</div></div>
         <div class="sub-cell"><div class="k">Total</div><div class="v ${subClass(sub.total)}">${subText(sub.total)}</div></div>
