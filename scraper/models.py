@@ -15,6 +15,8 @@ from typing import Optional
 @dataclass
 class Subscription:
     qib: Optional[float] = None      # e.g. 18.42 means "18.42x"
+    shni: Optional[float] = None     # Small HNI (bids ₹2-10 lakh) -- separate figure from NII, not a sub-total of it (confirmed via live data 2026-09-13)
+    bhni: Optional[float] = None     # Big HNI (bids ₹10 lakh+) -- same as above
     nii: Optional[float] = None
     retail: Optional[float] = None
     total: Optional[float] = None
