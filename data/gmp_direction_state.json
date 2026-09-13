@@ -36,8 +36,8 @@
     "prev_day_close_gmp": null
   },
   "Manipal Payment and Identity Solutions": {
-    "last_gmp": -3,
-    "last_direction": null,
+    "last_gmp": 1,
+    "last_direction": "up",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
   },
@@ -48,14 +48,14 @@
     "prev_day_close_gmp": null
   },
   "LCC Projects": {
-    "last_gmp": 60,
-    "last_direction": null,
+    "last_gmp": 64,
+    "last_direction": "up",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
   },
   "Karamtara Engineering": {
-    "last_gmp": 69,
-    "last_direction": null,
+    "last_gmp": 71,
+    "last_direction": "up",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
   },
@@ -72,14 +72,14 @@
     "prev_day_close_gmp": null
   },
   "Kanohar Electricals": {
-    "last_gmp": 240,
-    "last_direction": null,
+    "last_gmp": 244,
+    "last_direction": "up",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
   },
   "Glass Wall Systems": {
-    "last_gmp": 50,
-    "last_direction": null,
+    "last_gmp": 51,
+    "last_direction": "up",
     "last_seen_day": "2026-09-13",
     "prev_day_close_gmp": null
   },
