@@ -12,13 +12,13 @@
     }
   },
   "Veegaland Developers": {
-    "last_gmp": 22,
+    "last_gmp": 23,
     "last_direction": "up",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 15,
     "gmp_extremes": {
       "opening": 10.71,
-      "highest": 15.71,
+      "highest": 16.43,
       "lowest": 10.71,
       "frozen": false
     }
