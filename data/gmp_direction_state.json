@@ -84,26 +84,26 @@
     }
   },
   "Steamhouse": {
-    "last_gmp": 22,
+    "last_gmp": 24,
     "last_direction": "up",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 21,
     "gmp_extremes": {
       "opening": 25.93,
-      "highest": 27.78,
+      "highest": 29.63,
       "lowest": 25.93,
       "frozen": false
     }
   },
   "LCC Projects": {
-    "last_gmp": 64,
-    "last_direction": "flat",
+    "last_gmp": 63,
+    "last_direction": "down",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 64,
     "gmp_extremes": {
       "opening": 43.84,
       "highest": 43.84,
-      "lowest": 43.84,
+      "lowest": 43.15,
       "frozen": false
     }
   },
@@ -144,14 +144,14 @@
     }
   },
   "Kanohar Electricals": {
-    "last_gmp": 241,
-    "last_direction": "flat",
+    "last_gmp": 240,
+    "last_direction": "down",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 241,
     "gmp_extremes": {
       "opening": 38.61,
       "highest": 38.61,
-      "lowest": 38.13,
+      "lowest": 37.97,
       "frozen": false
     }
   },
