@@ -48,14 +48,14 @@
     }
   },
   "Hero Motors": {
-    "last_gmp": 24,
-    "last_direction": "flat",
+    "last_gmp": 23,
+    "last_direction": "down",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 24,
     "gmp_extremes": {
       "opening": 28.57,
       "highest": 28.57,
-      "lowest": 28.57,
+      "lowest": 27.38,
       "frozen": false
     }
   },
