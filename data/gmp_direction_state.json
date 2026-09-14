@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 210,
-    "last_direction": "up",
+    "last_gmp": 208,
+    "last_direction": "down",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 210,
     "gmp_extremes": {
@@ -36,13 +36,13 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 134,
+    "last_gmp": 140,
     "last_direction": "up",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 120,
     "gmp_extremes": {
       "opening": 25.94,
-      "highest": 31.6,
+      "highest": 33.02,
       "lowest": 25.94,
       "frozen": false
     }
