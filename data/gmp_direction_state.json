@@ -72,25 +72,25 @@
     }
   },
   "Manipal Payment and Identity Solutions": {
-    "last_gmp": -2,
-    "last_direction": "flat",
+    "last_gmp": 1,
+    "last_direction": "up",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": -2,
     "gmp_extremes": {
       "opening": -0.59,
-      "highest": -0.59,
+      "highest": 0.29,
       "lowest": -0.59,
       "frozen": false
     }
   },
   "Steamhouse": {
-    "last_gmp": 21,
-    "last_direction": "flat",
+    "last_gmp": 22,
+    "last_direction": "up",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 21,
     "gmp_extremes": {
       "opening": 25.93,
-      "highest": 25.93,
+      "highest": 27.78,
       "lowest": 25.93,
       "frozen": false
     }
@@ -120,8 +120,8 @@
     }
   },
   "Rentomojo": {
-    "last_gmp": 160,
-    "last_direction": "up",
+    "last_gmp": 158,
+    "last_direction": "down",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 157,
     "gmp_extremes": {
@@ -132,13 +132,13 @@
     }
   },
   "Asset Reconstruction": {
-    "last_gmp": 15,
-    "last_direction": "flat",
+    "last_gmp": 16,
+    "last_direction": "up",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 15,
     "gmp_extremes": {
       "opening": 10.07,
-      "highest": 10.79,
+      "highest": 11.51,
       "lowest": 10.07,
       "frozen": false
     }
@@ -162,19 +162,19 @@
     "prev_day_close_gmp": 52,
     "gmp_extremes": {
       "opening": 28.57,
-      "highest": 28.57,
+      "highest": 28.85,
       "lowest": 28.57,
       "frozen": false
     }
   },
   "Prasol Chemicals": {
-    "last_gmp": -15,
-    "last_direction": "flat",
+    "last_gmp": -13,
+    "last_direction": "up",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": -15,
     "gmp_extremes": {
       "opening": -2.22,
-      "highest": -2.22,
+      "highest": -1.92,
       "lowest": -2.22,
       "frozen": false
     }
