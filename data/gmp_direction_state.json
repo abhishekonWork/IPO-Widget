@@ -120,13 +120,13 @@
     }
   },
   "Rentomojo": {
-    "last_gmp": 157,
-    "last_direction": "flat",
+    "last_gmp": 160,
+    "last_direction": "up",
     "last_seen_day": "2026-09-14",
     "prev_day_close_gmp": 157,
     "gmp_extremes": {
       "opening": 35.89,
-      "highest": 38.86,
+      "highest": 39.6,
       "lowest": 35.89,
       "frozen": false
     }
