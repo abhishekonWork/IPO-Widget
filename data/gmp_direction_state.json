@@ -1,13 +1,13 @@
 {
   "Manika Plastech": {
-    "last_gmp": 4,
+    "last_gmp": 3,
     "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 11,
     "gmp_extremes": {
       "opening": 25.58,
       "highest": 25.58,
-      "lowest": 9.3,
+      "lowest": 6.98,
       "frozen": false
     }
   },
