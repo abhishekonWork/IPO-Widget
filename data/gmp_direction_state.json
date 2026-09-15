@@ -72,68 +72,68 @@
     }
   },
   "Manipal Payment and Identity Solutions": {
-    "last_gmp": 1,
-    "last_direction": "flat",
+    "last_gmp": -10,
+    "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 1,
     "gmp_extremes": {
       "opening": -0.59,
       "highest": 0.29,
-      "lowest": -0.59,
+      "lowest": -2.95,
       "frozen": false
     }
   },
   "Steamhouse": {
-    "last_gmp": 24,
-    "last_direction": "flat",
+    "last_gmp": 19,
+    "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 24,
     "gmp_extremes": {
       "opening": 25.93,
       "highest": 29.63,
-      "lowest": 25.93,
+      "lowest": 24.07,
       "frozen": false
     }
   },
   "LCC Projects": {
-    "last_gmp": 63,
-    "last_direction": "flat",
+    "last_gmp": 54,
+    "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 63,
     "gmp_extremes": {
       "opening": 43.84,
       "highest": 43.84,
-      "lowest": 43.15,
+      "lowest": 36.99,
       "frozen": false
     }
   },
   "Karamtara Engineering": {
-    "last_gmp": 71,
-    "last_direction": "flat",
+    "last_gmp": 57,
+    "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 71,
     "gmp_extremes": {
       "opening": 27.95,
       "highest": 27.95,
-      "lowest": 27.95,
+      "lowest": 22.44,
       "frozen": false
     }
   },
   "Rentomojo": {
-    "last_gmp": 158,
-    "last_direction": "flat",
+    "last_gmp": 135,
+    "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 158,
     "gmp_extremes": {
       "opening": 35.89,
       "highest": 39.6,
-      "lowest": 35.89,
+      "lowest": 33.42,
       "frozen": false
     }
   },
   "Asset Reconstruction": {
-    "last_gmp": 16,
-    "last_direction": "flat",
+    "last_gmp": 14,
+    "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 16,
     "gmp_extremes": {
@@ -144,26 +144,26 @@
     }
   },
   "Kanohar Electricals": {
-    "last_gmp": 240,
-    "last_direction": "flat",
+    "last_gmp": 192,
+    "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 240,
     "gmp_extremes": {
       "opening": 38.61,
       "highest": 38.61,
-      "lowest": 37.97,
+      "lowest": 30.38,
       "frozen": false
     }
   },
   "Glass Wall Systems": {
-    "last_gmp": 52,
-    "last_direction": "flat",
+    "last_gmp": 41,
+    "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 52,
     "gmp_extremes": {
       "opening": 28.57,
       "highest": 28.85,
-      "lowest": 28.57,
+      "lowest": 22.53,
       "frozen": false
     }
   },
@@ -180,13 +180,13 @@
     }
   },
   "Pranav Constructions": {
-    "last_gmp": 45,
-    "last_direction": "flat",
-    "last_seen_day": "2026-09-14",
+    "last_gmp": 53,
+    "last_direction": "up",
+    "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 45,
     "gmp_extremes": {
       "opening": 36.29,
-      "highest": 36.29,
+      "highest": 42.74,
       "lowest": 36.29,
       "frozen": false
     }
@@ -210,5 +210,13 @@
     "last_direction": "up",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": null
+  },
+  "One Mobikwik Systems": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
   }
 }
