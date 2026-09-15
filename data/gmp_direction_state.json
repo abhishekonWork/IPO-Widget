@@ -24,14 +24,14 @@
     }
   },
   "NSE": {
-    "last_gmp": 202,
+    "last_gmp": 179,
     "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 208,
     "gmp_extremes": {
       "opening": 11.65,
       "highest": 11.76,
-      "lowest": 11.32,
+      "lowest": 10.03,
       "frozen": false
     }
   },
@@ -48,8 +48,8 @@
     }
   },
   "Hero Motors": {
-    "last_gmp": 21,
-    "last_direction": "down",
+    "last_gmp": 22,
+    "last_direction": "up",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 23,
     "gmp_extremes": {
@@ -202,9 +202,13 @@
   "Sonaselection India": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 0.0,
+      "highest": 5.05,
       "lowest": 0.0,
       "frozen": false
-    }
+    },
+    "last_gmp": 5,
+    "last_direction": null,
+    "last_seen_day": "2026-09-15",
+    "prev_day_close_gmp": null
   }
 }
