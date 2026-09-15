@@ -1,25 +1,25 @@
 {
   "Manika Plastech": {
-    "last_gmp": 7,
+    "last_gmp": 4,
     "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 11,
     "gmp_extremes": {
       "opening": 25.58,
       "highest": 25.58,
-      "lowest": 16.28,
+      "lowest": 9.3,
       "frozen": false
     }
   },
   "Veegaland Developers": {
-    "last_gmp": 15,
+    "last_gmp": 7,
     "last_direction": "down",
     "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 20,
     "gmp_extremes": {
       "opening": 10.71,
       "highest": 16.43,
-      "lowest": 10.71,
+      "lowest": 5.0,
       "frozen": false
     }
   },
