@@ -73,9 +73,9 @@
   },
   "Manipal Payment and Identity Solutions": {
     "last_gmp": 1,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-14",
-    "prev_day_close_gmp": -2,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-15",
+    "prev_day_close_gmp": 1,
     "gmp_extremes": {
       "opening": -0.59,
       "highest": 0.29,
@@ -85,9 +85,9 @@
   },
   "Steamhouse": {
     "last_gmp": 24,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-14",
-    "prev_day_close_gmp": 21,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-15",
+    "prev_day_close_gmp": 24,
     "gmp_extremes": {
       "opening": 25.93,
       "highest": 29.63,
@@ -97,9 +97,9 @@
   },
   "LCC Projects": {
     "last_gmp": 63,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-14",
-    "prev_day_close_gmp": 64,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-15",
+    "prev_day_close_gmp": 63,
     "gmp_extremes": {
       "opening": 43.84,
       "highest": 43.84,
@@ -110,7 +110,7 @@
   "Karamtara Engineering": {
     "last_gmp": 71,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-14",
+    "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 71,
     "gmp_extremes": {
       "opening": 27.95,
@@ -121,9 +121,9 @@
   },
   "Rentomojo": {
     "last_gmp": 158,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-14",
-    "prev_day_close_gmp": 157,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-15",
+    "prev_day_close_gmp": 158,
     "gmp_extremes": {
       "opening": 35.89,
       "highest": 39.6,
@@ -133,9 +133,9 @@
   },
   "Asset Reconstruction": {
     "last_gmp": 16,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-14",
-    "prev_day_close_gmp": 15,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-15",
+    "prev_day_close_gmp": 16,
     "gmp_extremes": {
       "opening": 10.07,
       "highest": 11.87,
@@ -145,9 +145,9 @@
   },
   "Kanohar Electricals": {
     "last_gmp": 240,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-14",
-    "prev_day_close_gmp": 241,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-15",
+    "prev_day_close_gmp": 240,
     "gmp_extremes": {
       "opening": 38.61,
       "highest": 38.61,
@@ -158,7 +158,7 @@
   "Glass Wall Systems": {
     "last_gmp": 52,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-14",
+    "last_seen_day": "2026-09-15",
     "prev_day_close_gmp": 52,
     "gmp_extremes": {
       "opening": 28.57,
@@ -169,9 +169,9 @@
   },
   "Prasol Chemicals": {
     "last_gmp": -13,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-14",
-    "prev_day_close_gmp": -15,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-15",
+    "prev_day_close_gmp": -13,
     "gmp_extremes": {
       "opening": -2.22,
       "highest": -1.92,
