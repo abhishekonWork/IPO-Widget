@@ -36,8 +36,8 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 105,
-    "last_direction": "up",
+    "last_gmp": 100,
+    "last_direction": "down",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 128,
     "gmp_extremes": {
@@ -48,7 +48,7 @@
     }
   },
   "Hero Motors": {
-    "last_gmp": 12,
+    "last_gmp": 13,
     "last_direction": "up",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 19,
