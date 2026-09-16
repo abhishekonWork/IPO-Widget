@@ -108,14 +108,14 @@
     }
   },
   "Karamtara Engineering": {
-    "last_gmp": 57,
-    "last_direction": "flat",
+    "last_gmp": 52,
+    "last_direction": "down",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 57,
     "gmp_extremes": {
       "opening": 27.95,
       "highest": 27.95,
-      "lowest": 22.44,
+      "lowest": 20.47,
       "frozen": false
     }
   },
@@ -132,14 +132,14 @@
     }
   },
   "Asset Reconstruction": {
-    "last_gmp": 14,
-    "last_direction": "flat",
+    "last_gmp": 13,
+    "last_direction": "down",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 14,
     "gmp_extremes": {
       "opening": 10.07,
       "highest": 11.87,
-      "lowest": 10.07,
+      "lowest": 9.71,
       "frozen": false
     }
   },
@@ -213,9 +213,9 @@
   },
   "One Mobikwik Systems": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 0.0,
+      "highest": 0.0,
+      "lowest": 0.0,
       "frozen": false
     }
   }
