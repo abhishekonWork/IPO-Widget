@@ -115,20 +115,19 @@ header.topbar {
   display: flex;
   gap: 6px;
   margin-top: 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
 }
-.tabs::-webkit-scrollbar { display: none; }
 
 .tab {
-  flex: 0 0 auto;
-  padding: 7px 14px;
+  flex: 1 1 0;
+  padding: 7px 10px;
   border-radius: 7px;
   background: var(--surface);
   color: var(--text-dim);
   font-size: 13px;
   font-weight: 600;
   border: 1px solid var(--border);
+  text-align: center;
+  white-space: nowrap;
 }
 
 .tab.active {
@@ -295,7 +294,8 @@ main {
 }
 
 .ge-opening {
-  background: var(--surface);
+  background: var(--surface-2);
+  animation: glow-grey 2.8s ease-in-out infinite;
 }
 .ge-opening .ge-v { color: var(--text-dim); }
 
@@ -313,7 +313,10 @@ main {
 
 /* GMP direction indicator -- a small glowing pill, not just colored text.
    Soft pulsing box-shadow gives it a "live market" feel without being
-   distracting; the pulse is slow and subtle (3s cycle), not flashy. */
+   distracting; the pulse is slow and subtle (3s cycle), not flashy.
+   Colors intentionally match Opening/Highest/Lowest: up=green (same as
+   Highest), down=red (same as Lowest), flat=grey (same as Opening) --
+   one consistent color language across both GMP indicators. */
 .gmp-dir {
   display: inline-flex;
   align-items: center;
@@ -338,13 +341,14 @@ main {
   animation: glow-red 2.6s ease-in-out infinite;
 }
 /* Dash: reframed as a small steady "pulse" dot rather than a flat line --
-   reads as "stable / actively tracked", not "missing data". Amber, not
-   grey, so it doesn't look broken or empty next to the green/red pills. */
+   reads as "stable / actively tracked", not "missing data". Now matches
+   Opening's grey glow, since both represent a fixed/steady reference
+   point rather than active movement. */
 .gmp-dir-flat {
-  color: var(--amber);
-  background: var(--amber-soft);
+  color: var(--text-dim);
+  background: var(--surface-2);
   font-size: 13px;
-  animation: glow-amber 3.2s ease-in-out infinite;
+  animation: glow-grey 3.2s ease-in-out infinite;
 }
 
 @keyframes glow-green {
@@ -355,9 +359,9 @@ main {
   0%, 100% { box-shadow: 0 0 0 0 rgba(217, 45, 32, 0.35); }
   50% { box-shadow: 0 0 9px 2px rgba(217, 45, 32, 0.45); }
 }
-@keyframes glow-amber {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(181, 71, 8, 0.25); }
-  50% { box-shadow: 0 0 7px 1px rgba(181, 71, 8, 0.35); }
+@keyframes glow-grey {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(102, 112, 133, 0.25); }
+  50% { box-shadow: 0 0 7px 1px rgba(102, 112, 133, 0.35); }
 }
 
 .sub-grid {
