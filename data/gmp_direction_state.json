@@ -1,7 +1,7 @@
 {
   "Manika Plastech": {
-    "last_gmp": 1,
-    "last_direction": "down",
+    "last_gmp": 2,
+    "last_direction": "up",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 3,
     "gmp_extremes": {
@@ -36,8 +36,8 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 91,
-    "last_direction": "down",
+    "last_gmp": 105,
+    "last_direction": "up",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 128,
     "gmp_extremes": {
@@ -48,8 +48,8 @@
     }
   },
   "Hero Motors": {
-    "last_gmp": 10,
-    "last_direction": "down",
+    "last_gmp": 12,
+    "last_direction": "up",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 19,
     "gmp_extremes": {
@@ -60,8 +60,8 @@
     }
   },
   "Jindal Supreme": {
-    "last_gmp": 27,
-    "last_direction": "flat",
+    "last_gmp": 25,
+    "last_direction": "down",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 27,
     "gmp_extremes": {
