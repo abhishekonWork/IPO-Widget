@@ -36,14 +36,14 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 100,
+    "last_gmp": 90,
     "last_direction": "down",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 128,
     "gmp_extremes": {
       "opening": 25.94,
       "highest": 34.2,
-      "lowest": 21.46,
+      "lowest": 21.23,
       "frozen": false
     }
   },
