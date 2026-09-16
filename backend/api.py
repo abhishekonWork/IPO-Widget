@@ -198,6 +198,46 @@ def debug_subscription_raw():
         return {"url_fetched": url, "error": str(e)}
 
 
+@app.get("/api/debug/gmp-report-raw")
+def debug_gmp_report_raw(company: str = ""):
+    """Diagnostic: fetches InvestorGain's report 331 (Live GMP) directly --
+    the SAME report our actual scraper reads GMP from -- and returns the
+    raw row(s) so we can see EXACTLY what InvestorGain's live table says
+    right now, unprocessed by any of our own parsing logic. This is the
+    ground truth to compare our /api/ipos/open output against when a GMP
+    value looks wrong.
+
+    Pass ?company=Manika to filter to rows whose Name field contains that
+    text (case-insensitive substring match); omit to see all rows."""
+    import requests as _requests
+    from datetime import datetime as _dt
+    year = _dt.now().year
+    url = f"https://webnodejs.investorgain.com/cloud/v2/report/data-read/331/1/8/{year}/{year}-{str(year+1)[-2:]}/0/all"
+    try:
+        resp = _requests.get(
+            url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+                "Referer": "https://www.investorgain.com/",
+                "Accept": "application/json",
+            },
+            timeout=20,
+        )
+        data = resp.json()
+        rows = data.get("reportTableData", [])
+        if company:
+            rows = [r for r in rows if company.lower() in (r.get("Name") or "").lower()]
+        return {
+            "url_fetched": url,
+            "http_status": resp.status_code,
+            "server_response_headers_date": resp.headers.get("Date"),  # when InvestorGain's server generated this response
+            "row_count": len(rows),
+            "matching_rows": rows,
+        }
+    except Exception as e:
+        return {"url_fetched": url, "error": str(e)}
+
+
 @app.get("/api/debug/price-band-raw")
 def debug_price_band_raw():
     """Diagnostic: fetches ONE real, currently-open IPO's individual detail
