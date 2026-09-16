@@ -1,13 +1,13 @@
 {
   "Manika Plastech": {
-    "last_gmp": 3,
-    "last_direction": "flat",
+    "last_gmp": 1,
+    "last_direction": "down",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 3,
     "gmp_extremes": {
       "opening": 25.58,
       "highest": 25.58,
-      "lowest": 6.98,
+      "lowest": 2.33,
       "frozen": false
     }
   },
@@ -36,26 +36,26 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 128,
-    "last_direction": "flat",
+    "last_gmp": 91,
+    "last_direction": "down",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 128,
     "gmp_extremes": {
       "opening": 25.94,
       "highest": 34.2,
-      "lowest": 25.94,
+      "lowest": 21.46,
       "frozen": false
     }
   },
   "Hero Motors": {
-    "last_gmp": 19,
-    "last_direction": "flat",
+    "last_gmp": 10,
+    "last_direction": "down",
     "last_seen_day": "2026-09-16",
     "prev_day_close_gmp": 19,
     "gmp_extremes": {
       "opening": 28.57,
       "highest": 28.57,
-      "lowest": 22.62,
+      "lowest": 11.9,
       "frozen": false
     }
   },
