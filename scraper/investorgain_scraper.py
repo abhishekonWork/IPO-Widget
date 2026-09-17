@@ -481,6 +481,23 @@ def _normalize_company_name(name: str) -> str:
     return " ".join((name or "").split())
 
 
+def _safe_float(value) -> Optional[float]:
+    """Converts a value to float, safely handling the real failure modes
+    seen from InvestorGain's API: None, an empty string (confirmed live
+    2026-09-17 -- ~str_closing_gain_in_per can be "" rather than missing
+    entirely, which crashed float('') and took down the whole Closed tab
+    refresh), or any other non-numeric junk. Returns None rather than
+    raising, in every case where the value isn't a clean number."""
+    if value is None:
+        return None
+    if isinstance(value, str) and value.strip() == "":
+        return None
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return None
+
+
 def scrape_listing_performance() -> dict[str, dict]:
     """Returns {normalized_company_name: {listing_price, issue_price,
     listing_gain_percent, closing_gain_percent}} from InvestorGain's
@@ -523,15 +540,14 @@ def scrape_listing_performance() -> dict[str, dict]:
         issue_price = _first_number(unescape(row.get("IPO Price", "")))
 
         gain_pct = row.get("~str_listing_gain_in_per")
-        if gain_pct is not None:
-            gain_pct = float(gain_pct)
-        else:
+        gain_pct = _safe_float(gain_pct)
+        if gain_pct is None:
             # Fallback: parse the % out of the HTML-wrapped "Listing Price"
             # fragment, e.g. "...(0.00%)</span>" -- only reached if
-            # InvestorGain ever removes the clean field above.
+            # InvestorGain ever removes/empties the clean field above.
             listing_price_html = unescape(row.get("Listing Price", ""))
             pct_match = re.search(r"\(([-\d.]+)\s*%\)", listing_price_html)
-            gain_pct = float(pct_match.group(1)) if pct_match else None
+            gain_pct = _safe_float(pct_match.group(1)) if pct_match else None
 
         listing_price = None
         if issue_price is not None and gain_pct is not None:
@@ -541,7 +557,7 @@ def scrape_listing_performance() -> dict[str, dict]:
             listing_price = _first_number(_strip_tags(listing_price_html).split("(")[0])
 
         closing_gain_pct = row.get("~str_closing_gain_in_per")
-        closing_gain_pct = float(closing_gain_pct) if closing_gain_pct is not None else None
+        closing_gain_pct = _safe_float(closing_gain_pct)
 
         result[company_name] = {
             "listing_price": listing_price,
