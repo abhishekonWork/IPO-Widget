@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import os
 import sys
+import traceback
 import threading
 import time
 from pathlib import Path
@@ -43,13 +44,15 @@ app.add_middleware(
 
 _last_refresh_ok: float | None = None
 _last_refresh_error: str | None = None
+_last_upcoming_error: str | None = None
+_last_closed_error: str | None = None
 
 
 def _refresh_loop():
     """Background thread: refreshes Open and Upcoming Mainboard IPO data on
     GMP_REFRESH_SECONDS. Deliberately conservative — sequential fetches,
     no parallel hammering of InvestorGain."""
-    global _last_refresh_ok, _last_refresh_error
+    global _last_refresh_ok, _last_refresh_error, _last_upcoming_error, _last_closed_error
     while True:
         try:
             records = scraper.scrape_open_mainboard_ipos()
@@ -64,17 +67,26 @@ def _refresh_loop():
         try:
             upcoming = scraper.scrape_upcoming_mainboard_ipos()
             scraper.save_cache(upcoming, "upcoming")
+            _last_upcoming_error = None
         except Exception as e:
+            # Full traceback (not just str(e)) -- captured here since this
+            # is the ONLY place we can see it; Render's own logs aren't
+            # easily accessible to the site owner, and a bare exception
+            # message often isn't enough to diagnose the real cause.
+            _last_upcoming_error = traceback.format_exc()
             print(f"WARNING: upcoming-tab refresh failed: {e}", file=sys.stderr)
 
         try:
             closed = scraper.scrape_closed_mainboard_ipos()
             scraper.save_cache(closed, "closed")
+            _last_closed_error = None
         except Exception as e:
-            # Previously silently swallowed -- this hid real failures (e.g.
-            # a registrar page timeout) and caused "closed" to freeze on an
-            # old fetched_at while Open/Upcoming kept refreshing fine,
-            # showing as a growing "stale" warning on the Closed tab only.
+            # Previously silently swallowed (and even after adding a print,
+            # that only went to Render's server logs, invisible to the site
+            # owner) -- this hid real failures and caused "closed" to show
+            # nothing with no visible reason why. Now captured with full
+            # traceback and exposed via /api/health.
+            _last_closed_error = traceback.format_exc()
             print(f"WARNING: closed-tab refresh failed: {e}", file=sys.stderr)
 
         time.sleep(GMP_REFRESH_SECONDS)
@@ -105,6 +117,8 @@ def health(response: Response):
         "status": "ok",
         "last_refresh_ok": _last_refresh_ok,
         "last_refresh_error": _last_refresh_error,
+        "last_upcoming_error": _last_upcoming_error,
+        "last_closed_error": _last_closed_error,
         "refresh_interval_seconds": GMP_REFRESH_SECONDS,
         "tabs": tabs,
     }
