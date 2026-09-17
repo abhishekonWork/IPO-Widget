@@ -679,7 +679,7 @@ def _save_registrar_cache(cache: dict[str, dict]) -> None:
         print(f"WARNING: could not save registrar/price-band cache: {e}", file=sys.stderr)
 
 
-def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, dict]) -> None:
+def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, dict], max_new_fetches: int = 6) -> None:
     """Mutates records in place, adding .registrar, .price_band_floor, and
     .price_band_cap -- all three come from the same individual IPO detail
     page (see scrape_ipo_detail_page), fetched ONCE per IPO and cached
@@ -687,6 +687,15 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
     ever change once an IPO is filed. Only genuinely new IPOs (not yet in
     the cache) trigger a live page fetch -- this is what makes it
     affordable to show these on every tab (Open/Upcoming/Closed).
+
+    max_new_fetches caps how many LIVE page fetches happen in a single
+    call (default 6). This matters most right after a redeploy, when the
+    cache is empty and potentially every IPO across all three tabs needs a
+    fresh fetch simultaneously -- without a cap, a burst of many new IPOs
+    could make a single refresh cycle take minutes, risking it never
+    completing (this was suspected as a possible cause of the Closed tab
+    going persistently blank -- 2026-09-17). Any IPO past the cap simply
+    waits for a later cycle; nothing is lost, just spread out over time.
 
     Note: Render's free-tier filesystem resets on every redeploy, so this
     cache persists between refresh cycles but not across deploys -- still
@@ -697,6 +706,7 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
     which needs to survive across CALENDAR DAYS, not just redeploys.)"""
     cache = _load_registrar_cache()
     cache_dirty = False
+    new_fetches_done = 0
 
     for rec in records:
         row = gmp_rows_by_name.get(rec.company_name)
@@ -720,12 +730,16 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
                 rec.price_band_cap = cached.get("price_band_cap")
             continue
 
+        if new_fetches_done >= max_new_fetches:
+            continue  # cap reached this cycle -- leave unset, pick it up next cycle instead of risking a long stall
+
         detail = scrape_ipo_detail_page(slug, ipo_id)
         rec.registrar = detail["registrar"]
         rec.price_band_floor = detail["price_band_floor"]
         rec.price_band_cap = detail["price_band_cap"]
         cache[cache_key] = detail  # caches the miss too (all-None), so we don't retry every cycle
         cache_dirty = True
+        new_fetches_done += 1
 
     if cache_dirty:
         _save_registrar_cache(cache)
