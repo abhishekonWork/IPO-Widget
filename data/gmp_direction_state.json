@@ -226,10 +226,14 @@
   "Varmora Granito": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 0.0,
+      "highest": 6.76,
       "lowest": 0.0,
       "frozen": false
-    }
+    },
+    "last_gmp": 10,
+    "last_direction": null,
+    "last_seen_day": "2026-09-17",
+    "prev_day_close_gmp": null
   },
   "ArMee Infotech": {
     "gmp_extremes": {
