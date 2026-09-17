@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 125,
-    "last_direction": "down",
+    "last_gmp": 137,
+    "last_direction": "up",
     "last_seen_day": "2026-09-17",
     "prev_day_close_gmp": 145,
     "gmp_extremes": {
@@ -36,8 +36,8 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 80,
-    "last_direction": "down",
+    "last_gmp": 120,
+    "last_direction": "up",
     "last_seen_day": "2026-09-17",
     "prev_day_close_gmp": 90,
     "gmp_extremes": {
@@ -60,8 +60,8 @@
     }
   },
   "Jindal Supreme": {
-    "last_gmp": 25,
-    "last_direction": "flat",
+    "last_gmp": 27,
+    "last_direction": "up",
     "last_seen_day": "2026-09-17",
     "prev_day_close_gmp": 25,
     "gmp_extremes": {
