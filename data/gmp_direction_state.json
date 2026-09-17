@@ -238,5 +238,13 @@
       "lowest": null,
       "frozen": false
     }
+  },
+  "Elevate Campuses": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
   }
 }
