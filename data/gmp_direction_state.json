@@ -24,7 +24,7 @@
     }
   },
   "NSE": {
-    "last_gmp": 147,
+    "last_gmp": 148,
     "last_direction": "up",
     "last_seen_day": "2026-09-17",
     "prev_day_close_gmp": 145,
@@ -36,7 +36,7 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 133,
+    "last_gmp": 135,
     "last_direction": "up",
     "last_seen_day": "2026-09-17",
     "prev_day_close_gmp": 90,
@@ -48,8 +48,8 @@
     }
   },
   "Hero Motors": {
-    "last_gmp": 7,
-    "last_direction": "down",
+    "last_gmp": 8,
+    "last_direction": "up",
     "last_seen_day": "2026-09-17",
     "prev_day_close_gmp": 13,
     "gmp_extremes": {
