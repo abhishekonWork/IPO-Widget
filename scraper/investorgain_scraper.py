@@ -276,12 +276,98 @@ def _derive_status(open_d: Optional[str], close_d: Optional[str], site_status: s
     return STATUS_MAP.get(site_status, "unknown")
 
 
+CLOSED_IPO_ARCHIVE_FILE = DATA_DIR / "closed_ipo_archive.json"
+CLOSED_IPO_RETENTION_DAYS = 10  # keep a listed IPO on the Closed tab for this many days after listing, even after InvestorGain's own live report stops including it
+
+
+def _load_closed_ipo_archive() -> dict:
+    if not CLOSED_IPO_ARCHIVE_FILE.exists():
+        return {}
+    try:
+        return json.loads(CLOSED_IPO_ARCHIVE_FILE.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_closed_ipo_archive(archive: dict) -> None:
+    try:
+        CLOSED_IPO_ARCHIVE_FILE.write_text(json.dumps(archive, indent=2), encoding="utf-8")
+    except OSError as e:
+        print(f"WARNING: could not save closed IPO archive: {e}", file=sys.stderr)
+
+
 def scrape_closed_mainboard_ipos() -> list[IPORecord]:
-    """Covers both 'closed, not yet listed' and 'listed' rows -- the GMP
-    report includes recently-closed IPOs too, so this needs no extra
-    request beyond what scrape_open/scrape_upcoming already make."""
+    """Covers both 'closed, not yet listed' and 'listed' rows.
+
+    IMPORTANT FIX (2026-09-16): InvestorGain's own live report (331) only
+    keeps actively-tracked IPOs -- once they stop tracking a listed IPO's
+    GMP (which happens some days after listing), it VANISHES from their
+    report entirely, and previously this function would silently lose it
+    too, which could make the Closed tab show stale/blank data with no
+    graceful fallback ("never updated" bug reported by the site owner).
+
+    Fix: every closed/listed IPO we see gets archived locally (with the
+    date we last actually saw it). Each refresh, we return the UNION of
+    (a) whatever InvestorGain's live report currently shows as closed, and
+    (b) anything in our own archive that hasn't aged past
+    CLOSED_IPO_RETENTION_DAYS since we last actually saw it -- even if
+    InvestorGain no longer lists it. This means a listed IPO stays visible
+    on our Closed tab for a predictable window, then gets quietly retired,
+    exactly as requested, instead of unpredictably vanishing or going stale
+    whenever InvestorGain's own tracking window ends."""
     all_rows = _scrape_gmp_report(status_filter=None)
-    return [r for r in all_rows if r.status == "closed"]
+    live_closed = [r for r in all_rows if r.status == "closed"]
+
+    archive = _load_closed_ipo_archive()
+    today = datetime.now().date()
+
+    # Update the archive with everything InvestorGain currently shows as closed.
+    for rec in live_closed:
+        archive[rec.company_name] = {
+            "record": rec.to_dict(),
+            "last_seen_date": today.isoformat(),
+        }
+
+    # Prune anything too old, and build the final list: live data takes
+    # priority (it's fresher); archived-only entries fill in anything
+    # InvestorGain has since dropped, as long as they're within the
+    # retention window.
+    live_names = {r.company_name for r in live_closed}
+    pruned_archive = {}
+    archived_only_records = []
+    for name, entry in archive.items():
+        try:
+            last_seen = datetime.fromisoformat(entry["last_seen_date"]).date()
+        except (ValueError, KeyError):
+            continue  # malformed entry -- drop it rather than risk keeping bad data forever
+        age_days = (today - last_seen).days
+        if age_days > CLOSED_IPO_RETENTION_DAYS:
+            continue  # past retention window -- quietly retire it, as requested
+        pruned_archive[name] = entry
+        if name not in live_names:
+            # InvestorGain no longer lists it live, but it's still within
+            # our retention window -- reconstruct an IPORecord from the
+            # archived dict so it still shows up on the Closed tab.
+            try:
+                archived_only_records.append(_ipo_record_from_dict(entry["record"]))
+            except Exception as e:
+                print(f"WARNING: could not reconstruct archived closed IPO {name}: {e}", file=sys.stderr)
+
+    _save_closed_ipo_archive(pruned_archive)
+    return live_closed + archived_only_records
+
+
+def _ipo_record_from_dict(d: dict) -> IPORecord:
+    """Reconstructs an IPORecord from its dict form (as produced by
+    to_dict()), for replaying an archived closed IPO back into a live
+    result list. Subscription is a nested dict and needs its own
+    reconstruction; everything else maps 1:1."""
+    d = dict(d)  # don't mutate the archived copy
+    sub_dict = d.pop("subscription", None) or {}
+    sub = Subscription(**{k: v for k, v in sub_dict.items() if k in Subscription.__dataclass_fields__})
+    known_fields = {f for f in IPORecord.__dataclass_fields__}
+    filtered = {k: v for k, v in d.items() if k in known_fields}
+    return IPORecord(subscription=sub, **filtered)
 
 
 def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
