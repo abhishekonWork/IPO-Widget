@@ -194,11 +194,11 @@
   "A-One Steels": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 13.83,
+      "highest": 14.57,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 56,
+    "last_gmp": 59,
     "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 55
@@ -226,11 +226,11 @@
   "Varmora Granito": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 7.43,
+      "highest": 10.14,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 11,
+    "last_gmp": 15,
     "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 10
@@ -246,10 +246,14 @@
   "Elevate Campuses": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 0.0,
+      "highest": 4.14,
       "lowest": 0.0,
       "frozen": false
-    }
+    },
+    "last_gmp": 15,
+    "last_direction": null,
+    "last_seen_day": "2026-09-18",
+    "prev_day_close_gmp": null
   },
   "Swastika Infra": {
     "gmp_extremes": {
@@ -266,9 +270,13 @@
   "Adroit Industries": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 0.0,
+      "highest": 16.42,
       "lowest": 0.0,
       "frozen": false
-    }
+    },
+    "last_gmp": 22,
+    "last_direction": null,
+    "last_seen_day": "2026-09-18",
+    "prev_day_close_gmp": null
   }
 }
