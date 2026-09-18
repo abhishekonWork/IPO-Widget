@@ -237,17 +237,25 @@
   },
   "ArMee Infotech": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 0.0,
+      "highest": 0.0,
+      "lowest": 0.0,
       "frozen": false
     }
   },
   "Elevate Campuses": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 0.0,
+      "highest": 0.0,
+      "lowest": 0.0,
+      "frozen": false
+    }
+  },
+  "Swastika Infra": {
+    "gmp_extremes": {
+      "opening": 0.0,
+      "highest": 0.0,
+      "lowest": 0.0,
       "frozen": false
     }
   }
