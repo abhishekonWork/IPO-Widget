@@ -60,13 +60,13 @@
     }
   },
   "Jindal Supreme": {
-    "last_gmp": 30,
-    "last_direction": "flat",
+    "last_gmp": 31,
+    "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 30,
     "gmp_extremes": {
       "opening": 26.88,
-      "highest": 32.26,
+      "highest": 33.33,
       "lowest": 26.88,
       "frozen": false
     }
