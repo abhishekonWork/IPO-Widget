@@ -36,7 +36,7 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 143,
+    "last_gmp": 145,
     "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 137,
@@ -60,7 +60,7 @@
     }
   },
   "Jindal Supreme": {
-    "last_gmp": 31,
+    "last_gmp": 26,
     "last_direction": "down",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 30,
