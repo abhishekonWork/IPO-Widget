@@ -24,20 +24,20 @@
     }
   },
   "NSE": {
-    "last_gmp": 142,
-    "last_direction": "flat",
+    "last_gmp": 105,
+    "last_direction": "down",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 142,
     "gmp_extremes": {
       "opening": 11.65,
       "highest": 11.76,
-      "lowest": 7.0,
+      "lowest": 5.88,
       "frozen": false
     }
   },
   "SS Retail": {
-    "last_gmp": 137,
-    "last_direction": "flat",
+    "last_gmp": 142,
+    "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 137,
     "gmp_extremes": {
@@ -48,25 +48,25 @@
     }
   },
   "Hero Motors": {
-    "last_gmp": 5,
-    "last_direction": "flat",
+    "last_gmp": 3,
+    "last_direction": "down",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 5,
     "gmp_extremes": {
       "opening": 28.57,
       "highest": 28.57,
-      "lowest": 6.55,
+      "lowest": 3.57,
       "frozen": false
     }
   },
   "Jindal Supreme": {
-    "last_gmp": 31,
+    "last_gmp": 32,
     "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 30,
     "gmp_extremes": {
       "opening": 26.88,
-      "highest": 33.33,
+      "highest": 34.41,
       "lowest": 26.88,
       "frozen": false
     }
