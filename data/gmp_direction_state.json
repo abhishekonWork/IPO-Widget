@@ -226,12 +226,12 @@
   "Varmora Granito": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 6.76,
+      "highest": 7.43,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 7,
-    "last_direction": "down",
+    "last_gmp": 11,
+    "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 10
   },
@@ -254,12 +254,12 @@
   "Swastika Infra": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 1.62,
+      "highest": 2.7,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 3,
-    "last_direction": null,
+    "last_gmp": 5,
+    "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": null
   },
