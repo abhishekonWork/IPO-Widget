@@ -194,12 +194,12 @@
   "A-One Steels": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 13.58,
+      "highest": 13.83,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 55,
-    "last_direction": "flat",
+    "last_gmp": 56,
+    "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 55
   },
@@ -230,8 +230,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 10,
-    "last_direction": "flat",
+    "last_gmp": 7,
+    "last_direction": "down",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 10
   },
@@ -252,6 +252,18 @@
     }
   },
   "Swastika Infra": {
+    "gmp_extremes": {
+      "opening": 0.0,
+      "highest": 1.62,
+      "lowest": 0.0,
+      "frozen": false
+    },
+    "last_gmp": 3,
+    "last_direction": null,
+    "last_seen_day": "2026-09-18",
+    "prev_day_close_gmp": null
+  },
+  "Adroit Industries": {
     "gmp_extremes": {
       "opening": 0.0,
       "highest": 0.0,
