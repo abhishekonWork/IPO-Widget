@@ -2,7 +2,7 @@
   "Manika Plastech": {
     "last_gmp": 2,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-17",
+    "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 2,
     "gmp_extremes": {
       "opening": 25.58,
@@ -13,9 +13,9 @@
   },
   "Veegaland Developers": {
     "last_gmp": 8,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-17",
-    "prev_day_close_gmp": 5,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-18",
+    "prev_day_close_gmp": 8,
     "gmp_extremes": {
       "opening": 10.71,
       "highest": 16.43,
@@ -86,7 +86,7 @@
   "Steamhouse": {
     "last_gmp": 13,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-17",
+    "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 13,
     "gmp_extremes": {
       "opening": 25.93,
@@ -134,7 +134,7 @@
   "Asset Reconstruction": {
     "last_gmp": 12,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-17",
+    "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 12,
     "gmp_extremes": {
       "opening": 10.07,
