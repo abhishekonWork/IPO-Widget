@@ -25,9 +25,9 @@
   },
   "NSE": {
     "last_gmp": 142,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-17",
-    "prev_day_close_gmp": 145,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-18",
+    "prev_day_close_gmp": 142,
     "gmp_extremes": {
       "opening": 11.65,
       "highest": 11.76,
@@ -37,9 +37,9 @@
   },
   "SS Retail": {
     "last_gmp": 137,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-17",
-    "prev_day_close_gmp": 90,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-18",
+    "prev_day_close_gmp": 137,
     "gmp_extremes": {
       "opening": 25.94,
       "highest": 34.2,
@@ -49,9 +49,9 @@
   },
   "Hero Motors": {
     "last_gmp": 5,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-17",
-    "prev_day_close_gmp": 13,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-18",
+    "prev_day_close_gmp": 5,
     "gmp_extremes": {
       "opening": 28.57,
       "highest": 28.57,
@@ -61,9 +61,9 @@
   },
   "Jindal Supreme": {
     "last_gmp": 30,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-17",
-    "prev_day_close_gmp": 25,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-18",
+    "prev_day_close_gmp": 30,
     "gmp_extremes": {
       "opening": 26.88,
       "highest": 32.26,
@@ -211,9 +211,9 @@
       "frozen": false
     },
     "last_gmp": 2,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-17",
-    "prev_day_close_gmp": 7
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-18",
+    "prev_day_close_gmp": 2
   },
   "One Mobikwik Systems": {
     "gmp_extremes": {
