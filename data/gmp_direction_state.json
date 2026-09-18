@@ -194,11 +194,11 @@
   "A-One Steels": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 14.57,
+      "highest": 14.81,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 59,
+    "last_gmp": 60,
     "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 55
@@ -270,12 +270,12 @@
   "Adroit Industries": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 16.42,
+      "highest": 27.61,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 22,
-    "last_direction": null,
+    "last_gmp": 37,
+    "last_direction": "up",
     "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": null
   }
