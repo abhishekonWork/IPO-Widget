@@ -74,7 +74,7 @@
   "Manipal Payment and Identity Solutions": {
     "last_gmp": -6,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-17",
+    "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": -6,
     "gmp_extremes": {
       "opening": -0.59,
@@ -108,14 +108,14 @@
     }
   },
   "Karamtara Engineering": {
-    "last_gmp": 48,
-    "last_direction": "flat",
-    "last_seen_day": "2026-09-17",
+    "last_gmp": 46,
+    "last_direction": "down",
+    "last_seen_day": "2026-09-18",
     "prev_day_close_gmp": 48,
     "gmp_extremes": {
       "opening": 27.95,
       "highest": 27.95,
-      "lowest": 18.9,
+      "lowest": 18.11,
       "frozen": false
     }
   },
