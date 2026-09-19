@@ -1,7 +1,7 @@
 {
   "Manika Plastech": {
-    "last_gmp": 1,
-    "last_direction": "flat",
+    "last_gmp": 2,
+    "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 1,
     "gmp_extremes": {
@@ -36,13 +36,13 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 145,
-    "last_direction": "flat",
+    "last_gmp": 146,
+    "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 145,
     "gmp_extremes": {
       "opening": 25.94,
-      "highest": 34.2,
+      "highest": 34.43,
       "lowest": 18.87,
       "frozen": false
     }
