@@ -12,6 +12,7 @@ Run with:  uvicorn api:app --reload --port 8000   (from inside backend/)
 """
 from __future__ import annotations
 
+import json
 import os
 import sys
 import traceback
@@ -49,24 +50,57 @@ _last_closed_error: str | None = None
 
 
 def _refresh_loop():
-    """Background thread: refreshes Open and Upcoming Mainboard IPO data on
-    GMP_REFRESH_SECONDS. Deliberately conservative — sequential fetches,
-    no parallel hammering of InvestorGain."""
+    """Background thread: refreshes Open, Upcoming, and Closed Mainboard
+    IPO data on GMP_REFRESH_SECONDS.
+
+    Refactored 2026-09-18: previously called scrape_open_mainboard_ipos(),
+    scrape_upcoming_mainboard_ipos(), and scrape_closed_mainboard_ipos()
+    independently -- each of those internally re-fetched InvestorGain's
+    GMP report, subscription report, and (when relevant) performance
+    report from scratch, tripling every InvestorGain request per cycle
+    for data that's identical regardless of which tab asks for it. Now
+    uses fetch_all_mainboard_data(), which fetches each report EXACTLY
+    ONCE per cycle and derives all three tabs from that single fetch.
+
+    The GMP-direction state (up/down arrows, opening/highest/lowest) is
+    similarly loaded ONCE and saved ONCE here, shared across all three
+    save_cache() calls below, instead of each call independently loading
+    and saving it (see save_cache's direction_state/persist_direction_state
+    parameters). No change to WHAT the app shows or how status filtering,
+    caching, or GitHub persistence behave -- only fewer network calls per
+    cycle, which if anything makes the 2-minute refresh MORE likely to
+    complete comfortably within its interval, not less."""
     global _last_refresh_ok, _last_refresh_error, _last_upcoming_error, _last_closed_error
     while True:
         try:
-            records = scraper.scrape_open_mainboard_ipos()
-            scraper.save_cache(records, "open")
-            _last_refresh_ok = time.time()
-            _last_refresh_error = None
-        except Exception as e:  # noqa: BLE001 — we want to survive any scrape failure
+            all_data = scraper.fetch_all_mainboard_data()
+        except Exception as e:  # noqa: BLE001 — a failure here means the SHARED fetch failed, so all three tabs share the same failure this cycle (previously each tab had its own independent fetch, but in practice a failure at InvestorGain's end affects all three near-simultaneously anyway)
+            tb = traceback.format_exc()
             _last_refresh_error = str(e)
-            # Deliberately do NOT clear the existing cache — stale-but-real
+            _last_upcoming_error = tb
+            _last_closed_error = tb
+            print(f"WARNING: shared IPO data fetch failed: {e}", file=sys.stderr)
+            # Deliberately do NOT clear any existing cache — stale-but-real
             # data beats no data or fabricated data.
+            time.sleep(GMP_REFRESH_SECONDS)
+            continue
+
+        # Load the GMP-direction state ONCE for this whole cycle, share the
+        # SAME dict across all three save_cache() calls below (each mutates
+        # it in place for its own tab's companies), then persist it ONCE
+        # at the end -- instead of each call loading/saving independently.
+        direction_state = scraper._load_gmp_direction_state()
+        state_before = json.dumps(direction_state, sort_keys=True)
 
         try:
-            upcoming = scraper.scrape_upcoming_mainboard_ipos()
-            scraper.save_cache(upcoming, "upcoming")
+            scraper.save_cache(all_data["open"], "open", direction_state=direction_state, persist_direction_state=False)
+            _last_refresh_ok = time.time()
+            _last_refresh_error = None
+        except Exception as e:
+            _last_refresh_error = str(e)
+
+        try:
+            scraper.save_cache(all_data["upcoming"], "upcoming", direction_state=direction_state, persist_direction_state=False)
             _last_upcoming_error = None
         except Exception as e:
             # Full traceback (not just str(e)) -- captured here since this
@@ -77,8 +111,7 @@ def _refresh_loop():
             print(f"WARNING: upcoming-tab refresh failed: {e}", file=sys.stderr)
 
         try:
-            closed = scraper.scrape_closed_mainboard_ipos()
-            scraper.save_cache(closed, "closed")
+            scraper.save_cache(all_data["closed"], "closed", direction_state=direction_state, persist_direction_state=False)
             _last_closed_error = None
         except Exception as e:
             # Previously silently swallowed (and even after adding a print,
@@ -88,6 +121,9 @@ def _refresh_loop():
             # traceback and exposed via /api/health.
             _last_closed_error = traceback.format_exc()
             print(f"WARNING: closed-tab refresh failed: {e}", file=sys.stderr)
+
+        if json.dumps(direction_state, sort_keys=True) != state_before:
+            scraper._save_gmp_direction_state(direction_state)
 
         time.sleep(GMP_REFRESH_SECONDS)
 
