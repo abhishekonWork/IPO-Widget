@@ -199,9 +199,9 @@
       "frozen": false
     },
     "last_gmp": 60,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-18",
-    "prev_day_close_gmp": 55
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-19",
+    "prev_day_close_gmp": 60
   },
   "Sonaselection India": {
     "gmp_extremes": {
@@ -231,9 +231,9 @@
       "frozen": false
     },
     "last_gmp": 15,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-18",
-    "prev_day_close_gmp": 10
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-19",
+    "prev_day_close_gmp": 15
   },
   "ArMee Infotech": {
     "gmp_extremes": {
@@ -251,9 +251,9 @@
       "frozen": false
     },
     "last_gmp": 15,
-    "last_direction": null,
-    "last_seen_day": "2026-09-18",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-19",
+    "prev_day_close_gmp": 15
   },
   "Swastika Infra": {
     "gmp_extremes": {
@@ -263,9 +263,9 @@
       "frozen": false
     },
     "last_gmp": 5,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-18",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-19",
+    "prev_day_close_gmp": 5
   },
   "Adroit Industries": {
     "gmp_extremes": {
@@ -275,8 +275,8 @@
       "frozen": false
     },
     "last_gmp": 37,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-18",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-19",
+    "prev_day_close_gmp": 37
   }
 }
