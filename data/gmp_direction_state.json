@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 84,
-    "last_direction": "down",
+    "last_gmp": 88,
+    "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 111,
     "gmp_extremes": {
@@ -36,32 +36,32 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 146,
+    "last_gmp": 147,
     "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 145,
     "gmp_extremes": {
       "opening": 25.94,
-      "highest": 34.43,
+      "highest": 34.67,
       "lowest": 18.87,
       "frozen": false
     }
   },
   "Hero Motors": {
-    "last_gmp": 3,
+    "last_gmp": -2,
     "last_direction": "down",
-    "last_seen_day": "2026-09-18",
-    "prev_day_close_gmp": 5,
+    "last_seen_day": "2026-09-19",
+    "prev_day_close_gmp": 3,
     "gmp_extremes": {
       "opening": 28.57,
       "highest": 28.57,
-      "lowest": 0.0,
+      "lowest": -2.38,
       "frozen": false
     }
   },
   "Jindal Supreme": {
-    "last_gmp": 26,
-    "last_direction": "flat",
+    "last_gmp": 29,
+    "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 26,
     "gmp_extremes": {
@@ -194,11 +194,11 @@
   "A-One Steels": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 15.31,
+      "highest": 15.8,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 62,
+    "last_gmp": 64,
     "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 60
@@ -212,7 +212,7 @@
     },
     "last_gmp": 2,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-18",
+    "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 2
   },
   "One Mobikwik Systems": {
@@ -230,18 +230,22 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 15,
-    "last_direction": "flat",
+    "last_gmp": 12,
+    "last_direction": "down",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 15
   },
   "ArMee Infotech": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 0.0,
+      "highest": 0.27,
       "lowest": 0.0,
       "frozen": false
-    }
+    },
+    "last_gmp": 1,
+    "last_direction": null,
+    "last_seen_day": "2026-09-19",
+    "prev_day_close_gmp": null
   },
   "Elevate Campuses": {
     "gmp_extremes": {
@@ -270,11 +274,11 @@
   "Adroit Industries": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 29.85,
+      "highest": 30.6,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 40,
+    "last_gmp": 41,
     "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 37
