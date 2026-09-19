@@ -252,6 +252,91 @@ def debug_gmp_report_raw(company: str = ""):
         return {"url_fetched": url, "error": str(e)}
 
 
+@app.get("/api/debug/gmp-page-raw")
+def debug_gmp_page_raw(company: str = "Hero"):
+    """Diagnostic: fetches the /gmp/{slug}/{id}/ page (the "Day-wise GMP
+    Trend" page the site owner has been comparing against -- a DIFFERENT
+    page from /ipo/{slug}/{id}/, which we already use for Registrar/Price
+    Band) and dumps its structure so we can see EXACTLY where the live GMP
+    figure lives in the HTML before writing any parsing logic. Same
+    careful, evidence-first approach used for every other field on this
+    site. Safe to remove once this is confirmed working.
+
+    Pass ?company=Hero (or any substring) to pick which currently-tracked
+    IPO to test against."""
+    try:
+        raw_rows = scraper.fetch_report(scraper.GMP_REPORT_ID)
+    except Exception as e:
+        return {"error": f"Could not fetch raw GMP report: {e}"}
+
+    matching_row = None
+    matched_name = None
+    for row in raw_rows:
+        name, _cat, _status = scraper._parse_name_cell(row.get("Name", ""))
+        if name and company.lower() in name.lower():
+            matching_row = row
+            matched_name = name
+            break
+    if not matching_row:
+        return {"error": f"No IPO matching '{company}' found in the current live report"}
+
+    slug, ipo_id = scraper._extract_url_slug_and_id(matching_row)
+    if not slug or not ipo_id:
+        return {"error": f"Could not extract slug/id for {matched_name}", "raw_row": matching_row}
+
+    url = f"https://www.investorgain.com/gmp/{slug}/{ipo_id}/"
+    try:
+        resp = scraper.requests.get(url, headers=scraper.HEADERS, timeout=scraper.REQUEST_TIMEOUT)
+        resp.raise_for_status()
+    except Exception as e:
+        return {"error": f"Could not fetch GMP page: {e}", "url_tried": url}
+
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(resp.text, "html.parser")
+
+    # Any two-column table rows (same structure as the /ipo/ page, in case
+    # this page ALSO has one)
+    table_rows = []
+    for row_el in soup.find_all("tr"):
+        cells = row_el.find_all(["td", "th"])
+        if len(cells) == 2:
+            label = scraper._strip_tags(cells[0].get_text()).strip()
+            value = scraper._strip_tags(cells[1].get_text()).strip()
+            table_rows.append({"label": label, "value": value})
+
+    # Any element whose class name hints at GMP/price/live -- likely where
+    # the stat-card figure actually lives, since this page probably isn't
+    # a simple table for its headline number.
+    candidate_elements = []
+    for el in soup.find_all(class_=True):
+        classes = " ".join(el.get("class", [])).lower()
+        if any(hint in classes for hint in ["gmp", "live", "price", "stat", "card"]):
+            text = scraper._strip_tags(el.get_text()).strip()
+            if text and len(text) < 200:  # skip huge wrapper containers, keep only compact leaf-ish text
+                candidate_elements.append({"tag": el.name, "class": el.get("class"), "text": text})
+
+    # Raw text search for "GMP" as a last resort -- shows surrounding
+    # context even if it's in a paragraph rather than a labeled element.
+    full_text = scraper._strip_tags(resp.text)
+    gmp_mentions = []
+    idx = 0
+    lower_text = full_text.lower()
+    while True:
+        idx = lower_text.find("gmp", idx)
+        if idx == -1 or len(gmp_mentions) >= 8:
+            break
+        gmp_mentions.append(full_text[max(0, idx - 40):idx + 60].strip())
+        idx += 3
+
+    return {
+        "company_tested": matched_name,
+        "url_fetched": url,
+        "two_column_table_rows": table_rows,
+        "candidate_gmp_related_elements": candidate_elements[:30],  # cap for readability
+        "raw_text_context_around_gmp_mentions": gmp_mentions,
+    }
+
+
 @app.get("/api/debug/price-band-raw")
 def debug_price_band_raw():
     """Diagnostic: fetches ONE real, currently-open IPO's individual detail
