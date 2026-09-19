@@ -11,8 +11,8 @@ Total cost: ₹0. No credit card needed anywhere in this guide.
 
 1. A GitHub account — free code storage that Render reads from.
 2. A Render account — free hosting that runs your app 24/7.
-3. (Optional but recommended) A UptimeRobot account — keeps the free
-   Render app from "falling asleep" between visits.
+3. (Optional but recommended) A free cron-ping account (cron-job.org) —
+   keeps the free Render app from "falling asleep" between visits.
 
 ---
 
@@ -70,10 +70,10 @@ Render's free tier pauses your app after 15 minutes with no visitors, and
 takes ~30-50 seconds to wake back up on the next visit. To avoid that
 first-load delay:
 
-1. Go to [uptimerobot.com](https://uptimerobot.com) → sign up free.
-2. **Add New Monitor** → type **HTTP(s)** → paste your
-   `.../api/health` URL → set check interval to **5 minutes** → save.
-3. UptimeRobot will now "ping" your app every 5 minutes, keeping it awake
+1. Go to [cron-job.org](https://cron-job.org) → sign up free.
+2. **Create cronjob** → paste your `.../api/health` URL → set the
+   schedule to every **5 minutes** → save.
+3. cron-job.org will now visit your app every 5 minutes, keeping it awake
    almost all the time, for free.
 
 ---
