@@ -16,3 +16,5 @@ services:
         value: "*"
       - key: DISABLE_BACKGROUND_REFRESH
         value: "0"
+      - key: DEBUG_ENDPOINTS_ENABLED
+        value: "0"
