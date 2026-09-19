@@ -1,73 +1,86 @@
-# Mainboard IPOs Live — Widget
+# IPOAbhi — Invest se Pehle Observe
 
-A mobile-first dashboard that shows currently-open (and upcoming/closed)
-Indian **Mainboard** IPOs — GMP, QIB/NII/Retail/Total subscription, issue
-size, and key dates — pulled from InvestorGain.com. SME IPOs are always
-excluded.
+A mobile-first tracker for currently-open, upcoming, and recently-closed
+Indian **Mainboard** IPOs — live GMP with up/down movement, full
+subscription breakdown (QIB/SHNI/BHNI/NII/Retail/Total), registrar, price
+band, and key dates. SME IPOs are always excluded. Data comes from
+InvestorGain.com, refreshed automatically every 2 minutes.
 
-**Want this on your phone, working anywhere, for free? → See
-`START-HERE.md` / `DEPLOY.md`.** Everything below is technical background
-for anyone curious how it's built.
+Live at: `https://ipo-widget.onrender.com/app/index.html`
 
-## Current status
+## What it does
 
-- **Data source confirmed and verified against real captured traffic**
-  (see `network_capture.txt` used during development). The scraper reads
-  InvestorGain's own internal JSON API directly — no browser automation
-  needed.
-- Backend, frontend, caching, refresh logic, and PWA install are all
-  complete and ready to use.
+- **GMP tracking** — current value, percent, and a live up/down/unchanged
+  indicator based on real movement since the last check (not just "did a
+  refresh happen"). Also shows each IPO's opening GMP and all-time
+  high/low, which freeze once the IPO actually lists.
+- **Subscription** — QIB, Small HNI, Big HNI, NII, Retail, and Total,
+  shown as "Not Started" until real bidding data exists (never a fake 0x).
+- **Registrar and price band** — fetched once per IPO and cached
+  permanently, since neither ever changes after filing.
+- **Closed tab retention** — a listed IPO stays visible for 10 days after
+  InvestorGain stops actively tracking it, then quietly drops off, instead
+  of vanishing or going stale the moment InvestorGain's own tracking window
+  ends.
+- **Installable as a home-screen app** (Add to Home Screen) — works fully
+  offline for the app shell; live data always requires a connection.
 
-## How the pieces fit together
+## How it's built
 
 ```
-ipo-widget/
+IPO-Widget/
 ├── scraper/
-│   ├── models.py                  # the normalized data shape
-│   └── investorgain_scraper.py    # calls InvestorGain's own JSON API
-│                                   # directly (see file header for the
-│                                   # exact endpoints and field mapping)
+│   ├── models.py                  # IPORecord / Subscription data shapes
+│   └── investorgain_scraper.py    # reads InvestorGain's own JSON report
+│                                   # API directly (no browser automation)
+│                                   # — see the file's own header comments
+│                                   # for the exact report IDs and fields
 ├── backend/
-│   └── api.py                     # FastAPI server: refreshes the scraper
-│                                   # on a timer, serves JSON, also serves
-│                                   # the frontend at /app so ONE deployed
-│                                   # service does everything
+│   └── api.py                     # FastAPI server: runs the refresh loop,
+│                                   # serves JSON, also serves the frontend
+│                                   # at /app so one deployed service does
+│                                   # everything
 ├── frontend/
 │   ├── index.html / app.js / style.css   # the dashboard itself
-│   ├── manifest.json / sw.js             # what makes it "Add to Home
-│                                            Screen"-able
-├── data/
-│   └── ipo_cache.json             # last-known-good data (auto-created)
+│   ├── manifest.json / sw.js             # PWA / "Add to Home Screen"
+├── data/                          # auto-created; local cache files (see
+│                                   # note on GITHUB_TOKEN below)
 ├── requirements.txt
-├── render.yaml                    # one-click free deploy config for Render
+├── render.yaml                    # Render deploy config
 ├── .env.example
-├── DEPLOY.md                      # step-by-step: get this on your phone, free
-└── README.md   ← you are here
+└── DEPLOY.md                      # step-by-step first-time deploy guide
 ```
 
-**Why a direct API call instead of a headless browser?**
-InvestorGain's GMP/Subscription tables are filled in by the page's own
-JavaScript, which calls a plain JSON endpoint
-(`webnodejs.investorgain.com/cloud/v2/report/data-read/...`). Earlier
-versions of this project used Playwright (a real, invisible Chrome
-browser) to work around that — calling the same JSON endpoint directly is
-simpler, faster, and much lighter to deploy (no Chromium download needed).
+**Why a direct API call instead of a headless browser?** InvestorGain's
+own tables are filled in by a plain JSON endpoint
+(`webnodejs.investorgain.com/cloud/v2/report/data-read/...`). Calling that
+directly is far lighter than running a real browser (Playwright) server-side
+— no Chromium download, faster refreshes, cheaper to host free.
 
-**Why a PWA instead of a native Android widget?**
-A true Android home-screen widget (the little live box) needs to be built
-as a compiled Android app (Kotlin + Android Studio + an APK) — a
-different toolchain entirely. A PWA gets you full-screen, one-tap access
-from your home screen with almost none of that overhead — you "Add to
-Home Screen" from Chrome and it behaves like an app icon. If you want the
-true native widget later, the backend API here is exactly what it would
-call — nothing would need to be rebuilt, just a new Android front-end
-added.
+**One refresh cycle, one fetch.** Each report (GMP, subscription,
+performance) is fetched exactly once per 2-minute cycle and shared across
+the Open/Upcoming/Closed tabs, rather than each tab re-fetching
+independently.
 
-## Running it (for local testing/development only)
+## Required setup: GITHUB_TOKEN
 
-Most people should just follow `DEPLOY.md` instead — it gets you a
-permanent phone-ready link with no local setup. This section is for
-poking at the code itself.
+GMP direction (up/down/unchanged) needs to remember each IPO's previous
+value — including across deploys, and across the specific "compare to
+yesterday's close" rule the direction indicator uses. Render's free tier
+wipes local disk on every redeploy, so that memory is instead saved back
+into this repo (`data/gmp_direction_state.json`) via GitHub's API.
+
+To enable this:
+1. Create a GitHub **fine-grained personal access token**, scoped to
+   **only this repository**, with **Contents: Read and write** permission
+   and nothing else.
+2. Add it in Render's dashboard → your service → **Environment** tab, as
+   `GITHUB_TOKEN`. Never commit a token into this repo's files.
+
+Without it, the app still works fully — GMP direction just resets after
+each redeploy instead of persisting.
+
+## Running locally (for development only)
 
 ```bash
 pip install -r requirements.txt
@@ -76,48 +89,23 @@ cd backend
 uvicorn api:app --reload --port 8000
 ```
 
-Then visit `http://localhost:8000/app/index.html`. Check
-`http://localhost:8000/api/health` to confirm the background refresh is
-working.
+Visit `http://localhost:8000/app/index.html`. Check
+`http://localhost:8000/api/health` to confirm the refresh loop is running.
 
-## Changing the refresh interval
-
-Edit `GMP_REFRESH_SECONDS` / `SUBSCRIPTION_REFRESH_SECONDS` in `.env`
-(locally) or in the Render dashboard's Environment tab (deployed), and
-also update `REFRESH_MS` near the top of `frontend/app.js` to match (it
-controls how often the *frontend* re-polls the backend, and is used to
-compute the "Next Update" time shown on screen).
-
-## How the widget gets "updated"
-
-There's no push mechanism — the frontend polls the backend every
-`REFRESH_MS`, and the backend independently refreshes its own cache from
-InvestorGain every `GMP_REFRESH_SECONDS` on a background timer. They
-don't have to be the same interval, but keeping them close avoids the
-frontend polling for data that hasn't actually changed yet.
+Diagnostic endpoints (`/api/debug/*`) are disabled by default in
+production. Set `DEBUG_ENDPOINTS_ENABLED=1` locally, or temporarily in
+Render's Environment tab, to use them.
 
 ## Known limitations
 
-- **iOS**: "Add to Home Screen" also works in Safari, but iOS PWAs have
-  weaker background-refresh support than Android — the app will refresh
-  when opened, but won't reliably update while closed.
-- **GMP is unofficial** — always labeled "Indicative" per the spec; this
-  app never claims it as a guaranteed listing price.
-- If InvestorGain changes their internal API shape, the scraper will need
-  a small update — see the `--inspect` / `--inspect-subscription` flags
-  in `investorgain_scraper.py` to capture the new shape for a fix.
-- **Render's free tier sleeps after 15 min of inactivity** and takes
-  ~30-50s to wake up on the next visit — `DEPLOY.md` includes an optional
-  free step (UptimeRobot) to minimize this.
-
-## Testing checklist
-
-- [ ] Only Mainboard IPOs appear; SME IPOs are excluded
-- [ ] GMP displays, or "Not Available" if missing — never a guessed number
-- [ ] QIB/NII/Retail/Total subscription display correctly, or "Not Started"
-- [ ] Issue size, Open/Close/BOA/Listing dates display correctly
-- [ ] Upcoming tab shows IPOs with subscription "Not Started"
-- [ ] A field InvestorGain doesn't have doesn't break the card layout
-- [ ] Pulling/refreshing updates the "Last Updated" timestamp
-- [ ] Losing connectivity shows the stale-data warning, not fake fresh data
-- [ ] Layout is comfortable on an actual phone screen
+- **iOS**: "Add to Home Screen" works in Safari, but iOS PWAs have weaker
+  background refresh than Android — data updates when the app is opened,
+  not reliably while it's closed.
+- **GMP is unofficial** — always labeled "Indicative"; never presented as
+  a guaranteed listing price.
+- **Render's free tier sleeps after ~15 min of inactivity**, adding a
+  30–50s delay on the next visit. A free external cron ping (see
+  `DEPLOY.md`) keeps it mostly awake.
+- If InvestorGain changes their report structure, the scraper will need a
+  small update — the `/api/debug/*` endpoints (see above) exist for
+  exactly this kind of troubleshooting.
