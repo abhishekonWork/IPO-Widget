@@ -1,0 +1,25 @@
+# Local Python noise
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local environment config (copy .env.example instead)
+.env
+
+# Old CLI debug-dump artifacts (the flags that created these were removed
+# 2026-09-19; kept here in case anyone still has an old local checkout)
+debug_gmp_report.json
+debug_subscription_report.json
+
+# Local cache/state files -- these are regenerated automatically on first
+# run and don't need to be committed for local development.
+#
+# IMPORTANT: data/gmp_direction_state.json is the ONE exception -- it is
+# committed to GitHub ON PURPOSE by the app itself (see
+# _save_gmp_direction_state in scraper/investorgain_scraper.py), because
+# Render's free tier wipes local disk on every redeploy, and this file is
+# how the GMP up/down/unchanged memory survives that. Do not add it here.
+data/ipo_cache.json
+data/registrar_cache.json
+data/closed_ipo_archive.json
