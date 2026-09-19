@@ -194,12 +194,12 @@
   "A-One Steels": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 14.81,
+      "highest": 15.31,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 60,
-    "last_direction": "flat",
+    "last_gmp": 62,
+    "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 60
   },
@@ -246,12 +246,12 @@
   "Elevate Campuses": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 4.14,
+      "highest": 4.42,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 15,
-    "last_direction": "flat",
+    "last_gmp": 16,
+    "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 15
   },
@@ -262,20 +262,20 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 5,
-    "last_direction": "flat",
+    "last_gmp": 3,
+    "last_direction": "down",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 5
   },
   "Adroit Industries": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 27.61,
+      "highest": 29.85,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 37,
-    "last_direction": "flat",
+    "last_gmp": 40,
+    "last_direction": "up",
     "last_seen_day": "2026-09-19",
     "prev_day_close_gmp": 37
   }
