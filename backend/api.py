@@ -31,8 +31,19 @@ import investorgain_scraper as scraper  # noqa: E402
 load_dotenv()
 
 GMP_REFRESH_SECONDS = int(os.getenv("GMP_REFRESH_SECONDS", "120"))          # 2 min
-SUBSCRIPTION_REFRESH_SECONDS = int(os.getenv("SUBSCRIPTION_REFRESH_SECONDS", "120"))
-METADATA_REFRESH_SECONDS = int(os.getenv("METADATA_REFRESH_SECONDS", "3600"))  # 1 hr
+# This is the ONE real timer in the app: GMP, subscription, issue size,
+# price band, and dates are all fetched together in a single combined
+# step every GMP_REFRESH_SECONDS (see scraper.fetch_all_mainboard_data)
+# -- there is no separate schedule for subscription or "metadata".
+# Registrar and price band are the one exception: fetched ONCE per IPO,
+# ever, and cached permanently (they never change after filing), not on
+# any repeating timer at all.
+#
+# (Cleanup 2026-09-19: previously read two more env vars here,
+# SUBSCRIPTION_REFRESH_SECONDS and METADATA_REFRESH_SECONDS, which looked
+# like they controlled their own separate refresh schedules but were
+# never actually wired to anything -- pure leftover confusion from an
+# earlier design, removed with no change in behavior.)
 
 # /api/debug/* endpoints expose internal operational details (repo file
 # paths, raw InvestorGain report contents, whether GITHUB_TOKEN is
