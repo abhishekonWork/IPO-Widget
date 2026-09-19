@@ -8,10 +8,6 @@ services:
     envVars:
       - key: GMP_REFRESH_SECONDS
         value: "120"
-      - key: SUBSCRIPTION_REFRESH_SECONDS
-        value: "120"
-      - key: METADATA_REFRESH_SECONDS
-        value: "3600"
       - key: ALLOWED_ORIGINS
         value: "*"
       - key: DISABLE_BACKGROUND_REFRESH
