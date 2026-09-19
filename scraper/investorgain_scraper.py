@@ -31,7 +31,6 @@ essentially all year except right at a Dec -> Jan boundary.
 """
 from __future__ import annotations
 
-import argparse
 import base64
 import json
 import os
@@ -1162,26 +1161,15 @@ def load_cache(key: str = "open") -> dict:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--inspect", action="store_true",
-                         help="Dump the raw GMP-report JSON instead of parsing, "
-                              "for diffing against this file's assumptions")
-    parser.add_argument("--inspect-subscription", action="store_true",
-                         help="Dump the raw subscription-report JSON")
-    args = parser.parse_args()
-
-    if args.inspect:
-        r = requests.get(_report_url(GMP_REPORT_ID), headers=HEADERS, timeout=REQUEST_TIMEOUT)
-        Path("debug_gmp_report.json").write_text(r.text, encoding="utf-8")
-        print(f"HTTP {r.status_code}. Saved raw response to debug_gmp_report.json")
-    elif args.inspect_subscription:
-        r = requests.get(_report_url(SUBSCRIPTION_REPORT_ID), headers=HEADERS, timeout=REQUEST_TIMEOUT)
-        Path("debug_subscription_report.json").write_text(r.text, encoding="utf-8")
-        print(f"HTTP {r.status_code}. Saved raw response to debug_subscription_report.json")
-    else:
-        recs = scrape_open_mainboard_ipos()
-        save_cache(recs, "open")
-        print(f"Fetched {len(recs)} open Mainboard IPOs. Cached to {CACHE_FILE}")
-        for r in recs:
-            print(f"  - {r.company_name}: GMP {r.gmp}, Sub {r.subscription.total}x, "
-                  f"{r.open_date} -> {r.close_date}")
+    # Quick local sanity check: run the scraper once, print what it found.
+    # (The old --inspect / --inspect-subscription raw-dump flags were
+    # removed 2026-09-19 -- fully superseded by the live /api/debug/
+    # gmp-report-raw and /api/debug/subscription-raw endpoints, which need
+    # no local setup and also cover price-band/registrar, which these
+    # flags never did.)
+    recs = scrape_open_mainboard_ipos()
+    save_cache(recs, "open")
+    print(f"Fetched {len(recs)} open Mainboard IPOs. Cached to {CACHE_FILE}")
+    for r in recs:
+        print(f"  - {r.company_name}: GMP {r.gmp}, Sub {r.subscription.total}x, "
+              f"{r.open_date} -> {r.close_date}")
