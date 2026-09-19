@@ -201,7 +201,15 @@ def _first_number(text: str) -> Optional[float]:
 
 
 def _parse_date(day_month: Optional[str]) -> Optional[str]:
-    """'28-Aug' -> '2026-08-28'. API gives no year; assumes current year."""
+    """'28-Aug' -> '2026-08-28'. API gives no year; assumes current year.
+    This can be wrong for an IPO whose open date is in December and
+    close/BoA/listing date is in January -- both would get stamped with
+    the SAME year, making close appear to come before open. See
+    _roll_year_if_before_open, which corrects exactly this case; it's
+    applied by the caller (using the open date as an anchor), not here,
+    since this function only ever sees one date at a time and has no way
+    to know which other date in the same IPO's timeline it should be
+    compared against."""
     if not day_month:
         return None
     day_month = day_month.strip()
@@ -210,6 +218,33 @@ def _parse_date(day_month: Optional[str]) -> Optional[str]:
         return dt.strftime("%Y-%m-%d")
     except ValueError:
         return day_month or None  # fall back to raw text rather than losing the data
+
+
+def _roll_year_if_before_open(date_iso: Optional[str], open_date_iso: Optional[str]) -> Optional[str]:
+    """Fixes the December-open/January-close year-guessing bug: if
+    date_iso's MONTH is earlier than open_date_iso's month (e.g. open is
+    December, close/BoA/listing is January), the later date must actually
+    fall in the FOLLOWING year -- an IPO's timeline only ever moves
+    forward (open -> close -> BoA -> listing), never backward.
+
+    IMPORTANT: only call this on a date that came from _parse_date's
+    year-GUESSING fallback. InvestorGain's own pre-formatted ~Srt_Open /
+    ~Srt_Close / ~Srt_BoA_Dt / ~Str_Listing fields already carry the
+    correct year and must NEVER be passed through this correction -- doing
+    so would roll an already-correct January date forward by an extra,
+    wrong year. See the call site in the row-parsing loop below, which
+    only applies this when the corresponding ~Srt_* field was absent."""
+    if not date_iso or not open_date_iso:
+        return date_iso
+    try:
+        d = datetime.strptime(date_iso, "%Y-%m-%d")
+        o = datetime.strptime(open_date_iso, "%Y-%m-%d")
+    except ValueError:
+        return date_iso  # not a clean ISO date (e.g. raw fallback text) -- leave it alone rather than guess further
+    if d.month < o.month:
+        d = d.replace(year=d.year + 1)
+        return d.strftime("%Y-%m-%d")
+    return date_iso
 
 
 def _parse_name_cell(raw_html: str) -> tuple[Optional[str], str, str]:
@@ -455,6 +490,19 @@ def _fetch_and_build_all_records() -> list[IPORecord]:
         close_d = row.get("~Srt_Close") or _parse_date(row.get("Close"))
         boa_d = row.get("~Srt_BoA_Dt") or _parse_date(row.get("BoA Dt"))
         listing_d = row.get("~Str_Listing") or _parse_date(row.get("Listing"))
+
+        # Year-boundary fix: only applies when we had to GUESS the year via
+        # _parse_date's fallback (i.e. InvestorGain's own ~Srt_* field was
+        # missing for that specific date) -- never touches the ~Srt_*
+        # fields themselves, which already carry the correct year. Fixes a
+        # December-open/January-close IPO where both dates would otherwise
+        # get stamped with the same year, making close appear to precede open.
+        if not row.get("~Srt_Close"):
+            close_d = _roll_year_if_before_open(close_d, open_d)
+        if not row.get("~Srt_BoA_Dt"):
+            boa_d = _roll_year_if_before_open(boa_d, open_d)
+        if not row.get("~Str_Listing"):
+            listing_d = _roll_year_if_before_open(listing_d, open_d)
         updated_text = _strip_tags(row.get("Updated-On", "")) or None
 
         status = _derive_status(open_d, close_d, site_status_text)
