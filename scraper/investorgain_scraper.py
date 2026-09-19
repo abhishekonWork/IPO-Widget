@@ -296,28 +296,13 @@ def _save_closed_ipo_archive(archive: dict) -> None:
         print(f"WARNING: could not save closed IPO archive: {e}", file=sys.stderr)
 
 
-def scrape_closed_mainboard_ipos() -> list[IPORecord]:
-    """Covers both 'closed, not yet listed' and 'listed' rows.
-
-    IMPORTANT FIX (2026-09-16): InvestorGain's own live report (331) only
-    keeps actively-tracked IPOs -- once they stop tracking a listed IPO's
-    GMP (which happens some days after listing), it VANISHES from their
-    report entirely, and previously this function would silently lose it
-    too, which could make the Closed tab show stale/blank data with no
-    graceful fallback ("never updated" bug reported by the site owner).
-
-    Fix: every closed/listed IPO we see gets archived locally (with the
-    date we last actually saw it). Each refresh, we return the UNION of
-    (a) whatever InvestorGain's live report currently shows as closed, and
-    (b) anything in our own archive that hasn't aged past
-    CLOSED_IPO_RETENTION_DAYS since we last actually saw it -- even if
-    InvestorGain no longer lists it. This means a listed IPO stays visible
-    on our Closed tab for a predictable window, then gets quietly retired,
-    exactly as requested, instead of unpredictably vanishing or going stale
-    whenever InvestorGain's own tracking window ends."""
-    all_rows = _scrape_gmp_report(status_filter=None)
-    live_closed = [r for r in all_rows if r.status == "closed"]
-
+def _merge_closed_with_archive(live_closed: list[IPORecord]) -> list[IPORecord]:
+    """Extracted from scrape_closed_mainboard_ipos so both the standalone
+    entry point and the single-fetch orchestrator (fetch_all_mainboard_data)
+    can reuse the exact same archive-merge logic without duplicating it.
+    See scrape_closed_mainboard_ipos's docstring for why this archive
+    exists (InvestorGain's live report drops listed IPOs after some days;
+    we keep showing them for CLOSED_IPO_RETENTION_DAYS regardless)."""
     archive = _load_closed_ipo_archive()
     today = datetime.now().date()
 
@@ -357,6 +342,53 @@ def scrape_closed_mainboard_ipos() -> list[IPORecord]:
     return live_closed + archived_only_records
 
 
+def scrape_closed_mainboard_ipos() -> list[IPORecord]:
+    """Covers both 'closed, not yet listed' and 'listed' rows.
+
+    Standalone entry point (CLI script, diagnostic endpoints) -- does its
+    own full fetch when called alone. For the live backend's refresh loop,
+    which needs Open/Upcoming/Closed together every cycle, use
+    fetch_all_mainboard_data() instead -- see its docstring.
+
+    IMPORTANT FIX (2026-09-16): InvestorGain's own live report (331) only
+    keeps actively-tracked IPOs -- once they stop tracking a listed IPO's
+    GMP (which happens some days after listing), it VANISHES from their
+    report entirely, and previously this function would silently lose it
+    too, which could make the Closed tab show stale/blank data with no
+    graceful fallback ("never updated" bug reported by the site owner).
+
+    Fix: every closed/listed IPO we see gets archived locally (with the
+    date we last actually saw it) -- see _merge_closed_with_archive."""
+    all_rows = _scrape_gmp_report(status_filter=None)
+    live_closed = [r for r in all_rows if r.status == "closed"]
+    return _merge_closed_with_archive(live_closed)
+
+
+def fetch_all_mainboard_data() -> dict[str, list[IPORecord]]:
+    """Fetches GMP report 331, subscription report 333, and listing-
+    performance report 377 EXACTLY ONCE EACH, then derives Open, Upcoming,
+    and Closed lists from that single fetch. This is the entry point the
+    live backend's refresh loop should use (see backend/api.py's
+    _refresh_loop) -- it replaces the previous approach of calling
+    scrape_open_mainboard_ipos(), scrape_upcoming_mainboard_ipos(), and
+    scrape_closed_mainboard_ipos() independently every cycle, each of
+    which re-fetched all three reports from scratch (tripling every
+    InvestorGain request per cycle for no benefit, since the underlying
+    data is identical regardless of which tab asks for it).
+
+    Refactored 2026-09-18 at the site owner's request. No change to WHAT
+    data is shown or how status/caching/GitHub-persistence behave --
+    Closed still gets the exact same archive-merge treatment as the
+    standalone scrape_closed_mainboard_ipos(). Only the number of network
+    calls per refresh cycle changes."""
+    all_records = _fetch_and_build_all_records()
+    open_records = [r for r in all_records if r.status == "open"]
+    upcoming_records = [r for r in all_records if r.status == "upcoming"]
+    live_closed = [r for r in all_records if r.status == "closed"]
+    closed_records = _merge_closed_with_archive(live_closed)
+    return {"open": open_records, "upcoming": upcoming_records, "closed": closed_records}
+
+
 def _ipo_record_from_dict(d: dict) -> IPORecord:
     """Reconstructs an IPORecord from its dict form (as produced by
     to_dict()), for replaying an archived closed IPO back into a live
@@ -370,13 +402,25 @@ def _ipo_record_from_dict(d: dict) -> IPORecord:
     return IPORecord(subscription=sub, **filtered)
 
 
-def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
+def _fetch_and_build_all_records() -> list[IPORecord]:
+    """Fetches GMP report 331, subscription report 333, and listing-
+    performance report 377 EXACTLY ONCE EACH, and builds an IPORecord for
+    every mainboard IPO currently in the GMP report -- every status
+    (open/upcoming/closed), unfiltered. Callers filter by .status
+    afterward (see _scrape_gmp_report and fetch_all_mainboard_data below).
+
+    Refactored 2026-09-18 at the site owner's request: previously, each of
+    scrape_open_mainboard_ipos() / scrape_upcoming_mainboard_ipos() /
+    scrape_closed_mainboard_ipos() called _scrape_gmp_report(status_filter=...)
+    independently, and EACH of those calls re-fetched all three reports
+    from scratch -- tripling every InvestorGain request per refresh cycle
+    for no benefit, since the underlying data is identical regardless of
+    which tab is asking. This function is the single source of truth: one
+    fetch, one build, reused by every tab in a given cycle. No change to
+    WHAT data is shown -- only how many network calls it costs to produce it."""
     rows = fetch_report(GMP_REPORT_ID)
     sub_map = scrape_subscription_breakdown()
-    # Only worth fetching the performance report when we might actually
-    # show closed/listed IPOs -- skip the extra request for a pure "open"
-    # or "upcoming" call.
-    perf_map = scrape_listing_performance() if status_filter in (None, "closed") else {}
+    perf_map = scrape_listing_performance()  # always fetched once now (previously conditionally skipped per-call, but skipping no longer saves anything since this function itself is only ever called once per cycle by its callers below)
     records: list[IPORecord] = []
 
     for row in rows:
@@ -414,8 +458,6 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
         updated_text = _strip_tags(row.get("Updated-On", "")) or None
 
         status = _derive_status(open_d, close_d, site_status_text)
-        if status_filter and status != status_filter:
-            continue
 
         rec = IPORecord(
             company_name=company_name,
@@ -456,10 +498,11 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
 
         records.append(rec)
 
-    # Registrar is cheap here because enrich_with_registrar caches by IPO id
-    # permanently (see its docstring) -- only genuinely new IPOs trigger a
-    # live page fetch, so this is safe to run for every tab (Open/Upcoming/
-    # Closed), not just Open.
+    # Registrar/price-band enrichment now runs ONCE here on the full,
+    # unfiltered set -- instead of once per tab on each tab's filtered
+    # subset, which previously meant the same lookups (and the same
+    # per-cycle new-fetch cap, see enrich_with_registrar's max_new_fetches)
+    # were redundantly repeated up to three times per refresh cycle.
     try:
         rows_by_name = {}
         for row in rows:
@@ -471,6 +514,26 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
         print(f"WARNING: registrar enrichment skipped: {e}", file=sys.stderr)
 
     return records
+
+
+def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
+    """Standalone/back-compat entry point -- fetches everything fresh
+    (via _fetch_and_build_all_records) and filters by status. Used by
+    scrape_open_mainboard_ipos/scrape_upcoming_mainboard_ipos/
+    scrape_closed_mainboard_ipos for standalone calls (CLI script,
+    diagnostic endpoints) where only one tab's data is wanted in
+    isolation -- each such call still does its own full fetch, exactly as
+    before.
+
+    For the live backend's refresh loop, which needs all three tabs
+    together every cycle, use fetch_all_mainboard_data() instead -- that
+    one fetches ONCE and derives all three tabs from the single result,
+    rather than calling this function (and therefore re-fetching) three
+    separate times."""
+    all_records = _fetch_and_build_all_records()
+    if status_filter is None:
+        return all_records
+    return [r for r in all_records if r.status == status_filter]
 
 
 def _normalize_company_name(name: str) -> str:
@@ -926,7 +989,12 @@ def _update_gmp_extremes(company_name: str, new_gmp_percent, status: str, state:
     return {"opening": extremes["opening"], "highest": extremes["highest"], "lowest": extremes["lowest"]}
 
 
-def save_cache(records: list[IPORecord], key: str = "open") -> None:
+def save_cache(
+    records: list[IPORecord],
+    key: str = "open",
+    direction_state: Optional[dict] = None,
+    persist_direction_state: bool = True,
+) -> None:
     """Writes cache with THREE honest timestamps instead of one that
     conflates "we tried" with "data actually changed":
       - attempted_at: every call, no matter what (proves the refresh loop
@@ -948,7 +1016,20 @@ def save_cache(records: list[IPORecord], key: str = "open") -> None:
     company -- explicitly None (not "flat") when there's no prior value to
     compare against, so a brand-new IPO never shows a fake "unchanged"
     signal. This is decision-relevant data, so correctness here matters
-    more than in most of the app -- see the docstring on _compute_gmp_direction."""
+    more than in most of the app -- see the docstring on _compute_gmp_direction.
+
+    direction_state / persist_direction_state (added 2026-09-18): by
+    default (both left as-is), this function is fully self-contained --
+    loads the GMP-direction state itself, computes, and saves it back --
+    identical to how it always worked. The live backend's refresh loop
+    calls this three times per cycle (once per tab); to avoid loading and
+    saving that same state three separate times for no reason, it can now
+    load the state ONCE, pass the SAME dict into all three calls with
+    persist_direction_state=False, then save it ONCE itself at the end.
+    Passing a pre-loaded direction_state implies the caller is responsible
+    for persisting it -- persist_direction_state is ignored (treated as
+    False) whenever direction_state is provided, so the shared object
+    never gets written by more than one place."""
     cache = {}
     if CACHE_FILE.exists():
         cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
@@ -964,21 +1045,22 @@ def save_cache(records: list[IPORecord], key: str = "open") -> None:
     # naturally stops changing on its own -- no special-casing needed here,
     # the direction will just stay flat/last-known since nothing new comes in.
     if key in ("open", "upcoming", "closed"):
-        direction_state = _load_gmp_direction_state()
-        state_before = json.dumps(direction_state, sort_keys=True)
+        owns_state = direction_state is None  # True => self-contained (load+save here); False => caller manages persistence
+        state = direction_state if direction_state is not None else _load_gmp_direction_state()
+        state_before = json.dumps(state, sort_keys=True) if owns_state else None
         new_records_data = []
         for r in records:
             d = r.to_dict()
             d["gmp_direction"] = _update_gmp_direction(
                 company_name=d.get("company_name"),
                 new_gmp=d.get("gmp"),
-                state=direction_state,
+                state=state,
             )
             extremes = _update_gmp_extremes(
                 company_name=d.get("company_name"),
                 new_gmp_percent=d.get("gmp_percent"),
                 status=d.get("status"),
-                state=direction_state,
+                state=state,
             )
             d["gmp_opening"] = extremes["opening"]
             d["gmp_highest"] = extremes["highest"]
@@ -987,8 +1069,11 @@ def save_cache(records: list[IPORecord], key: str = "open") -> None:
         # Only push to GitHub if the state genuinely changed this cycle --
         # most 2-minute cycles won't move any IPO's GMP, so this avoids a
         # commit every 2 minutes all day when nothing actually happened.
-        if json.dumps(direction_state, sort_keys=True) != state_before:
-            _save_gmp_direction_state(direction_state)
+        # Only save here when THIS call owns the state (no shared state was
+        # passed in) -- otherwise the caller is responsible for the single
+        # combined save after all tabs have been processed.
+        if owns_state and json.dumps(state, sort_keys=True) != state_before:
+            _save_gmp_direction_state(state)
     else:
         new_records_data = [r.to_dict() for r in records]
 
