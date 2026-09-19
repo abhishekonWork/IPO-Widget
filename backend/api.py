@@ -20,7 +20,7 @@ import threading
 import time
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException, Response, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
@@ -33,6 +33,22 @@ load_dotenv()
 GMP_REFRESH_SECONDS = int(os.getenv("GMP_REFRESH_SECONDS", "120"))          # 2 min
 SUBSCRIPTION_REFRESH_SECONDS = int(os.getenv("SUBSCRIPTION_REFRESH_SECONDS", "120"))
 METADATA_REFRESH_SECONDS = int(os.getenv("METADATA_REFRESH_SECONDS", "3600"))  # 1 hr
+
+# /api/debug/* endpoints expose internal operational details (repo file
+# paths, raw InvestorGain report contents, whether GITHUB_TOKEN is
+# configured, etc.) -- harmless individually, but unnecessary public
+# surface area for a site with no login. Disabled by default; set
+# DEBUG_ENDPOINTS_ENABLED=1 (in Render's Environment tab, or in a local
+# .env file for development) to turn them back on temporarily when
+# actually debugging a live issue. When disabled, every /api/debug/*
+# route returns a plain 404, indistinguishable from the route not
+# existing at all.
+DEBUG_ENDPOINTS_ENABLED = os.getenv("DEBUG_ENDPOINTS_ENABLED", "0") == "1"
+
+
+def _require_debug_enabled():
+    if not DEBUG_ENDPOINTS_ENABLED:
+        raise HTTPException(status_code=404, detail="Not Found")
 
 app = FastAPI(title="Mainboard IPO Widget API")
 
@@ -160,7 +176,7 @@ def health(response: Response):
     }
 
 
-@app.get("/api/debug/frontend")
+@app.get("/api/debug/frontend", dependencies=[Depends(_require_debug_enabled)])
 def debug_frontend():
     """Temporary diagnostic: shows exactly what the deployed server sees on
     disk for the frontend folder, to debug a 404 without needing to find
@@ -178,7 +194,7 @@ def debug_frontend():
     }
 
 
-@app.get("/api/debug/listing-performance-raw")
+@app.get("/api/debug/listing-performance-raw", dependencies=[Depends(_require_debug_enabled)])
 def debug_listing_performance_raw():
     """Temporary diagnostic: fetches InvestorGain's report 377 (GMP
     Performance Tracker) directly and returns the raw first row, so we can
@@ -211,7 +227,7 @@ def debug_listing_performance_raw():
         return {"url_fetched": url, "error": str(e)}
 
 
-@app.get("/api/debug/subscription-raw")
+@app.get("/api/debug/subscription-raw", dependencies=[Depends(_require_debug_enabled)])
 def debug_subscription_raw():
     """Temporary diagnostic: fetches InvestorGain's report 333 (IPO Live
     Subscription) directly and returns the raw first row, so we can see
@@ -248,7 +264,7 @@ def debug_subscription_raw():
         return {"url_fetched": url, "error": str(e)}
 
 
-@app.get("/api/debug/gmp-report-raw")
+@app.get("/api/debug/gmp-report-raw", dependencies=[Depends(_require_debug_enabled)])
 def debug_gmp_report_raw(company: str = ""):
     """Diagnostic: fetches InvestorGain's report 331 (Live GMP) directly --
     the SAME report our actual scraper reads GMP from -- and returns the
@@ -288,7 +304,7 @@ def debug_gmp_report_raw(company: str = ""):
         return {"url_fetched": url, "error": str(e)}
 
 
-@app.get("/api/debug/gmp-page-raw")
+@app.get("/api/debug/gmp-page-raw", dependencies=[Depends(_require_debug_enabled)])
 def debug_gmp_page_raw(company: str = "Hero"):
     """Diagnostic: fetches the /gmp/{slug}/{id}/ page (the "Day-wise GMP
     Trend" page the site owner has been comparing against -- a DIFFERENT
@@ -373,7 +389,7 @@ def debug_gmp_page_raw(company: str = "Hero"):
     }
 
 
-@app.get("/api/debug/price-band-raw")
+@app.get("/api/debug/price-band-raw", dependencies=[Depends(_require_debug_enabled)])
 def debug_price_band_raw():
     """Diagnostic: fetches ONE real, currently-open IPO's individual detail
     page (same page type already used for Registrar) and returns the raw
@@ -433,7 +449,7 @@ def debug_price_band_raw():
     }
 
 
-@app.get("/api/debug/github-persistence")
+@app.get("/api/debug/github-persistence", dependencies=[Depends(_require_debug_enabled)])
 def debug_github_persistence():
     """Diagnostic: confirms whether GMP-direction memory is actually
     surviving redeploys via GitHub, or silently falling back to
