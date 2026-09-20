@@ -24,14 +24,14 @@
     }
   },
   "NSE": {
-    "last_gmp": 58,
+    "last_gmp": 48,
     "last_direction": "down",
     "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 61,
     "gmp_extremes": {
       "opening": 11.65,
       "highest": 11.76,
-      "lowest": 2.97,
+      "lowest": 2.69,
       "frozen": false
     }
   },
