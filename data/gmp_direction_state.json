@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 47,
-    "last_direction": "down",
+    "last_gmp": 48,
+    "last_direction": "up",
     "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 61,
     "gmp_extremes": {
@@ -198,8 +198,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 64,
-    "last_direction": "flat",
+    "last_gmp": 60,
+    "last_direction": "down",
     "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 64
   },
@@ -230,8 +230,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 12,
-    "last_direction": "flat",
+    "last_gmp": 9,
+    "last_direction": "down",
     "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 12
   },
@@ -278,8 +278,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 35,
-    "last_direction": "flat",
+    "last_gmp": 32,
+    "last_direction": "down",
     "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 35
   }
