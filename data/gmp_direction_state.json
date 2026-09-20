@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 61,
-    "last_direction": "flat",
+    "last_gmp": 58,
+    "last_direction": "down",
     "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 61,
     "gmp_extremes": {
