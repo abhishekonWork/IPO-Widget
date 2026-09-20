@@ -1,9 +1,9 @@
 {
   "Manika Plastech": {
     "last_gmp": 2,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 1,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 2,
     "gmp_extremes": {
       "opening": 25.58,
       "highest": 25.58,
@@ -14,7 +14,7 @@
   "Veegaland Developers": {
     "last_gmp": 8,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 8,
     "gmp_extremes": {
       "opening": 10.71,
@@ -25,9 +25,9 @@
   },
   "NSE": {
     "last_gmp": 61,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 111,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 61,
     "gmp_extremes": {
       "opening": 11.65,
       "highest": 11.76,
@@ -37,9 +37,9 @@
   },
   "SS Retail": {
     "last_gmp": 147,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 145,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 147,
     "gmp_extremes": {
       "opening": 25.94,
       "highest": 34.67,
@@ -49,9 +49,9 @@
   },
   "Hero Motors": {
     "last_gmp": -2,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 3,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": -2,
     "gmp_extremes": {
       "opening": 28.57,
       "highest": 28.57,
@@ -61,9 +61,9 @@
   },
   "Jindal Supreme": {
     "last_gmp": 29,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 26,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 29,
     "gmp_extremes": {
       "opening": 26.88,
       "highest": 34.41,
@@ -74,7 +74,7 @@
   "Manipal Payment and Identity Solutions": {
     "last_gmp": -6,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": -6,
     "gmp_extremes": {
       "opening": -0.59,
@@ -86,7 +86,7 @@
   "Steamhouse": {
     "last_gmp": 13,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 13,
     "gmp_extremes": {
       "opening": 25.93,
@@ -98,7 +98,7 @@
   "LCC Projects": {
     "last_gmp": 36,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 36,
     "gmp_extremes": {
       "opening": 43.84,
@@ -110,7 +110,7 @@
   "Karamtara Engineering": {
     "last_gmp": 46,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 46,
     "gmp_extremes": {
       "opening": 27.95,
@@ -122,7 +122,7 @@
   "Rentomojo": {
     "last_gmp": 87,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 87,
     "gmp_extremes": {
       "opening": 35.89,
@@ -134,7 +134,7 @@
   "Asset Reconstruction": {
     "last_gmp": 12,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 12,
     "gmp_extremes": {
       "opening": 10.07,
@@ -146,7 +146,7 @@
   "Kanohar Electricals": {
     "last_gmp": 182,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 182,
     "gmp_extremes": {
       "opening": 38.61,
@@ -158,7 +158,7 @@
   "Glass Wall Systems": {
     "last_gmp": 39,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 39,
     "gmp_extremes": {
       "opening": 28.57,
@@ -170,7 +170,7 @@
   "Prasol Chemicals": {
     "last_gmp": -13,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": -13,
     "gmp_extremes": {
       "opening": -2.22,
@@ -199,9 +199,9 @@
       "frozen": false
     },
     "last_gmp": 64,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 60
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 64
   },
   "Sonaselection India": {
     "gmp_extremes": {
@@ -212,7 +212,7 @@
     },
     "last_gmp": 2,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-19",
+    "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 2
   },
   "One Mobikwik Systems": {
@@ -231,9 +231,9 @@
       "frozen": false
     },
     "last_gmp": 12,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 15
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 12
   },
   "ArMee Infotech": {
     "gmp_extremes": {
@@ -243,9 +243,9 @@
       "frozen": false
     },
     "last_gmp": 1,
-    "last_direction": null,
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 1
   },
   "Elevate Campuses": {
     "gmp_extremes": {
@@ -255,9 +255,9 @@
       "frozen": false
     },
     "last_gmp": 16,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 15
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 16
   },
   "Swastika Infra": {
     "gmp_extremes": {
@@ -267,9 +267,9 @@
       "frozen": false
     },
     "last_gmp": 3,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 5
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 3
   },
   "Adroit Industries": {
     "gmp_extremes": {
@@ -279,8 +279,8 @@
       "frozen": false
     },
     "last_gmp": 35,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-19",
-    "prev_day_close_gmp": 37
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-20",
+    "prev_day_close_gmp": 35
   }
 }
