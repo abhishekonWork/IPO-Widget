@@ -1,7 +1,7 @@
 {
   "Manika Plastech": {
-    "last_gmp": 2,
-    "last_direction": "flat",
+    "last_gmp": 1,
+    "last_direction": "down",
     "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 2,
     "gmp_extremes": {
@@ -24,14 +24,14 @@
     }
   },
   "NSE": {
-    "last_gmp": 49,
-    "last_direction": "up",
+    "last_gmp": 47,
+    "last_direction": "down",
     "last_seen_day": "2026-09-20",
     "prev_day_close_gmp": 61,
     "gmp_extremes": {
       "opening": 11.65,
       "highest": 11.76,
-      "lowest": 2.69,
+      "lowest": 2.63,
       "frozen": false
     }
   },
