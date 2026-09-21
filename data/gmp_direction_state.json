@@ -24,7 +24,7 @@
     }
   },
   "NSE": {
-    "last_gmp": 56,
+    "last_gmp": 60,
     "last_direction": "up",
     "last_seen_day": "2026-09-21",
     "prev_day_close_gmp": 48,
@@ -36,13 +36,13 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 148,
+    "last_gmp": 156,
     "last_direction": "up",
     "last_seen_day": "2026-09-21",
     "prev_day_close_gmp": 147,
     "gmp_extremes": {
       "opening": 25.94,
-      "highest": 34.91,
+      "highest": 36.79,
       "lowest": 18.87,
       "frozen": false
     }
@@ -285,9 +285,9 @@
   },
   "Moneyview": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 0.0,
+      "highest": 0.0,
+      "lowest": 0.0,
       "frozen": false
     }
   }
