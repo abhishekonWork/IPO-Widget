@@ -527,7 +527,15 @@ def _fetch_and_build_all_records() -> list[IPORecord]:
             last_updated=now_iso(),
         )
 
-        detail = sub_map.get(company_name)
+        # Normalized on both sides (see scrape_subscription_breakdown,
+        # which stores its keys normalized too) -- report 333's company
+        # names have been observed to differ slightly from report 331's
+        # (extra whitespace etc.), the same class of mismatch already
+        # found and fixed for report 377's merge below. An un-normalized
+        # lookup here silently fails, leaving subscription fields as None
+        # (shows "N/A") even though the IPO's real subscription data
+        # exists -- this was a real bug, found 2026-09-21.
+        detail = sub_map.get(_normalize_company_name(company_name))
         if detail:
             rec.subscription.qib = detail.get("qib")
             rec.subscription.shni = detail.get("shni")
@@ -584,10 +592,17 @@ def _scrape_gmp_report(status_filter: Optional[str] = None) -> list[IPORecord]:
 
 
 def _normalize_company_name(name: str) -> str:
-    """Report 377 has been observed with trailing/extra whitespace in
-    company names (e.g. 'Symbiotec Pharmalab ') that reports 331/333 don't
-    have -- normalize before using as a merge key across reports, or
-    matches silently fail."""
+    """Strips extra/trailing whitespace before using a company name as a
+    merge key across InvestorGain's different reports. First found in
+    report 377 (e.g. 'Symbiotec Pharmalab ' with a trailing space), then
+    confirmed 2026-09-21 that report 333 (subscription) can have the same
+    issue -- an earlier version of this docstring claimed reports 331/333
+    were unaffected, which turned out to be wrong and caused a real bug
+    (subscription fields silently showing "N/A" for an affected IPO even
+    though the real data existed). Given this, normalize on BOTH sides of
+    ANY cross-report company-name merge, not just the ones already known
+    to need it -- a report that looks clean today isn't guaranteed to
+    stay that way."""
     return " ".join((name or "").split())
 
 
@@ -679,8 +694,18 @@ def scrape_listing_performance() -> dict[str, dict]:
 
 
 def scrape_subscription_breakdown() -> dict[str, dict]:
-    """Returns {company_name: {qib, nii, retail, total}} for Mainboard IPOs,
-    read from the dedicated subscription report (id 333)."""
+    """Returns {normalized_company_name: {qib, nii, retail, total}} for
+    Mainboard IPOs, read from the dedicated subscription report (id 333).
+
+    Keys are normalized via _normalize_company_name (strips extra
+    whitespace etc.) because report 333's company names have been
+    observed to differ slightly from report 331's for the same company --
+    the same class of mismatch already found in report 377's names (see
+    _normalize_company_name's own docstring). An un-normalized key here
+    caused a real bug (found 2026-09-21): the merge at this dict's call
+    site would silently fail for an affected IPO, leaving every
+    subscription field as None (shown as "N/A" in the UI) even though
+    the real data existed in this report all along."""
     result: dict[str, dict] = {}
     try:
         rows = fetch_report(SUBSCRIPTION_REPORT_ID)
@@ -695,7 +720,7 @@ def scrape_subscription_breakdown() -> dict[str, dict]:
         if not company_name or not _is_mainboard(category_text):
             continue
 
-        result[company_name] = {
+        result[_normalize_company_name(company_name)] = {
             "total": _first_number(_strip_tags(row.get("Total", ""))),
             "qib": _first_number(row.get("QIB", "")),
             "shni": _first_number(row.get("SHNI", "")),  # Small HNI (₹2-10L bids) -- confirmed real field name, live-verified 2026-09-13
