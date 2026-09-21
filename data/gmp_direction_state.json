@@ -24,7 +24,7 @@
     }
   },
   "NSE": {
-    "last_gmp": 60,
+    "last_gmp": 68,
     "last_direction": "up",
     "last_seen_day": "2026-09-21",
     "prev_day_close_gmp": 48,
@@ -36,8 +36,8 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 156,
-    "last_direction": "up",
+    "last_gmp": 155,
+    "last_direction": "down",
     "last_seen_day": "2026-09-21",
     "prev_day_close_gmp": 147,
     "gmp_extremes": {
@@ -238,12 +238,12 @@
   "ArMee Infotech": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 0.27,
+      "highest": 3.2,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 1,
-    "last_direction": "flat",
+    "last_gmp": 12,
+    "last_direction": "up",
     "last_seen_day": "2026-09-21",
     "prev_day_close_gmp": 1
   },
@@ -288,6 +288,14 @@
       "opening": 0.0,
       "highest": 0.0,
       "lowest": 0.0,
+      "frozen": false
+    }
+  },
+  "Acevector": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
       "frozen": false
     }
   }
