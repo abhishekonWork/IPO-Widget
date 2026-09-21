@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 68,
-    "last_direction": "up",
+    "last_gmp": 65,
+    "last_direction": "down",
     "last_seen_day": "2026-09-21",
     "prev_day_close_gmp": 48,
     "gmp_extremes": {
@@ -36,7 +36,7 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 155,
+    "last_gmp": 148,
     "last_direction": "down",
     "last_seen_day": "2026-09-21",
     "prev_day_close_gmp": 147,
@@ -262,12 +262,12 @@
   "Swastika Infra": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 2.7,
+      "highest": 4.32,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 3,
-    "last_direction": "flat",
+    "last_gmp": 8,
+    "last_direction": "up",
     "last_seen_day": "2026-09-21",
     "prev_day_close_gmp": 3
   },
@@ -286,10 +286,14 @@
   "Moneyview": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 0.0,
+      "highest": 14.71,
       "lowest": 0.0,
       "frozen": false
-    }
+    },
+    "last_gmp": 5,
+    "last_direction": null,
+    "last_seen_day": "2026-09-21",
+    "prev_day_close_gmp": null
   },
   "Acevector": {
     "gmp_extremes": {
