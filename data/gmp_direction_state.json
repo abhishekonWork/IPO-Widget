@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 65,
-    "last_direction": "flat",
+    "last_gmp": 66,
+    "last_direction": "up",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 65,
     "gmp_extremes": {
@@ -36,8 +36,8 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 140,
-    "last_direction": "flat",
+    "last_gmp": 147,
+    "last_direction": "up",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 140,
     "gmp_extremes": {
@@ -230,8 +230,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 9,
-    "last_direction": "flat",
+    "last_gmp": 5,
+    "last_direction": "down",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 9
   },
@@ -286,16 +286,40 @@
   "Moneyview": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 14.71,
+      "highest": 23.53,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 5,
-    "last_direction": "flat",
+    "last_gmp": 8,
+    "last_direction": "up",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 5
   },
   "Acevector": {
+    "gmp_extremes": {
+      "opening": 0.0,
+      "highest": 0.0,
+      "lowest": 0.0,
+      "frozen": false
+    }
+  },
+  "Runwal Enterprises": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
+  },
+  "German Green Steel": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
+  },
+  "Orient Cables": {
     "gmp_extremes": {
       "opening": null,
       "highest": null,
