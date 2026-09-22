@@ -219,20 +219,29 @@ def _parse_date(day_month: Optional[str]) -> Optional[str]:
         return day_month or None  # fall back to raw text rather than losing the data
 
 
-def _roll_year_if_before_open(date_iso: Optional[str], open_date_iso: Optional[str]) -> Optional[str]:
+def _roll_year_if_before_open(date_iso: Optional[str], open_date_iso: Optional[str], was_guessed: bool) -> Optional[str]:
     """Fixes the December-open/January-close year-guessing bug: if
     date_iso's MONTH is earlier than open_date_iso's month (e.g. open is
     December, close/BoA/listing is January), the later date must actually
     fall in the FOLLOWING year -- an IPO's timeline only ever moves
     forward (open -> close -> BoA -> listing), never backward.
 
-    IMPORTANT: only call this on a date that came from _parse_date's
-    year-GUESSING fallback. InvestorGain's own pre-formatted ~Srt_Open /
-    ~Srt_Close / ~Srt_BoA_Dt / ~Str_Listing fields already carry the
-    correct year and must NEVER be passed through this correction -- doing
-    so would roll an already-correct January date forward by an extra,
-    wrong year. See the call site in the row-parsing loop below, which
-    only applies this when the corresponding ~Srt_* field was absent."""
+    was_guessed is REQUIRED (no default) and must be True for any
+    correction to happen at all -- pass True only when date_iso came from
+    _parse_date's year-GUESSING fallback, never for InvestorGain's own
+    pre-formatted ~Srt_Open / ~Srt_Close / ~Srt_BoA_Dt / ~Str_Listing
+    fields, which already carry the correct year.
+
+    This is a required parameter rather than a documented caller
+    convention on purpose: an earlier version relied on callers reading a
+    comment and remembering to only apply this when the ~Srt_* field was
+    missing. A regression test (test_regressions.py) proved that's a real
+    footgun -- calling this function directly on an already-correct date
+    silently produced a wrong, double-rolled year. Requiring an explicit
+    was_guessed=True makes that misuse impossible by construction instead
+    of just discouraged in a comment."""
+    if not was_guessed:
+        return date_iso  # already-correct date -- never touch it, regardless of month comparison
     if not date_iso or not open_date_iso:
         return date_iso
     try:
@@ -496,12 +505,13 @@ def _fetch_and_build_all_records() -> list[IPORecord]:
         # fields themselves, which already carry the correct year. Fixes a
         # December-open/January-close IPO where both dates would otherwise
         # get stamped with the same year, making close appear to precede open.
-        if not row.get("~Srt_Close"):
-            close_d = _roll_year_if_before_open(close_d, open_d)
-        if not row.get("~Srt_BoA_Dt"):
-            boa_d = _roll_year_if_before_open(boa_d, open_d)
-        if not row.get("~Str_Listing"):
-            listing_d = _roll_year_if_before_open(listing_d, open_d)
+        # was_guessed=True/False below matches exactly which path each
+        # date came from -- the function itself now refuses to touch
+        # anything when was_guessed=False, so this can't be silently
+        # bypassed by a future edit forgetting the "if not row.get(...)" check.
+        close_d = _roll_year_if_before_open(close_d, open_d, was_guessed=not row.get("~Srt_Close"))
+        boa_d = _roll_year_if_before_open(boa_d, open_d, was_guessed=not row.get("~Srt_BoA_Dt"))
+        listing_d = _roll_year_if_before_open(listing_d, open_d, was_guessed=not row.get("~Str_Listing"))
         updated_text = _strip_tags(row.get("Updated-On", "")) or None
 
         status = _derive_status(open_d, close_d, site_status_text)
