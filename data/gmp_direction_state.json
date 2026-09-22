@@ -2,7 +2,7 @@
   "Manika Plastech": {
     "last_gmp": 1,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 1,
     "gmp_extremes": {
       "opening": 25.58,
@@ -14,7 +14,7 @@
   "Veegaland Developers": {
     "last_gmp": 8,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 8,
     "gmp_extremes": {
       "opening": 10.71,
@@ -25,9 +25,9 @@
   },
   "NSE": {
     "last_gmp": 65,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-21",
-    "prev_day_close_gmp": 48,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-22",
+    "prev_day_close_gmp": 65,
     "gmp_extremes": {
       "opening": 11.65,
       "highest": 11.76,
@@ -37,9 +37,9 @@
   },
   "SS Retail": {
     "last_gmp": 140,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-21",
-    "prev_day_close_gmp": 147,
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-22",
+    "prev_day_close_gmp": 140,
     "gmp_extremes": {
       "opening": 25.94,
       "highest": 36.79,
@@ -50,7 +50,7 @@
   "Hero Motors": {
     "last_gmp": -2,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": -2,
     "gmp_extremes": {
       "opening": 28.57,
@@ -62,7 +62,7 @@
   "Jindal Supreme": {
     "last_gmp": 29,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 29,
     "gmp_extremes": {
       "opening": 26.88,
@@ -74,7 +74,7 @@
   "Manipal Payment and Identity Solutions": {
     "last_gmp": -6,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": -6,
     "gmp_extremes": {
       "opening": -0.59,
@@ -86,7 +86,7 @@
   "Steamhouse": {
     "last_gmp": 13,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 13,
     "gmp_extremes": {
       "opening": 25.93,
@@ -110,7 +110,7 @@
   "Karamtara Engineering": {
     "last_gmp": 46,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 46,
     "gmp_extremes": {
       "opening": 27.95,
@@ -122,7 +122,7 @@
   "Rentomojo": {
     "last_gmp": 87,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 87,
     "gmp_extremes": {
       "opening": 35.89,
@@ -134,7 +134,7 @@
   "Asset Reconstruction": {
     "last_gmp": 12,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 12,
     "gmp_extremes": {
       "opening": 10.07,
@@ -200,7 +200,7 @@
     },
     "last_gmp": 60,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 60
   },
   "Sonaselection India": {
@@ -232,7 +232,7 @@
     },
     "last_gmp": 9,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 9
   },
   "ArMee Infotech": {
@@ -243,9 +243,9 @@
       "frozen": false
     },
     "last_gmp": 12,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-21",
-    "prev_day_close_gmp": 1
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-22",
+    "prev_day_close_gmp": 12
   },
   "Elevate Campuses": {
     "gmp_extremes": {
@@ -256,7 +256,7 @@
     },
     "last_gmp": 16,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 16
   },
   "Swastika Infra": {
@@ -267,9 +267,9 @@
       "frozen": false
     },
     "last_gmp": 8,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-21",
-    "prev_day_close_gmp": 3
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-22",
+    "prev_day_close_gmp": 8
   },
   "Adroit Industries": {
     "gmp_extremes": {
@@ -280,7 +280,7 @@
     },
     "last_gmp": 32,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-21",
+    "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 32
   },
   "Moneyview": {
@@ -291,9 +291,9 @@
       "frozen": false
     },
     "last_gmp": 5,
-    "last_direction": null,
-    "last_seen_day": "2026-09-21",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-22",
+    "prev_day_close_gmp": 5
   },
   "Acevector": {
     "gmp_extremes": {
