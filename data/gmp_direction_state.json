@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 66,
-    "last_direction": "up",
+    "last_gmp": 53,
+    "last_direction": "down",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 65,
     "gmp_extremes": {
@@ -36,8 +36,8 @@
     }
   },
   "SS Retail": {
-    "last_gmp": 147,
-    "last_direction": "up",
+    "last_gmp": 135,
+    "last_direction": "down",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 140,
     "gmp_extremes": {
@@ -198,8 +198,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 60,
-    "last_direction": "flat",
+    "last_gmp": 58,
+    "last_direction": "down",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 60
   },
@@ -230,7 +230,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 5,
+    "last_gmp": 4,
     "last_direction": "down",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 9
@@ -254,20 +254,20 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 16,
-    "last_direction": "flat",
+    "last_gmp": 11,
+    "last_direction": "down",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 16
   },
   "Swastika Infra": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 4.32,
+      "highest": 5.41,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 8,
-    "last_direction": "flat",
+    "last_gmp": 10,
+    "last_direction": "up",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 8
   },
@@ -278,15 +278,15 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 32,
-    "last_direction": "flat",
+    "last_gmp": 26,
+    "last_direction": "down",
     "last_seen_day": "2026-09-22",
     "prev_day_close_gmp": 32
   },
   "Moneyview": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 23.53,
+      "highest": 24.12,
       "lowest": 0.0,
       "frozen": false
     },
@@ -305,25 +305,29 @@
   },
   "Runwal Enterprises": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 0.0,
+      "highest": 0.0,
+      "lowest": 0.0,
       "frozen": false
     }
   },
   "German Green Steel": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 10.79,
+      "highest": 10.79,
+      "lowest": 10.79,
       "frozen": false
-    }
+    },
+    "last_gmp": 15,
+    "last_direction": null,
+    "last_seen_day": "2026-09-22",
+    "prev_day_close_gmp": null
   },
   "Orient Cables": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 0.0,
+      "highest": 0.0,
+      "lowest": 0.0,
       "frozen": false
     }
   }
