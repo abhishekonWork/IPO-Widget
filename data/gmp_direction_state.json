@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 84,
-    "last_direction": "up",
+    "last_gmp": 81,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 43,
     "gmp_extremes": {
@@ -242,8 +242,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 54,
-    "last_direction": "up",
+    "last_gmp": 51,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 46
   },
@@ -286,11 +286,11 @@
   "Moneyview": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 39.71,
+      "highest": 41.18,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 13,
+    "last_gmp": 14,
     "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 11
@@ -318,11 +318,11 @@
   "German Green Steel": {
     "gmp_extremes": {
       "opening": 10.79,
-      "highest": 13.67,
+      "highest": 14.39,
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 19,
+    "last_gmp": 20,
     "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 15
