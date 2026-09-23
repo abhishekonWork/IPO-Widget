@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 43,
-    "last_direction": "down",
+    "last_gmp": 84,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 43,
     "gmp_extremes": {
@@ -198,8 +198,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 50,
-    "last_direction": "flat",
+    "last_gmp": 51,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 50
   },
@@ -242,8 +242,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 46,
-    "last_direction": "down",
+    "last_gmp": 54,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 46
   },
@@ -254,8 +254,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 5,
-    "last_direction": "up",
+    "last_gmp": 3,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 5
   },
@@ -266,8 +266,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 8,
-    "last_direction": "down",
+    "last_gmp": 9,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 8
   },
@@ -278,20 +278,20 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 34,
-    "last_direction": "down",
+    "last_gmp": 35,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 34
   },
   "Moneyview": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 36.76,
+      "highest": 39.71,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 11,
-    "last_direction": "down",
+    "last_gmp": 13,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 11
   },
@@ -310,8 +310,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 18,
-    "last_direction": "up",
+    "last_gmp": 17,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 18
   },
@@ -322,8 +322,8 @@
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 15,
-    "last_direction": "down",
+    "last_gmp": 19,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 15
   },
@@ -334,8 +334,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 34,
-    "last_direction": "down",
+    "last_gmp": 40,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 34
   },
@@ -353,10 +353,14 @@
   },
   "SRIT India": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 9.23,
+      "highest": 9.23,
+      "lowest": 9.23,
       "frozen": false
-    }
+    },
+    "last_gmp": 12,
+    "last_direction": null,
+    "last_seen_day": "2026-09-23",
+    "prev_day_close_gmp": null
   }
 }
