@@ -24,8 +24,8 @@
     }
   },
   "NSE": {
-    "last_gmp": 81,
-    "last_direction": "up",
+    "last_gmp": 56,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 43,
     "gmp_extremes": {
@@ -254,8 +254,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 3,
-    "last_direction": "down",
+    "last_gmp": 5,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 5
   },
@@ -266,8 +266,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 9,
-    "last_direction": "up",
+    "last_gmp": 8,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 8
   },
@@ -278,8 +278,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 35,
-    "last_direction": "up",
+    "last_gmp": 34,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 34
   },
@@ -290,8 +290,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 12,
-    "last_direction": "up",
+    "last_gmp": 11,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 11
   },
@@ -310,8 +310,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 17,
-    "last_direction": "down",
+    "last_gmp": 18,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 18
   },
@@ -322,8 +322,8 @@
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 19,
-    "last_direction": "up",
+    "last_gmp": 15,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 15
   },
@@ -334,8 +334,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 40,
-    "last_direction": "up",
+    "last_gmp": 34,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 34
   },
