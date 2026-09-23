@@ -24,7 +24,7 @@
     }
   },
   "NSE": {
-    "last_gmp": 56,
+    "last_gmp": 81,
     "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 43,
@@ -254,8 +254,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 5,
-    "last_direction": "flat",
+    "last_gmp": 3,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 5
   },
@@ -266,8 +266,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 8,
-    "last_direction": "flat",
+    "last_gmp": 9,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 8
   },
@@ -278,20 +278,20 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 34,
-    "last_direction": "flat",
+    "last_gmp": 35,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 34
   },
   "Moneyview": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 32.35,
+      "highest": 36.76,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 11,
-    "last_direction": "flat",
+    "last_gmp": 12,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 11
   },
@@ -310,42 +310,46 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 18,
-    "last_direction": "flat",
+    "last_gmp": 17,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 18
   },
   "German Green Steel": {
     "gmp_extremes": {
       "opening": 10.79,
-      "highest": 10.79,
+      "highest": 13.67,
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 15,
-    "last_direction": "flat",
+    "last_gmp": 19,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 15
   },
   "Orient Cables": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 12.5,
+      "highest": 14.71,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 34,
-    "last_direction": "flat",
+    "last_gmp": 40,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 34
   },
   "Shah Investor's Home": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 5.99,
+      "highest": 5.99,
+      "lowest": 5.99,
       "frozen": false
-    }
+    },
+    "last_gmp": 10,
+    "last_direction": null,
+    "last_seen_day": "2026-09-23",
+    "prev_day_close_gmp": null
   },
   "SRIT India": {
     "gmp_extremes": {
