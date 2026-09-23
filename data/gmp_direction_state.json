@@ -24,14 +24,14 @@
     }
   },
   "NSE": {
-    "last_gmp": 81,
+    "last_gmp": 40,
     "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 43,
     "gmp_extremes": {
       "opening": 11.65,
       "highest": 11.76,
-      "lowest": 2.41,
+      "lowest": 2.24,
       "frozen": false
     }
   },
@@ -198,7 +198,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 51,
+    "last_gmp": 55,
     "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 50
@@ -254,8 +254,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 3,
-    "last_direction": "down",
+    "last_gmp": 4,
+    "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 5
   },
@@ -278,8 +278,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 35,
-    "last_direction": "up",
+    "last_gmp": 34,
+    "last_direction": "down",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 34
   },
@@ -318,11 +318,11 @@
   "German Green Steel": {
     "gmp_extremes": {
       "opening": 10.79,
-      "highest": 14.39,
+      "highest": 17.27,
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 20,
+    "last_gmp": 24,
     "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 15
@@ -330,11 +330,11 @@
   "Orient Cables": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 14.71,
+      "highest": 16.54,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 40,
+    "last_gmp": 45,
     "last_direction": "up",
     "last_seen_day": "2026-09-23",
     "prev_day_close_gmp": 34
