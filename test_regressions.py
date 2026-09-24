@@ -11,7 +11,7 @@ so that CAN'T happen silently: every bug below is encoded as an explicit
 test with a comment on when/why it was found. Run this before trusting any
 future change to this file:
 
-    cd scraper && python3 -m unittest test_regressions.py -v
+    PYTHONPATH=scraper python3 -m unittest test_regressions.py -v   (run from the repo root)
 
 If a change breaks one of these, a test fails loudly here -- instead of
 the site quietly showing wrong data again for the same reason it did
@@ -400,6 +400,103 @@ class TestRegistrarCacheBackwardCompatibility(unittest.TestCase):
         s.enrich_with_registrar([rec], {"LegacyCo": row})
 
         self.assertEqual(rec.registrar, "Bigshare Services Pvt.Ltd.")
+
+
+class TestEnrichmentReportFailureKeepsLastGoodData(unittest.TestCase):
+    """Bug (found live 2026-09-24): the site sometimes showed "N/A" for the
+    whole subscription breakdown (QIB/SHNI/BHNI/NII/Retail) while GMP
+    looked fine. Reports 333 (subscription) and 377 (listing performance)
+    fail SOFT -- if one was unreachable, returned zero rows, or stopped
+    listing a closed IPO, the fresh record had no breakdown and save_cache()
+    overwrote the good cached values with N/A every cycle. A failed report
+    331 already fell back to the last good cache; 333/377 did not.
+
+    Fix: _carry_forward_missing_enrichment reuses the last REAL value when
+    the fresh breakdown is completely missing -- never overriding a fresh
+    value, never guessing."""
+
+    GMP_ROW = {
+        "~ipo_status1": "O", "~IPO_Category": "IPO",
+        "Name": '<a>NSE</a><span class="badge">IPO</span><span class="badge">O</span>',
+        "GMP": "&#8377;<b>65</b> (3.64%)", "Sub": "5.71", "IPO Size": "&#8377;22561.57 Cr",
+        "~Srt_Open": "2026-09-17", "~Srt_Close": "2026-09-21",
+        "~Srt_BoA_Dt": "2026-09-22", "~Str_Listing": "2026-09-24", "Updated-On": "",
+    }
+    SUB_ROW = {
+        "~IPO_Category": "IPO", "Name": "<a>NSE</a>",
+        "Total": "5.71", "QIB": "12.68", "SHNI": "4.09",
+        "BHNI": "7.78", "NII": "6.55", "RII": "1.39",
+    }
+
+    def _run_cycle(self, sub_behaviour, day=datetime(2026, 9, 21)):
+        """sub_behaviour: a list of rows for a normal 333 response, or an
+        Exception instance to simulate 333 being unreachable."""
+        def fake_get(url, **kwargs):
+            if "333" in url:
+                if isinstance(sub_behaviour, Exception):
+                    raise sub_behaviour
+                return _mock_report_response(sub_behaviour)
+            if "377" in url:
+                return _mock_report_response([])
+            return _mock_report_response([self.GMP_ROW])
+
+        with mock.patch("investorgain_scraper.datetime") as mock_dt:
+            mock_dt.now.return_value = day
+            mock_dt.strptime = datetime.strptime
+            mock_dt.fromisoformat = datetime.fromisoformat
+            with mock.patch.object(s.requests, "get", side_effect=fake_get):
+                return s._fetch_and_build_all_records()
+
+    def test_unreachable_subscription_report_keeps_previous_breakdown(self):
+        _isolate_data_files(self)
+        good = self._run_cycle([self.SUB_ROW])
+        s.save_cache(good, "open", direction_state={}, persist_direction_state=False)
+        self.assertEqual(good[0].subscription.qib, 12.68)
+
+        bad = self._run_cycle(s.requests.ConnectionError("boom"))
+        rec = bad[0]
+        self.assertEqual(rec.subscription.qib, 12.68, "QIB must not turn into N/A because report 333 failed")
+        self.assertEqual(rec.subscription.shni, 4.09)
+        self.assertEqual(rec.subscription.bhni, 7.78)
+        self.assertEqual(rec.subscription.nii, 6.55)
+        self.assertEqual(rec.subscription.retail, 1.39)
+        self.assertTrue(rec.subscription.started)
+        self.assertFalse(s.report_status()["333"]["ok"], "the failure must be visible via /api/health")
+        self.assertIn("boom", s.report_status()["333"]["error"])
+
+    def test_empty_subscription_report_keeps_previous_breakdown(self):
+        _isolate_data_files(self)
+        s.save_cache(self._run_cycle([self.SUB_ROW]), "open", direction_state={}, persist_direction_state=False)
+        rec = self._run_cycle([])[0]  # 333 answers fine but no longer lists the IPO
+        self.assertEqual(rec.subscription.qib, 12.68)
+        self.assertTrue(s.report_status()["333"]["ok"])
+        self.assertEqual(s.report_status()["333"]["row_count"], 0)
+
+    def test_closed_ipo_dropped_from_report_keeps_breakdown_via_archive(self):
+        _isolate_data_files(self)
+        good = self._run_cycle([self.SUB_ROW])
+        s._merge_closed_with_archive(good)  # archive holds the last good record
+        # Later: IPO is closed, cache was wiped (e.g. Render restart), 333 dropped it.
+        s.CACHE_FILE.unlink(missing_ok=True)
+        with mock.patch("investorgain_scraper.datetime") as mock_dt:
+            mock_dt.now.return_value = datetime(2026, 9, 25)
+            mock_dt.strptime = datetime.strptime
+            mock_dt.fromisoformat = datetime.fromisoformat
+            rec = s.IPORecord(company_name="NSE", ipo_type="Mainboard", subscription=Subscription(total=5.71, started=True))
+            s._carry_forward_missing_enrichment([rec])
+        self.assertEqual(rec.subscription.qib, 12.68)
+
+    def test_fresh_values_are_never_overridden_by_old_ones(self):
+        _isolate_data_files(self)
+        s.save_cache(self._run_cycle([self.SUB_ROW]), "open", direction_state={}, persist_direction_state=False)
+        newer = dict(self.SUB_ROW, QIB="20.00")
+        rec = self._run_cycle([newer])[0]
+        self.assertEqual(rec.subscription.qib, 20.0)
+
+    def test_no_history_means_no_invented_numbers(self):
+        _isolate_data_files(self)
+        rec = self._run_cycle(s.requests.ConnectionError("down"))[0]
+        self.assertIsNone(rec.subscription.qib, "with nothing ever fetched, stay None (shows N/A), never a guess")
 
 
 if __name__ == "__main__":
