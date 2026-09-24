@@ -198,8 +198,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 45,
-    "last_direction": "down",
+    "last_gmp": 49,
+    "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 55
   },
@@ -266,8 +266,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 5,
-    "last_direction": "down",
+    "last_gmp": 9,
+    "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 9
   },
@@ -278,7 +278,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 35,
+    "last_gmp": 37,
     "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 34
@@ -286,31 +286,35 @@
   "Moneyview": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 41.18,
+      "highest": 44.12,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 12,
-    "last_direction": "down",
+    "last_gmp": 15,
+    "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 14
   },
   "Acevector": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 0.0,
+      "highest": 6.25,
       "lowest": 0.0,
       "frozen": false
-    }
+    },
+    "last_gmp": 2,
+    "last_direction": null,
+    "last_seen_day": "2026-09-24",
+    "prev_day_close_gmp": null
   },
   "Runwal Enterprises": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 8.2,
+      "highest": 12.13,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 25,
+    "last_gmp": 37,
     "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 17
@@ -330,11 +334,11 @@
   "Orient Cables": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 21.32,
+      "highest": 38.6,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 58,
+    "last_gmp": 105,
     "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 45
@@ -354,12 +358,12 @@
   "SRIT India": {
     "gmp_extremes": {
       "opening": 9.23,
-      "highest": 9.23,
+      "highest": 14.62,
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 12,
-    "last_direction": "flat",
+    "last_gmp": 19,
+    "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 12
   }
