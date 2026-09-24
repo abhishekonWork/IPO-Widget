@@ -183,6 +183,11 @@ def health(response: Response):
         "last_upcoming_error": _last_upcoming_error,
         "last_closed_error": _last_closed_error,
         "refresh_interval_seconds": GMP_REFRESH_SECONDS,
+        # Per-report fetch health (331 GMP, 333 subscription, 377 listing
+        # performance): ok/error, row_count, last_ok_at. First place to look
+        # when a field shows N/A -- tells "InvestorGain unreachable" apart
+        # from "report returned zero rows" apart from "our merge broke".
+        "reports": scraper.report_status(),
         "tabs": tabs,
     }
 
