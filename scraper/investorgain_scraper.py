@@ -270,13 +270,46 @@ def _parse_name_cell(raw_html: str) -> tuple[Optional[str], str, str]:
     return company_name, category_text, status_text
 
 
+# Health of each InvestorGain report on its most recent fetch, exposed via
+# /api/health (see report_status). Added 2026-09-24: reports 333 (subscription)
+# and 377 (listing performance) fail SOFT -- a failed fetch used to be logged
+# to stderr only, invisible to the site owner, while the refresh carried on
+# and overwrote good cached data with N/A. Now the failure is at least
+# visible from a browser.
+_REPORT_STATUS: dict[str, dict] = {}
+
+
+def _note_report(report_id: int, ok: bool, rows: Optional[int] = None, error: Optional[str] = None) -> None:
+    key = str(report_id)
+    previous_ok_at = _REPORT_STATUS.get(key, {}).get("last_ok_at")
+    now = now_iso()
+    _REPORT_STATUS[key] = {
+        "ok": ok,
+        "last_attempt_at": now,
+        "last_ok_at": now if ok else previous_ok_at,
+        "row_count": rows,
+        "error": error,
+    }
+
+
+def report_status() -> dict[str, dict]:
+    """Copy of the latest per-report fetch health, for /api/health."""
+    return {k: dict(v) for k, v in _REPORT_STATUS.items()}
+
+
 def fetch_report(report_id: int) -> list[dict]:
     """Fetches one InvestorGain report and returns its raw row dicts
     (still HTML-fragment-laden -- not yet normalized into IPORecord)."""
-    resp = requests.get(_report_url(report_id), headers=HEADERS, timeout=REQUEST_TIMEOUT)
-    resp.raise_for_status()
-    payload = resp.json()
-    return payload.get("reportTableData", [])
+    try:
+        resp = requests.get(_report_url(report_id), headers=HEADERS, timeout=REQUEST_TIMEOUT)
+        resp.raise_for_status()
+        payload = resp.json()
+        rows = payload.get("reportTableData", [])
+    except Exception as e:  # noqa: BLE001 -- record it, then let the caller decide how to react
+        _note_report(report_id, False, error=f"{type(e).__name__}: {e}")
+        raise
+    _note_report(report_id, True, rows=len(rows))
+    return rows
 
 
 def _is_mainboard(category_text: str) -> bool:
@@ -445,6 +478,73 @@ def _ipo_record_from_dict(d: dict) -> IPORecord:
     return IPORecord(subscription=sub, **filtered)
 
 
+_BREAKDOWN_FIELDS = ("qib", "shni", "bhni", "nii", "retail")
+
+
+def _load_previous_records_by_name() -> dict[str, dict]:
+    """Last known record for every company we have ever cached or archived,
+    keyed by normalized name. The live cache wins over the closed archive
+    (fresher). Never raises -- an unreadable file just means no history."""
+    previous: dict[str, dict] = {}
+    for name, entry in _load_closed_ipo_archive().items():
+        rec = entry.get("record") if isinstance(entry, dict) else None
+        if isinstance(rec, dict):
+            previous[_normalize_company_name(name)] = rec
+    try:
+        cache = json.loads(CACHE_FILE.read_text(encoding="utf-8")) if CACHE_FILE.exists() else {}
+    except (json.JSONDecodeError, OSError):
+        cache = {}
+    for tab in ("closed", "upcoming", "open"):
+        tab_entry = cache.get(tab) if isinstance(cache, dict) else None
+        for rec in (tab_entry or {}).get("records", []):
+            if isinstance(rec, dict) and rec.get("company_name"):
+                previous[_normalize_company_name(rec["company_name"])] = rec
+    return previous
+
+
+def _carry_forward_missing_enrichment(records: list[IPORecord]) -> None:
+    """Fixes the "N/A everywhere" bug (2026-09-24).
+
+    The subscription breakdown (report 333) and actual listing gain (report
+    377) come from SEPARATE reports that fail soft: if one is unreachable,
+    returns zero rows, or has stopped listing a closed IPO, the fresh
+    record simply has no breakdown -- and save_cache() then overwrote the
+    good cached values with N/A, every cycle, while GMP (report 331)
+    looked fine. Unlike a failed 331 fetch, this never fell back to the
+    last good data.
+
+    Rule: if a record's fresh breakdown is COMPLETELY missing but we hold a
+    real earlier value for the same company, keep the earlier value. A
+    fresh value is never overridden, and nothing is ever guessed -- only a
+    real, previously-fetched number is reused. Never raises."""
+    try:
+        previous = _load_previous_records_by_name()
+        if not previous:
+            return
+        for rec in records:
+            prev = previous.get(_normalize_company_name(rec.company_name))
+            if not prev:
+                continue
+
+            sub = rec.subscription
+            prev_sub = prev.get("subscription") or {}
+            fresh_has_breakdown = any(getattr(sub, f) is not None for f in _BREAKDOWN_FIELDS)
+            prev_has_breakdown = any(prev_sub.get(f) is not None for f in _BREAKDOWN_FIELDS)
+            if not fresh_has_breakdown and prev_has_breakdown:
+                for f in _BREAKDOWN_FIELDS:
+                    setattr(sub, f, prev_sub.get(f))
+                if sub.total is None:
+                    sub.total = prev_sub.get("total")
+                sub.started = True
+
+            if rec.listing_price is None and rec.listing_gain_percent is None:
+                if prev.get("listing_gain_percent") is not None or prev.get("listing_price") is not None:
+                    rec.listing_price = prev.get("listing_price")
+                    rec.listing_gain_percent = prev.get("listing_gain_percent")
+    except Exception as e:  # noqa: BLE001 -- best-effort; must never take down the refresh
+        print(f"WARNING: carry-forward of cached enrichment skipped: {e}", file=sys.stderr)
+
+
 def _fetch_and_build_all_records() -> list[IPORecord]:
     """Fetches GMP report 331, subscription report 333, and listing-
     performance report 377 EXACTLY ONCE EACH, and builds an IPORecord for
@@ -578,6 +678,7 @@ def _fetch_and_build_all_records() -> list[IPORecord]:
     except Exception as e:
         print(f"WARNING: registrar enrichment skipped: {e}", file=sys.stderr)
 
+    _carry_forward_missing_enrichment(records)
     return records
 
 
@@ -664,7 +765,9 @@ def scrape_listing_performance() -> dict[str, dict]:
         rows = resp.json().get("reportTableData", [])
     except (requests.RequestException, ValueError) as e:
         print(f"WARNING: listing performance fetch failed: {e}", file=sys.stderr)
+        _note_report(PERFORMANCE_REPORT_ID, False, error=f"{type(e).__name__}: {e}")
         return result
+    _note_report(PERFORMANCE_REPORT_ID, True, rows=len(rows))
 
     for row in rows:
         category_text = row.get("~IPO_Category") or ""
@@ -719,7 +822,7 @@ def scrape_subscription_breakdown() -> dict[str, dict]:
     result: dict[str, dict] = {}
     try:
         rows = fetch_report(SUBSCRIPTION_REPORT_ID)
-    except requests.RequestException as e:
+    except (requests.RequestException, ValueError) as e:
         print(f"WARNING: subscription breakdown fetch failed: {e}", file=sys.stderr)
         return result
 
