@@ -286,7 +286,7 @@
   "Moneyview": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 44.12,
+      "highest": 45.59,
       "lowest": 0.0,
       "frozen": false
     },
@@ -322,11 +322,11 @@
   "German Green Steel": {
     "gmp_extremes": {
       "opening": 10.79,
-      "highest": 20.5,
+      "highest": 20.86,
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 28,
+    "last_gmp": 29,
     "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 24
@@ -334,11 +334,11 @@
   "Orient Cables": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 38.6,
+      "highest": 41.54,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 105,
+    "last_gmp": 113,
     "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 45
@@ -358,11 +358,11 @@
   "SRIT India": {
     "gmp_extremes": {
       "opening": 9.23,
-      "highest": 14.62,
+      "highest": 16.15,
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 19,
+    "last_gmp": 21,
     "last_direction": "up",
     "last_seen_day": "2026-09-24",
     "prev_day_close_gmp": 12
