@@ -36,6 +36,7 @@ import json
 import os
 import re
 import sys
+import time
 from datetime import datetime
 from html import unescape
 from pathlib import Path
@@ -297,13 +298,50 @@ def report_status() -> dict[str, dict]:
     return {k: dict(v) for k, v in _REPORT_STATUS.items()}
 
 
+REPORT_RETRY_ATTEMPTS = 2  # first try + 1 retry
+REPORT_RETRY_BACKOFF_SECONDS = 2.0
+
+
+def _is_transient_error(e: Exception) -> bool:
+    """522 (Cloudflare: origin didn't respond), other 5xx, timeouts, and
+    connection failures are InvestorGain having a bad moment -- worth one
+    quick retry. A 4xx (bad request, not found, etc.) will not fix itself
+    within the same second, so it is not retried."""
+    if isinstance(e, (requests.exceptions.Timeout, requests.exceptions.ConnectionError)):
+        return True
+    if isinstance(e, requests.exceptions.HTTPError):
+        status = getattr(getattr(e, "response", None), "status_code", None)
+        return status is not None and status >= 500
+    return False
+
+
+def _get_report_json(url: str) -> dict:
+    """GETs one InvestorGain report URL with one short retry on a
+    transient failure (added 2026-09-25, after 522s and read-timeouts
+    from InvestorGain caused report 333/377 to go blank overnight --
+    see _carry_forward_missing_enrichment for the fallback when even the
+    retry fails)."""
+    last_error: Optional[Exception] = None
+    for attempt in range(1, REPORT_RETRY_ATTEMPTS + 1):
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
+            resp.raise_for_status()
+            return resp.json()
+        except Exception as e:  # noqa: BLE001 -- decide below whether to retry or re-raise
+            last_error = e
+            if attempt < REPORT_RETRY_ATTEMPTS and _is_transient_error(e):
+                time.sleep(REPORT_RETRY_BACKOFF_SECONDS)
+                continue
+            raise
+    raise last_error  # pragma: no cover -- loop always returns or raises above
+
+
 def fetch_report(report_id: int) -> list[dict]:
     """Fetches one InvestorGain report and returns its raw row dicts
-    (still HTML-fragment-laden -- not yet normalized into IPORecord)."""
+    (still HTML-fragment-laden -- not yet normalized into IPORecord).
+    Retries once on a transient failure -- see _get_report_json."""
     try:
-        resp = requests.get(_report_url(report_id), headers=HEADERS, timeout=REQUEST_TIMEOUT)
-        resp.raise_for_status()
-        payload = resp.json()
+        payload = _get_report_json(_report_url(report_id))
         rows = payload.get("reportTableData", [])
     except Exception as e:  # noqa: BLE001 -- record it, then let the caller decide how to react
         _note_report(report_id, False, error=f"{type(e).__name__}: {e}")
@@ -760,9 +798,7 @@ def scrape_listing_performance() -> dict[str, dict]:
     year = datetime.now().year
     url = f"{BASE}/{PERFORMANCE_REPORT_ID}/1/8/{year}/all/0/all?year={year}"
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
-        resp.raise_for_status()
-        rows = resp.json().get("reportTableData", [])
+        rows = _get_report_json(url).get("reportTableData", [])
     except (requests.RequestException, ValueError) as e:
         print(f"WARNING: listing performance fetch failed: {e}", file=sys.stderr)
         _note_report(PERFORMANCE_REPORT_ID, False, error=f"{type(e).__name__}: {e}")
