@@ -445,7 +445,8 @@ class TestEnrichmentReportFailureKeepsLastGoodData(unittest.TestCase):
             mock_dt.strptime = datetime.strptime
             mock_dt.fromisoformat = datetime.fromisoformat
             with mock.patch.object(s.requests, "get", side_effect=fake_get):
-                return s._fetch_and_build_all_records()
+                with mock.patch("investorgain_scraper.time.sleep"):  # skip the real retry backoff in tests
+                    return s._fetch_and_build_all_records()
 
     def test_unreachable_subscription_report_keeps_previous_breakdown(self):
         _isolate_data_files(self)
@@ -497,6 +498,62 @@ class TestEnrichmentReportFailureKeepsLastGoodData(unittest.TestCase):
         _isolate_data_files(self)
         rec = self._run_cycle(s.requests.ConnectionError("down"))[0]
         self.assertIsNone(rec.subscription.qib, "with nothing ever fetched, stay None (shows N/A), never a guess")
+
+
+class TestTransientReportErrorRetriesOnce(unittest.TestCase):
+    """Bug (found live 2026-09-24/25): InvestorGain occasionally returns a
+    522 (Cloudflare: origin didn't respond) or a read timeout for a few
+    seconds, then works again immediately after. Fixed by retrying once,
+    after a short backoff, on exactly this class of transient failure --
+    so a multi-second hiccup no longer costs a full 2-minute refresh
+    cycle of carried-forward (stale) data."""
+
+    def test_522_then_success_returns_real_data_not_carried_forward(self):
+        _isolate_data_files(self)
+        row = {
+            "~ipo_status1": "O", "~IPO_Category": "IPO",
+            "Name": '<a>Co</a><span class="badge">IPO</span><span class="badge">O</span>',
+            "GMP": "&#8377;<b>10</b> (5.00%)", "Sub": "1.0", "IPO Size": "&#8377;100.00 Cr",
+            "~Srt_Open": "2026-09-15", "~Srt_Close": "2026-09-20",
+            "~Srt_BoA_Dt": "2026-09-21", "~Str_Listing": "2026-09-23", "Updated-On": "",
+        }
+        calls = {"n": 0}
+        error_522 = s.requests.exceptions.HTTPError("522 Server Error")
+        error_522.response = mock.Mock(status_code=522)
+
+        def fake_get(url, **kwargs):
+            if "331" in url:
+                calls["n"] += 1
+                if calls["n"] == 1:
+                    raise error_522
+                return _mock_report_response([row])
+            return _mock_report_response([])
+
+        with mock.patch("investorgain_scraper.time.sleep"):
+            with mock.patch.object(s.requests, "get", side_effect=fake_get):
+                rows = s.fetch_report(s.GMP_REPORT_ID)
+
+        self.assertEqual(calls["n"], 2, "must retry exactly once after the transient 522")
+        self.assertEqual(len(rows), 1)
+        self.assertTrue(s.report_status()[str(s.GMP_REPORT_ID)]["ok"])
+
+    def test_404_is_not_retried(self):
+        _isolate_data_files(self)
+        calls = {"n": 0}
+        error_404 = s.requests.exceptions.HTTPError("404 Not Found")
+        error_404.response = mock.Mock(status_code=404)
+
+        def fake_get(url, **kwargs):
+            calls["n"] += 1
+            raise error_404
+
+        with mock.patch("investorgain_scraper.time.sleep") as mock_sleep:
+            with mock.patch.object(s.requests, "get", side_effect=fake_get):
+                with self.assertRaises(s.requests.exceptions.HTTPError):
+                    s.fetch_report(s.GMP_REPORT_ID)
+
+        self.assertEqual(calls["n"], 1, "a 4xx must not be retried")
+        mock_sleep.assert_not_called()
 
 
 if __name__ == "__main__":
