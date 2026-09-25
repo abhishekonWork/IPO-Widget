@@ -198,8 +198,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 49,
-    "last_direction": "down",
+    "last_gmp": 51,
+    "last_direction": "up",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 49
   },
@@ -242,8 +242,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 20,
-    "last_direction": "flat",
+    "last_gmp": 16,
+    "last_direction": "down",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 20
   },
@@ -266,8 +266,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 9,
-    "last_direction": "flat",
+    "last_gmp": 7,
+    "last_direction": "down",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 9
   },
@@ -298,12 +298,12 @@
   "Acevector": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 6.25,
+      "highest": 9.38,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 2,
-    "last_direction": "flat",
+    "last_gmp": 3,
+    "last_direction": "up",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 2
   },
@@ -314,15 +314,15 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 37,
-    "last_direction": "up",
+    "last_gmp": 11,
+    "last_direction": "down",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 37
   },
   "German Green Steel": {
     "gmp_extremes": {
       "opening": 10.79,
-      "highest": 20.86,
+      "highest": 21.22,
       "lowest": 10.79,
       "frozen": false
     },
@@ -362,7 +362,7 @@
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 21,
+    "last_gmp": 18,
     "last_direction": "down",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 21
