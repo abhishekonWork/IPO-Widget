@@ -254,8 +254,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 2,
-    "last_direction": "flat",
+    "last_gmp": 4,
+    "last_direction": "up",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 2
   },
@@ -274,11 +274,11 @@
   "Adroit Industries": {
     "gmp_extremes": {
       "opening": 0.0,
-      "highest": 30.6,
+      "highest": 35.07,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 40,
+    "last_gmp": 47,
     "last_direction": "up",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 37
@@ -302,8 +302,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 3,
-    "last_direction": "up",
+    "last_gmp": 2,
+    "last_direction": "down",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 2
   },
@@ -314,7 +314,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 22,
+    "last_gmp": 26,
     "last_direction": "up",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 37
@@ -338,8 +338,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 70,
-    "last_direction": "down",
+    "last_gmp": 87,
+    "last_direction": "up",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 113
   },
@@ -358,11 +358,11 @@
   "SRIT India": {
     "gmp_extremes": {
       "opening": 9.23,
-      "highest": 16.92,
+      "highest": 24.62,
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 22,
+    "last_gmp": 32,
     "last_direction": "up",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 21
