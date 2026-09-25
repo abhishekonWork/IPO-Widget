@@ -314,8 +314,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 37,
-    "last_direction": "flat",
+    "last_gmp": 30,
+    "last_direction": "down",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 37
   },
@@ -358,13 +358,21 @@
   "SRIT India": {
     "gmp_extremes": {
       "opening": 9.23,
-      "highest": 16.15,
+      "highest": 16.92,
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 21,
-    "last_direction": "flat",
+    "last_gmp": 22,
+    "last_direction": "up",
     "last_seen_day": "2026-09-25",
     "prev_day_close_gmp": 21
+  },
+  "Nityas Gems & Jewellery": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
   }
 }
