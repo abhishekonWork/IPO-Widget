@@ -198,8 +198,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 51,
-    "last_direction": "flat",
+    "last_gmp": 52,
+    "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 51
   },
@@ -274,12 +274,12 @@
   "Adroit Industries": {
     "gmp_extremes": {
       "opening": 35.07,
-      "highest": 35.07,
+      "highest": 35.82,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 47,
-    "last_direction": "flat",
+    "last_gmp": 48,
+    "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 47
   },
@@ -326,8 +326,8 @@
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 25,
-    "last_direction": "down",
+    "last_gmp": 26,
+    "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 26
   },
@@ -338,8 +338,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 80,
-    "last_direction": "flat",
+    "last_gmp": 85,
+    "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 80
   },
