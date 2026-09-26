@@ -49,6 +49,7 @@ class IPORecord:
     gmp_highest: Optional[float] = None            # all-time highest GMP % recorded while actively tracked (Upcoming/Open/Closed-not-yet-listed) -- freezes permanently once the IPO lists
     gmp_lowest: Optional[float] = None             # all-time lowest GMP % recorded, same freeze rule as gmp_highest
     source_url: Optional[str] = None
+    detail_page_url: Optional[str] = None         # this IPO's own InvestorGain page, e.g. https://www.investorgain.com/ipo/moneyview-ipo/2198/ -- for a "View Details" link. None if the slug/id couldn't be read from the report row (never a guessed URL).
     last_updated: Optional[str] = None    # when WE fetched it, ISO datetime
     source: str = "InvestorGain"
 
