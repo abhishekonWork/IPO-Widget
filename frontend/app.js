@@ -16,7 +16,6 @@ function formatDateDMY(isoDate) {
 
 let currentTab = "open";
 let allRecords = [];
-let searchTerm = "";
 // Open tab only -- see openSortComparator(). Upcoming/Closed never read
 // this; they keep their existing close_date sort untouched.
 let openSortBy = "gmp_desc";
@@ -25,21 +24,14 @@ const cardList = document.getElementById("cardList");
 const updatedText = document.getElementById("updatedText");
 const nextUpdateText = document.getElementById("nextUpdateText");
 const updatedRow = document.getElementById("updatedRow");
-const searchInput = document.getElementById("searchInput");
-const searchBarWrap = document.getElementById("searchBarWrap");
 const sortBarWrap = document.getElementById("sortBarWrap");
 const openSortSelect = document.getElementById("openSortSelect");
 
-// Open shows the sort dropdown instead of search (this feature); Upcoming
-// and Closed are unchanged -- they still show the search bar exactly as
-// before. Toggling `hidden` rather than removing either element keeps
-// their event listeners (and the user's typed search term) intact across
-// tab switches, so flipping back to Upcoming/Closed behaves exactly as it
-// always has.
+// Open shows the sort dropdown; Upcoming and Closed show no toolbar at
+// all (search has been removed everywhere -- there is nothing to show
+// them). They keep their existing close_date sort untouched either way.
 function updateToolbarForTab(tab) {
-  const isOpen = tab === "open";
-  searchBarWrap.hidden = isOpen;
-  sortBarWrap.hidden = !isOpen;
+  sortBarWrap.hidden = tab !== "open";
 }
 
 document.querySelectorAll(".tab").forEach((tab) => {
@@ -52,15 +44,12 @@ document.querySelectorAll(".tab").forEach((tab) => {
   });
 });
 
-searchInput.addEventListener("input", (e) => {
-  searchTerm = e.target.value.trim().toLowerCase();
-  render();
-});
-
 openSortSelect.addEventListener("change", (e) => {
   openSortBy = e.target.value;
   render();
 });
+
+updateToolbarForTab(currentTab); // set initial visibility to match the default active tab (Open)
 
 updateToolbarForTab(currentTab); // set initial visibility to match the default active tab (Open)
 
@@ -204,12 +193,6 @@ function openSortComparator(key) {
 
 function render() {
   let records = allRecords;
-  // The search bar is hidden on the Open tab (a sort dropdown replaces
-  // it there -- see updateToolbarForTab), so search never applies to
-  // Open; Upcoming/Closed keep searching exactly as before.
-  if (currentTab !== "open" && searchTerm) {
-    records = records.filter((r) => r.company_name.toLowerCase().includes(searchTerm));
-  }
 
   if (currentTab === "open") {
     records = [...records].sort(openSortComparator(openSortBy));
