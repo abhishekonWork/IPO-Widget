@@ -198,7 +198,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 52,
+    "last_gmp": 54,
     "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 51
@@ -266,19 +266,19 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 4,
-    "last_direction": "flat",
+    "last_gmp": 6,
+    "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 4
   },
   "Adroit Industries": {
     "gmp_extremes": {
       "opening": 35.07,
-      "highest": 35.82,
+      "highest": 39.55,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 48,
+    "last_gmp": 53,
     "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 47
@@ -290,8 +290,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 13,
-    "last_direction": "flat",
+    "last_gmp": 14,
+    "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 13
   },
@@ -314,8 +314,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 16,
-    "last_direction": "flat",
+    "last_gmp": 18,
+    "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 16
   },
@@ -326,7 +326,7 @@
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 26,
+    "last_gmp": 27,
     "last_direction": "up",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 26
@@ -347,11 +347,11 @@
     "gmp_extremes": {
       "opening": 5.99,
       "highest": 7.19,
-      "lowest": 5.99,
+      "lowest": 5.39,
       "frozen": false
     },
-    "last_gmp": 12,
-    "last_direction": "flat",
+    "last_gmp": 9,
+    "last_direction": "down",
     "last_seen_day": "2026-09-26",
     "prev_day_close_gmp": 12
   },
