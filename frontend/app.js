@@ -230,6 +230,10 @@ function renderCard(r) {
       </div>
       <div class="gmp-label">GMP (Indicative)</div>
       <div class="gmp ${gmpClass(gmpPct)}">${gmpText}${directionIndicator(r.gmp_direction)}${gmpRupeeText ? ` <span class="gmp-rupee">(${gmpRupeeText})</span>` : ""}</div>
+      ${r.detail_page_url ? `
+      <div class="view-details-row">
+        <a class="view-details-btn" href="${escapeHtml(r.detail_page_url)}" target="_blank" rel="noopener noreferrer">View Details ↗</a>
+      </div>` : ""}
       ${(r.gmp_opening != null || r.gmp_highest != null || r.gmp_lowest != null) ? `
       <div class="gmp-extremes-row">
         <div class="gmp-extreme ge-opening"><span class="ge-k">Opening</span><span class="ge-v">${r.gmp_opening != null ? r.gmp_opening.toFixed(2) + "%" : "—"}</span></div>
