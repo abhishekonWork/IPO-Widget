@@ -136,28 +136,8 @@ header.topbar {
   border-color: var(--accent);
 }
 
-.searchbar { margin: 12px 0 0; }
-
-.searchbar input {
-  width: 100%;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  font-size: 14px;
-}
-
-.searchbar input::placeholder { color: var(--text-faint); }
-.searchbar input:focus {
-  outline: none;
-  border-color: var(--accent);
-  background: var(--bg);
-}
-
-/* Open tab only -- replaces the search bar there (see #searchBarWrap /
-   #sortBarWrap toggle in app.js). Same spacing/sizing language as
-   .searchbar so swapping the two doesn't shift the layout. */
+/* Open tab only -- shows below the tabs; Upcoming/Closed show no toolbar
+   at all (search was removed everywhere -- see app.js). */
 .sortbar {
   margin: 12px 0 0;
   display: flex;
