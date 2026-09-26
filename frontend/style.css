@@ -276,12 +276,20 @@ main {
   color: var(--text-dim);
 }
 
-/* Fills the gap between the main GMP number and the Opening/Highest/Lowest
-   row -- links out to this IPO's own InvestorGain page. Only rendered
-   when detail_page_url is present (see renderCard in app.js); never a
-   fabricated/broken link. */
-.view-details-row { margin-top: 8px; }
+/* GMP value on the left, "View Details" button on the right, same row
+   (feature added 2026-09-26; moved onto the GMP row per feedback -- was
+   previously its own row below). Links out to this IPO's own
+   InvestorGain page. Only rendered when detail_page_url is present (see
+   renderCard in app.js); never a fabricated/broken link. */
+.gmp-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+}
+.gmp-main { min-width: 0; }
 .view-details-btn {
+  flex-shrink: 0;
   display: inline-block;
   padding: 5px 12px;
   border-radius: 8px;
@@ -291,6 +299,7 @@ main {
   font-size: 12.5px;
   font-weight: 700;
   text-decoration: none;
+  white-space: nowrap;
 }
 .view-details-btn:hover,
 .view-details-btn:focus-visible {
