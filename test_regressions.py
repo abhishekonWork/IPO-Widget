@@ -435,6 +435,127 @@ class TestDetailPageUrlForViewDetailsButton(unittest.TestCase):
         self.assertEqual(rec2.detail_page_url, "https://www.investorgain.com/ipo/moneyview-ipo/2198/")
 
 
+class TestFailedRegistrarFetchIsNeverCachedAsPermanentMiss(unittest.TestCase):
+    """Bug (found live, reported 2026-09-26): some IPOs showed Registrar
+    and/or Price Band as "Not Available" and it never came back, even
+    though the real InvestorGain page clearly has both. Root cause:
+    registrar/price band are fetched ONCE per IPO and cached FOREVER (by
+    design -- they never change once filed), but a failed or blocked
+    fetch attempt was being cached the exact same permanent way as a real
+    result -- one bad network moment (timeout, 5xx, a temporary block)
+    then meant "Not Available" forever for that IPO, with no way to
+    recover short of clearing the cache file by hand.
+
+    Fix: only a CONFIRMED page read (fetch_ok=True) is cached forever,
+    even if it's a genuine miss (page loaded, rows really weren't there).
+    A failed attempt is left out of the cache entirely, so a later cycle
+    retries it -- exactly like any other not-yet-fetched IPO."""
+
+    DETAIL_HTML_WITH_DATA = """
+        <table>
+          <tr><td>Registrar</td><td>Bigshare Services Pvt.Ltd.</td></tr>
+          <tr><td>Price Band</td><td>\u20b940.00-43.00 per share</td></tr>
+        </table>
+    """
+    DETAIL_HTML_GENUINELY_NO_ROWS = "<table><tr><td>Some Other Field</td><td>x</td></tr></table>"
+
+    def _row(self, slug="moneyview-ipo", ipo_id=2198):
+        return {"~urlrewrite_folder_name": f"/gmp/{slug}/{ipo_id}/"}
+
+    def test_transient_failure_is_not_cached(self):
+        _isolate_data_files(self)
+        rec = IPORecord(company_name="Moneyview", ipo_type="Mainboard")
+        with mock.patch("investorgain_scraper.time.sleep"):
+            with mock.patch.object(s.requests, "get", side_effect=s.requests.exceptions.ConnectionError("boom")):
+                s.enrich_with_registrar([rec], {"Moneyview": self._row()})
+
+        self.assertIsNone(rec.registrar)
+        self.assertIsNone(rec.price_band_floor)
+        cache = s._load_registrar_cache()
+        self.assertNotIn("2198", cache, "a failed fetch must NOT be written to the permanent cache")
+
+    def test_retry_recovers_real_data_within_the_same_cycle(self):
+        _isolate_data_files(self)
+        rec = IPORecord(company_name="Moneyview", ipo_type="Mainboard")
+        error_522 = s.requests.exceptions.HTTPError("522 Server Error")
+        error_522.response = mock.Mock(status_code=522)
+        calls = {"n": 0}
+
+        def fake_get(url, **kwargs):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise error_522
+            resp = mock.Mock()
+            resp.text = self.DETAIL_HTML_WITH_DATA
+            resp.raise_for_status = lambda: None
+            return resp
+
+        with mock.patch("investorgain_scraper.time.sleep"):
+            with mock.patch.object(s.requests, "get", side_effect=fake_get):
+                s.enrich_with_registrar([rec], {"Moneyview": self._row()})
+
+        self.assertEqual(calls["n"], 2, "must retry once after the transient 522")
+        self.assertEqual(rec.registrar, "Bigshare Services Pvt.Ltd.")
+        self.assertEqual(rec.price_band_floor, 40.0)
+        self.assertIn("2198", s._load_registrar_cache(), "the eventually-successful read IS cached")
+
+    def test_genuine_miss_on_a_real_page_is_still_cached_forever(self):
+        _isolate_data_files(self)
+        rec = IPORecord(company_name="Moneyview", ipo_type="Mainboard")
+
+        def fake_get(url, **kwargs):
+            resp = mock.Mock()
+            resp.text = self.DETAIL_HTML_GENUINELY_NO_ROWS
+            resp.raise_for_status = lambda: None
+            return resp
+
+        with mock.patch.object(s.requests, "get", side_effect=fake_get):
+            s.enrich_with_registrar([rec], {"Moneyview": self._row()})
+
+        self.assertIsNone(rec.registrar)
+        cache = s._load_registrar_cache()
+        self.assertIn("2198", cache, "a REAL page with genuinely no registrar/price-band row IS a confirmed miss -- cache it")
+
+    def test_failed_fetch_is_retried_on_a_later_cycle_and_can_then_succeed(self):
+        _isolate_data_files(self)
+        rec1 = IPORecord(company_name="Moneyview", ipo_type="Mainboard")
+        with mock.patch("investorgain_scraper.time.sleep"):
+            with mock.patch.object(s.requests, "get", side_effect=s.requests.exceptions.Timeout("slow")):
+                s.enrich_with_registrar([rec1], {"Moneyview": self._row()})
+        self.assertIsNone(rec1.registrar)
+
+        # A later refresh cycle: InvestorGain is back up.
+        rec2 = IPORecord(company_name="Moneyview", ipo_type="Mainboard")
+
+        def fake_get(url, **kwargs):
+            resp = mock.Mock()
+            resp.text = self.DETAIL_HTML_WITH_DATA
+            resp.raise_for_status = lambda: None
+            return resp
+
+        with mock.patch.object(s.requests, "get", side_effect=fake_get):
+            s.enrich_with_registrar([rec2], {"Moneyview": self._row()})
+
+        self.assertEqual(rec2.registrar, "Bigshare Services Pvt.Ltd.", "not stuck at N/A forever -- retried and recovered")
+
+    def test_parse_exception_is_treated_as_failure_not_confirmed_miss(self):
+        _isolate_data_files(self)
+        rec = IPORecord(company_name="Moneyview", ipo_type="Mainboard")
+
+        def fake_get(url, **kwargs):
+            resp = mock.Mock()
+            resp.text = self.DETAIL_HTML_WITH_DATA
+            resp.raise_for_status = lambda: None
+            return resp
+
+        with mock.patch("bs4.BeautifulSoup", side_effect=RuntimeError("parser exploded")):
+            with mock.patch.object(s.requests, "get", side_effect=fake_get):
+                s.enrich_with_registrar([rec], {"Moneyview": self._row()})
+
+        self.assertIsNone(rec.registrar)
+        self.assertNotIn("2198", s._load_registrar_cache(), "a parse failure on our own side must not be cached as a confirmed miss")
+
+
 class TestEnrichmentReportFailureKeepsLastGoodData(unittest.TestCase):
     """Bug (found live 2026-09-24): the site sometimes showed "N/A" for the
     whole subscription breakdown (QIB/SHNI/BHNI/NII/Retail) while GMP
