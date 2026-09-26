@@ -402,6 +402,39 @@ class TestRegistrarCacheBackwardCompatibility(unittest.TestCase):
         self.assertEqual(rec.registrar, "Bigshare Services Pvt.Ltd.")
 
 
+class TestDetailPageUrlForViewDetailsButton(unittest.TestCase):
+    """Feature (2026-09-26): a "View Details" link on each card to this
+    IPO's own InvestorGain page (e.g.
+    https://www.investorgain.com/ipo/moneyview-ipo/2198/). Built from the
+    same slug+id already read from the report row for registrar
+    enrichment -- no extra network fetch."""
+
+    def test_detail_page_url_set_from_row_slug_and_id(self):
+        _isolate_data_files(self)
+        rec = IPORecord(company_name="Moneyview", ipo_type="Mainboard")
+        row = {"~urlrewrite_folder_name": "/gmp/moneyview-ipo/2198/"}
+        s.enrich_with_registrar([rec], {"Moneyview": row})
+        self.assertEqual(rec.detail_page_url, "https://www.investorgain.com/ipo/moneyview-ipo/2198/")
+
+    def test_no_url_when_slug_or_id_unavailable(self):
+        _isolate_data_files(self)
+        rec = IPORecord(company_name="NoSlugCo", ipo_type="Mainboard")
+        s.enrich_with_registrar([rec], {"NoSlugCo": {"~urlrewrite_folder_name": ""}})
+        self.assertIsNone(rec.detail_page_url, "never a guessed/fabricated link")
+
+    def test_carried_forward_when_a_later_cycle_cannot_read_it(self):
+        _isolate_data_files(self)
+        rec = IPORecord(company_name="Moneyview", ipo_type="Mainboard", detail_page_url=None)
+        s._carry_forward_missing_enrichment([rec])  # no previous cache/archive yet
+        self.assertIsNone(rec.detail_page_url)
+
+        cache = {"open": {"records": [{"company_name": "Moneyview", "detail_page_url": "https://www.investorgain.com/ipo/moneyview-ipo/2198/"}]}}
+        s.CACHE_FILE.write_text(json.dumps(cache), encoding="utf-8")
+        rec2 = IPORecord(company_name="Moneyview", ipo_type="Mainboard", detail_page_url=None)
+        s._carry_forward_missing_enrichment([rec2])
+        self.assertEqual(rec2.detail_page_url, "https://www.investorgain.com/ipo/moneyview-ipo/2198/")
+
+
 class TestEnrichmentReportFailureKeepsLastGoodData(unittest.TestCase):
     """Bug (found live 2026-09-24): the site sometimes showed "N/A" for the
     whole subscription breakdown (QIB/SHNI/BHNI/NII/Retail) while GMP
