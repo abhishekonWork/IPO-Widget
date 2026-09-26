@@ -622,7 +622,18 @@ def _fetch_and_build_all_records() -> list[IPORecord]:
         gmp_raw = _strip_tags(row.get("GMP", ""))
         gmp_val = None if "--" in gmp_raw.split("(")[0] else _first_number(gmp_raw)
         gmp_pct_match = re.search(r"\((-?[\d.]+)\s*%\)", gmp_raw)
-        gmp_pct = float(gmp_pct_match.group(1)) if gmp_pct_match else None
+        # Bug (found live 2026-09-25, e.g. Acevector): before any market maker
+        # has quoted a real premium, InvestorGain's own GMP cell is literally
+        # the text "--(0.00%)" -- a formatting placeholder, not a real "0%"
+        # reading. Parsing that "(0.00%)" at face value fed a fake 0.0 into
+        # _update_gmp_extremes, which permanently locked "Opening GMP" at 0%
+        # for the IPO's whole life, even after a real premium (here 6.25%)
+        # showed up later. A genuine 0% reading always comes WITH a real
+        # rupee value (e.g. "₹0 (0.00%)"), never with "--", so gating on
+        # gmp_val being present distinguishes "no data yet" from "really zero".
+        gmp_pct = None
+        if gmp_val is not None and gmp_pct_match:
+            gmp_pct = float(gmp_pct_match.group(1))
 
         sub_text = _strip_tags(row.get("Sub", ""))
         sub_total = _first_number(sub_text)
@@ -1045,21 +1056,75 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
         _save_registrar_cache(cache)
 
 
+ZERO_OPENING_REPAIR_KEY = "__meta__"
+ZERO_OPENING_REPAIR_FLAG = "zero_opening_repair_v1"
+
+
+def _repair_legacy_zero_gmp_openings(state: dict) -> dict:
+    """One-time repair for state already corrupted by the bug fixed above
+    (2026-09-25): before the fix, every IPO's very first cycle -- while
+    GMP was still "--" -- got its permanent "Opening GMP" wrongly locked
+    to 0.0 instead of staying unset. That's already written into the
+    persisted (GitHub-backed) state file, so the parsing fix alone can't
+    correct IPOs already affected -- "opening" only ever gets set ONCE,
+    by design, so a bad 0.0 already there is neither seen as missing nor
+    updated by new real readings.
+
+    This resets `opening` back to None for any NOT-YET-LISTED IPO whose
+    opening is exactly 0.0, so the very next real reading becomes the new
+    (correct) opening -- same rule as if it had never been set. Listed
+    (frozen) IPOs are left untouched, since those are permanent history.
+    Runs once: a "__meta__" flag in the state itself marks it done, so a
+    genuinely real 0.00% opening recorded AFTER this repair is never
+    reset again."""
+    meta = state.get(ZERO_OPENING_REPAIR_KEY)
+    if isinstance(meta, dict) and meta.get(ZERO_OPENING_REPAIR_FLAG):
+        return state
+    for company_name, entry in state.items():
+        if company_name == ZERO_OPENING_REPAIR_KEY or not isinstance(entry, dict):
+            continue
+        extremes = entry.get("gmp_extremes")
+        if not isinstance(extremes, dict) or extremes.get("frozen"):
+            continue
+        if extremes.get("opening") != 0.0:
+            continue
+        if extremes.get("highest") == 0.0 and extremes.get("lowest") == 0.0:
+            # highest/lowest never moved away from the fake reading either --
+            # the bug corrupted all three on that first cycle, so all three
+            # need to re-establish themselves from the next real reading.
+            extremes["opening"] = None
+            extremes["highest"] = None
+            extremes["lowest"] = None
+        else:
+            # highest and/or lowest DID move since -- a real reading already
+            # came in and correctly updated them. Only "opening" is stuck,
+            # since by design it locks on the first-ever value and never
+            # updates again. Leave the already-correct highest/lowest alone.
+            extremes["opening"] = None
+    state[ZERO_OPENING_REPAIR_KEY] = {ZERO_OPENING_REPAIR_FLAG: True}
+    return state
+
+
 def _load_gmp_direction_state() -> dict:
     """Loads GMP direction memory. Tries GitHub first (survives redeploys
     -- see _github_get_file), falls back to the local disk copy, which is
     only reliable WITHIN a single running process since Render's free tier
     wipes local disk on every redeploy. See module docstring note on
-    GITHUB_TOKEN for why this exists."""
+    GITHUB_TOKEN for why this exists.
+
+    Also runs the one-time legacy-zero-opening repair (see
+    _repair_legacy_zero_gmp_openings) on whatever state comes back, from
+    either source."""
     github_state = _github_get_file(GMP_DIRECTION_STATE_GITHUB_PATH)
     if github_state is not None:
-        return github_state
+        return _repair_legacy_zero_gmp_openings(github_state)
     if not GMP_DIRECTION_STATE_FILE.exists():
         return {}
     try:
-        return json.loads(GMP_DIRECTION_STATE_FILE.read_text(encoding="utf-8"))
+        local_state = json.loads(GMP_DIRECTION_STATE_FILE.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
         return {}
+    return _repair_legacy_zero_gmp_openings(local_state)
 
 
 def _save_gmp_direction_state(state: dict) -> None:
