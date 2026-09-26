@@ -579,6 +579,9 @@ def _carry_forward_missing_enrichment(records: list[IPORecord]) -> None:
                 if prev.get("listing_gain_percent") is not None or prev.get("listing_price") is not None:
                     rec.listing_price = prev.get("listing_price")
                     rec.listing_gain_percent = prev.get("listing_gain_percent")
+
+            if rec.detail_page_url is None and prev.get("detail_page_url"):
+                rec.detail_page_url = prev.get("detail_page_url")
     except Exception as e:  # noqa: BLE001 -- best-effort; must never take down the refresh
         print(f"WARNING: carry-forward of cached enrichment skipped: {e}", file=sys.stderr)
 
@@ -1026,6 +1029,12 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
         slug, ipo_id = _extract_url_slug_and_id(row)
         if not slug or not ipo_id:
             continue
+
+        # Feature added 2026-09-26: a "View Details" link on each card, to
+        # this IPO's own InvestorGain page (e.g. moneyview-ipo/2198). Free
+        # to compute -- slug/id are already being read from this same row
+        # for registrar enrichment below, no extra network fetch needed.
+        rec.detail_page_url = f"https://www.investorgain.com/ipo/{slug}/{ipo_id}/"
 
         cache_key = str(ipo_id)
         if cache_key in cache:
