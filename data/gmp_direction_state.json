@@ -193,7 +193,7 @@
   },
   "A-One Steels": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 12.59,
       "highest": 15.8,
       "lowest": 0.0,
       "frozen": false
@@ -205,7 +205,7 @@
   },
   "Sonaselection India": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": null,
       "highest": 8.08,
       "lowest": 0.0,
       "frozen": false
@@ -217,15 +217,15 @@
   },
   "One Mobikwik Systems": {
     "gmp_extremes": {
-      "opening": 0.0,
-      "highest": 0.0,
-      "lowest": 0.0,
+      "opening": null,
+      "highest": null,
+      "lowest": null,
       "frozen": false
     }
   },
   "Varmora Granito": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 0.34,
       "highest": 10.14,
       "lowest": 0.0,
       "frozen": false
@@ -237,7 +237,7 @@
   },
   "ArMee Infotech": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 2.13,
       "highest": 14.93,
       "lowest": 0.0,
       "frozen": false
@@ -249,7 +249,7 @@
   },
   "Elevate Campuses": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 1.1,
       "highest": 4.42,
       "lowest": 0.0,
       "frozen": false
@@ -261,7 +261,7 @@
   },
   "Swastika Infra": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 2.43,
       "highest": 5.41,
       "lowest": 0.0,
       "frozen": false
@@ -273,7 +273,7 @@
   },
   "Adroit Industries": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 35.07,
       "highest": 35.07,
       "lowest": 0.0,
       "frozen": false
@@ -285,7 +285,7 @@
   },
   "Moneyview": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 39.71,
       "highest": 45.59,
       "lowest": 0.0,
       "frozen": false
@@ -297,7 +297,7 @@
   },
   "Acevector": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 6.25,
       "highest": 9.38,
       "lowest": 0.0,
       "frozen": false
@@ -309,7 +309,7 @@
   },
   "Runwal Enterprises": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 5.25,
       "highest": 12.13,
       "lowest": 0.0,
       "frozen": false
@@ -333,7 +333,7 @@
   },
   "Orient Cables": {
     "gmp_extremes": {
-      "opening": 0.0,
+      "opening": 29.41,
       "highest": 41.54,
       "lowest": 0.0,
       "frozen": false
@@ -369,9 +369,9 @@
   },
   "Nityas Gems & Jewellery": {
     "gmp_extremes": {
-      "opening": 0.0,
-      "highest": 0.0,
-      "lowest": 0.0,
+      "opening": null,
+      "highest": null,
+      "lowest": null,
       "frozen": false
     }
   },
@@ -382,5 +382,8 @@
       "lowest": null,
       "frozen": false
     }
+  },
+  "__meta__": {
+    "zero_opening_repair_v1": true
   }
 }
