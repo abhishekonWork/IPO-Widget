@@ -933,6 +933,26 @@ def _parse_price_band(raw_text: str) -> tuple[Optional[float], Optional[float]]:
     return None, None
 
 
+def _get_html_with_retry(url: str) -> str:
+    """GETs an InvestorGain HTML page (not a JSON report) with the same
+    one-retry-on-transient-failure behavior as _get_report_json. Returns
+    the raw HTML text; raises on a non-transient failure or if the retry
+    also fails."""
+    last_error: Optional[Exception] = None
+    for attempt in range(1, REPORT_RETRY_ATTEMPTS + 1):
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
+            resp.raise_for_status()
+            return resp.text
+        except Exception as e:  # noqa: BLE001 -- decide below whether to retry or re-raise
+            last_error = e
+            if attempt < REPORT_RETRY_ATTEMPTS and _is_transient_error(e):
+                time.sleep(REPORT_RETRY_BACKOFF_SECONDS)
+                continue
+            raise
+    raise last_error  # pragma: no cover -- loop always returns or raises above
+
+
 def scrape_ipo_detail_page(url_slug: str, ipo_id: int) -> dict:
     """Fetches ONE IPO's individual detail page ONCE and extracts BOTH
     registrar and price band from it -- these used to be two separate
@@ -946,20 +966,31 @@ def scrape_ipo_detail_page(url_slug: str, ipo_id: int) -> dict:
     enrich_with_ipo_details below) rather than refetch every cycle.
 
     Returns {"registrar": str|None, "price_band_floor": float|None,
-    "price_band_cap": float|None}. Never raises -- a fetch/parse failure
-    just means all three come back None, exactly as if the row wasn't found."""
-    result = {"registrar": None, "price_band_floor": None, "price_band_cap": None}
+    "price_band_cap": float|None, "fetch_ok": bool}. Never raises.
+
+    Bug fixed 2026-09-26: registrar/price band used to be cached
+    permanently the moment this function returned, even when it returned
+    all-None because the page couldn't be reached or parsed -- one bad
+    network moment (a timeout, a block, a malformed response) then showed
+    "Not Available" for that IPO forever, since these fields are (by
+    design) fetched once and never retried. "fetch_ok" now tells the
+    caller (enrich_with_registrar) whether this result is a REAL,
+    confirmed page read (safe to cache forever, even if genuinely empty)
+    or a failure (must NOT be cached -- try again on a later cycle). A
+    transient failure (timeout, 5xx, connection error) gets one quick
+    retry first -- see _get_html_with_retry."""
+    result = {"registrar": None, "price_band_floor": None, "price_band_cap": None, "fetch_ok": False}
     url = f"https://www.investorgain.com/ipo/{url_slug}/{ipo_id}/"
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
-        resp.raise_for_status()
-    except requests.RequestException as e:
+        html = _get_html_with_retry(url)
+    except Exception as e:  # noqa: BLE001 -- any failure to fetch means "unknown", never "confirmed absent"
         print(f"WARNING: IPO detail page fetch failed for {url}: {e}", file=sys.stderr)
         return result
 
+    result["fetch_ok"] = True  # a real page is in hand -- anything not found below is a genuine miss
     try:
         from bs4 import BeautifulSoup
-        soup = BeautifulSoup(resp.text, "html.parser")
+        soup = BeautifulSoup(html, "html.parser")
         for row_el in soup.find_all("tr"):
             cells = row_el.find_all(["td", "th"])
             if len(cells) != 2:
@@ -973,7 +1004,11 @@ def scrape_ipo_detail_page(url_slug: str, ipo_id: int) -> dict:
                 result["price_band_floor"] = floor
                 result["price_band_cap"] = cap
     except Exception as e:
+        # Our OWN parsing broke -- this says nothing about whether the
+        # page actually has a registrar/price band, so it must not be
+        # treated as a confirmed miss either.
         print(f"WARNING: IPO detail page parse failed for {url}: {e}", file=sys.stderr)
+        result["fetch_ok"] = False
     return result
 
 
@@ -1057,9 +1092,25 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
         rec.registrar = detail["registrar"]
         rec.price_band_floor = detail["price_band_floor"]
         rec.price_band_cap = detail["price_band_cap"]
-        cache[cache_key] = detail  # caches the miss too (all-None), so we don't retry every cycle
-        cache_dirty = True
         new_fetches_done += 1
+
+        if detail["fetch_ok"]:
+            # A real page was fetched (and, if parsing broke, that broke
+            # BEFORE this point -- see scrape_ipo_detail_page). Whatever we
+            # found, or genuinely didn't find, is real -- cache it forever,
+            # same as always.
+            cache[cache_key] = {k: v for k, v in detail.items() if k != "fetch_ok"}
+            cache_dirty = True
+        else:
+            # Bug fixed 2026-09-26: a failed/blocked fetch used to be
+            # cached as a permanent all-None miss here, forever blanking
+            # Registrar/Price Band for that IPO even though nothing was
+            # actually confirmed absent -- one bad network moment, shown
+            # as "Not Available" for the IPO's entire life. Now a failure
+            # is simply left OUT of the cache, so a later cycle (bounded
+            # by max_new_fetches, same as any other new IPO) tries again
+            # instead of giving up forever after one bad moment.
+            print(f"INFO: registrar/price-band fetch for {rec.company_name} did not complete -- will retry a later cycle", file=sys.stderr)
 
     if cache_dirty:
         _save_registrar_cache(cache)
