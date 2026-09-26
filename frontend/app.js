@@ -17,18 +17,37 @@ function formatDateDMY(isoDate) {
 let currentTab = "open";
 let allRecords = [];
 let searchTerm = "";
+// Open tab only -- see openSortComparator(). Upcoming/Closed never read
+// this; they keep their existing close_date sort untouched.
+let openSortBy = "gmp_desc";
 
 const cardList = document.getElementById("cardList");
 const updatedText = document.getElementById("updatedText");
 const nextUpdateText = document.getElementById("nextUpdateText");
 const updatedRow = document.getElementById("updatedRow");
 const searchInput = document.getElementById("searchInput");
+const searchBarWrap = document.getElementById("searchBarWrap");
+const sortBarWrap = document.getElementById("sortBarWrap");
+const openSortSelect = document.getElementById("openSortSelect");
+
+// Open shows the sort dropdown instead of search (this feature); Upcoming
+// and Closed are unchanged -- they still show the search bar exactly as
+// before. Toggling `hidden` rather than removing either element keeps
+// their event listeners (and the user's typed search term) intact across
+// tab switches, so flipping back to Upcoming/Closed behaves exactly as it
+// always has.
+function updateToolbarForTab(tab) {
+  const isOpen = tab === "open";
+  searchBarWrap.hidden = isOpen;
+  sortBarWrap.hidden = !isOpen;
+}
 
 document.querySelectorAll(".tab").forEach((tab) => {
   tab.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
     tab.classList.add("active");
     currentTab = tab.dataset.tab;
+    updateToolbarForTab(currentTab);
     loadTab(currentTab);
   });
 });
@@ -37,6 +56,13 @@ searchInput.addEventListener("input", (e) => {
   searchTerm = e.target.value.trim().toLowerCase();
   render();
 });
+
+openSortSelect.addEventListener("change", (e) => {
+  openSortBy = e.target.value;
+  render();
+});
+
+updateToolbarForTab(currentTab); // set initial visibility to match the default active tab (Open)
 
 function fmtTime(iso) {
   if (!iso) return null;
@@ -153,18 +179,48 @@ function escapeHtml(s) {
   }[c]));
 }
 
+// Open tab only. `key` is one of the <select> option values: gmp_desc,
+// gmp_asc, issue_desc, issue_asc. A record with no value for the chosen
+// field (e.g. issue size "Not Available") always sorts to the bottom,
+// regardless of direction -- missing data should never look like it beat
+// a real, unattractive number. Ties (including two missing values) fall
+// back to company name so the order stays stable/predictable rather than
+// shuffling between renders.
+function openSortComparator(key) {
+  const field = key.startsWith("gmp") ? "gmp_percent" : "issue_size_cr";
+  const descending = key.endsWith("desc");
+  return (a, b) => {
+    const av = a[field], bv = b[field];
+    const aMissing = av === null || av === undefined;
+    const bMissing = bv === null || bv === undefined;
+    if (aMissing || bMissing) {
+      if (aMissing && bMissing) return a.company_name.localeCompare(b.company_name);
+      return aMissing ? 1 : -1;
+    }
+    if (av === bv) return a.company_name.localeCompare(b.company_name);
+    return descending ? bv - av : av - bv;
+  };
+}
+
 function render() {
   let records = allRecords;
-  if (searchTerm) {
+  // The search bar is hidden on the Open tab (a sort dropdown replaces
+  // it there -- see updateToolbarForTab), so search never applies to
+  // Open; Upcoming/Closed keep searching exactly as before.
+  if (currentTab !== "open" && searchTerm) {
     records = records.filter((r) => r.company_name.toLowerCase().includes(searchTerm));
   }
-  // Sort direction depends on the tab: Open/Upcoming want the soonest
-  // date first (what's closing soonest, what's opening soonest); Closed
-  // wants the OPPOSITE -- most recently closed IPO first, not oldest.
-  records = [...records].sort((a, b) => {
-    const cmp = (a.close_date || "").localeCompare(b.close_date || "");
-    return currentTab === "closed" ? -cmp : cmp;
-  });
+
+  if (currentTab === "open") {
+    records = [...records].sort(openSortComparator(openSortBy));
+  } else {
+    // Unchanged: Upcoming wants the soonest close date first; Closed
+    // wants the OPPOSITE -- most recently closed IPO first, not oldest.
+    records = [...records].sort((a, b) => {
+      const cmp = (a.close_date || "").localeCompare(b.close_date || "");
+      return currentTab === "closed" ? -cmp : cmp;
+    });
+  }
 
   if (records.length === 0) {
     cardList.innerHTML = `<div class="empty-state">No ${currentTab} Mainboard IPOs right now.</div>`;
