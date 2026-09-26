@@ -29,8 +29,17 @@
       <button class="tab" data-tab="upcoming">📅 Upcoming</button>
       <button class="tab" data-tab="closed">⏳ Closed</button>
     </div>
-    <div class="searchbar">
+    <div class="searchbar" id="searchBarWrap">
       <input id="searchInput" type="text" placeholder="Search Mainboard IPO">
+    </div>
+    <div class="sortbar" id="sortBarWrap" hidden>
+      <label for="openSortSelect" class="sortbar-label">Sort by</label>
+      <select id="openSortSelect">
+        <option value="gmp_desc">GMP: High to Low</option>
+        <option value="gmp_asc">GMP: Low to High</option>
+        <option value="issue_desc">Issue Size: High to Low</option>
+        <option value="issue_asc">Issue Size: Low to High</option>
+      </select>
     </div>
   </div>
 </header>
