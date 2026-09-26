@@ -556,5 +556,118 @@ class TestTransientReportErrorRetriesOnce(unittest.TestCase):
         mock_sleep.assert_not_called()
 
 
+class TestPlaceholderGmpNeverBecomesFakeZeroPercent(unittest.TestCase):
+    """Bug (found live 2026-09-25, real example: Acevector/Snapdeal IPO):
+    before any market maker quotes a real premium, InvestorGain's GMP
+    cell is literally "--(0.00%)" -- a placeholder, not a real 0%
+    reading. Parsing "(0.00%)" at face value produced a fake 0.0 that,
+    via _update_gmp_extremes, permanently locked "Opening GMP" at 0% --
+    even once a real premium (e.g. 6.25%) appeared later. Fixed by only
+    trusting the percent when a real rupee value is also present."""
+
+    def _gmp_row(self, gmp_cell, **overrides):
+        row = {
+            "~ipo_status1": "O", "~IPO_Category": "IPO",
+            "Name": '<a>Acevector</a><span class="badge">IPO</span><span class="badge">O</span>',
+            "GMP": gmp_cell, "Sub": "1.0", "IPO Size": "\u20b9100.00 Cr",
+            "~Srt_Open": "2026-09-15", "~Srt_Close": "2026-09-20",
+            "~Srt_BoA_Dt": "2026-09-21", "~Str_Listing": "2026-09-23", "Updated-On": "",
+        }
+        row.update(overrides)
+        return row
+
+    def _build(self, gmp_cell, day=datetime(2026, 9, 16)):
+        def fake_get(url, **kwargs):
+            if "331" in url:
+                return _mock_report_response([self._gmp_row(gmp_cell)])
+            return _mock_report_response([])
+
+        with mock.patch("investorgain_scraper.datetime") as mock_dt:
+            mock_dt.now.return_value = day
+            mock_dt.strptime = datetime.strptime
+            mock_dt.fromisoformat = datetime.fromisoformat
+            with mock.patch.object(s.requests, "get", side_effect=fake_get):
+                return s._fetch_and_build_all_records()[0]
+
+    def test_placeholder_dash_gmp_yields_none_percent_not_zero(self):
+        rec = self._build("--(0.00%)")
+        self.assertIsNone(rec.gmp)
+        self.assertIsNone(rec.gmp_percent, "a placeholder must not masquerade as a real 0.00%")
+
+    def test_real_zero_gmp_with_actual_rupee_value_is_kept(self):
+        rec = self._build("\u20b90 (0.00%)")
+        self.assertEqual(rec.gmp, 0)
+        self.assertEqual(rec.gmp_percent, 0.0, "a genuine \u20b90 flat premium IS real data and must be kept")
+
+    def test_real_premium_still_parses_normally(self):
+        rec = self._build("\u20b9<b>25</b> (6.25%)")
+        self.assertEqual(rec.gmp, 25)
+        self.assertEqual(rec.gmp_percent, 6.25)
+
+    def test_placeholder_never_locks_opening_extreme(self):
+        state = {}
+        extremes = s._update_gmp_extremes("Acevector", None, "open", state)
+        self.assertIsNone(extremes["opening"], "no real reading yet -- opening must stay unset")
+        extremes = s._update_gmp_extremes("Acevector", 6.25, "open", state)
+        self.assertEqual(extremes["opening"], 6.25, "the first REAL reading becomes opening")
+
+
+class TestLegacyZeroOpeningRepair(unittest.TestCase):
+    """One-time repair for state files already corrupted by the bug above
+    (opening wrongly locked at 0.0 before the fix existed). Since
+    "opening" is by design set once and never again, the parsing fix
+    alone can't correct an IPO already affected -- this repairs the
+    persisted state directly, exactly once."""
+
+    def test_partial_corruption_only_resets_opening(self):
+        # highest already moved to a real 6.25 -- proof a real reading came
+        # in and correctly updated it. Only "opening" is stuck (by design it
+        # locks on first-ever value and never updates again), so only it
+        # should be reset; highest/lowest are already correct and untouched.
+        state = {
+            "Acevector": {"gmp_extremes": {"opening": 0.0, "highest": 6.25, "lowest": 0.0, "frozen": False}},
+        }
+        repaired = s._repair_legacy_zero_gmp_openings(state)
+        self.assertIsNone(repaired["Acevector"]["gmp_extremes"]["opening"])
+        self.assertEqual(repaired["Acevector"]["gmp_extremes"]["highest"], 6.25, "already-real highest is untouched")
+        self.assertEqual(repaired["Acevector"]["gmp_extremes"]["lowest"], 0.0, "not reset -- ambiguous without more info")
+
+    def test_full_corruption_resets_opening_highest_and_lowest(self):
+        # GMP never moved away from the fake reading at all -- opening,
+        # highest AND lowest are all still exactly 0.0, meaning no real
+        # reading has landed yet. All three need to re-establish themselves.
+        state = {
+            "NewCo": {"gmp_extremes": {"opening": 0.0, "highest": 0.0, "lowest": 0.0, "frozen": False}},
+        }
+        repaired = s._repair_legacy_zero_gmp_openings(state)
+        ex = repaired["NewCo"]["gmp_extremes"]
+        self.assertIsNone(ex["opening"])
+        self.assertIsNone(ex["highest"])
+        self.assertIsNone(ex["lowest"])
+
+    def test_frozen_listed_ipo_is_never_touched(self):
+        state = {
+            "AlreadyListed": {"gmp_extremes": {"opening": 0.0, "highest": 10.0, "lowest": 0.0, "frozen": True}},
+        }
+        repaired = s._repair_legacy_zero_gmp_openings(state)
+        self.assertEqual(repaired["AlreadyListed"]["gmp_extremes"]["opening"], 0.0, "listed IPOs are permanent history")
+
+    def test_runs_only_once(self):
+        state = {
+            "Co": {"gmp_extremes": {"opening": 0.0, "highest": 5.0, "lowest": 0.0, "frozen": False}},
+        }
+        once = s._repair_legacy_zero_gmp_openings(state)
+        once["Co"]["gmp_extremes"]["opening"] = 0.0  # simulate a genuinely real 0.00% opening recorded AFTER repair
+        twice = s._repair_legacy_zero_gmp_openings(once)
+        self.assertEqual(twice["Co"]["gmp_extremes"]["opening"], 0.0, "a real post-repair 0.00% must not be wiped again")
+
+    def test_nonzero_opening_is_left_alone(self):
+        state = {
+            "Co": {"gmp_extremes": {"opening": 3.5, "highest": 6.0, "lowest": 3.5, "frozen": False}},
+        }
+        repaired = s._repair_legacy_zero_gmp_openings(state)
+        self.assertEqual(repaired["Co"]["gmp_extremes"]["opening"], 3.5)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
