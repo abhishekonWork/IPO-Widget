@@ -198,8 +198,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 21,
-    "last_direction": "down",
+    "last_gmp": 26,
+    "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 56
   },
@@ -266,8 +266,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 5,
-    "last_direction": "down",
+    "last_gmp": 6,
+    "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 6
   },
@@ -290,8 +290,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 13,
-    "last_direction": "up",
+    "last_gmp": 12,
+    "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 14
   },
@@ -314,7 +314,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 16,
+    "last_gmp": 14,
     "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 14
@@ -326,8 +326,8 @@
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 27,
-    "last_direction": "up",
+    "last_gmp": 26,
+    "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 29
   },
@@ -338,8 +338,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 80,
-    "last_direction": "down",
+    "last_gmp": 87,
+    "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 90
   },
@@ -370,11 +370,11 @@
   "Nityas Gems & Jewellery": {
     "gmp_extremes": {
       "opening": 6.67,
-      "highest": 8.0,
+      "highest": 12.0,
       "lowest": 6.67,
       "frozen": false
     },
-    "last_gmp": 6,
+    "last_gmp": 9,
     "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": null
