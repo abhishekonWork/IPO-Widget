@@ -953,7 +953,35 @@ def _get_html_with_retry(url: str) -> str:
     raise last_error  # pragma: no cover -- loop always returns or raises above
 
 
-def scrape_ipo_detail_page(url_slug: str, ipo_id: int) -> dict:
+def _detail_page_matches_company(html: str, company_name: str) -> bool:
+    """Loose content-sanity check: does this fetched page actually look
+    like it's the IPO we meant to look up?
+
+    Found live 2026-09-26 (Acevector/Snapdeal): the report row's own URL
+    slug is sometimes brand-oriented (e.g. "snapdeal-ipo", matching the
+    GMP page) while InvestorGain's /ipo/ detail page for that same IPO
+    uses a DIFFERENT slug -- the legal filing name ("acevector-ipo") --
+    for the same numeric id. A URL built by combining the report's slug
+    with "/ipo/" can therefore land on an error page, an unrelated page,
+    or content that silently doesn't match, and a plain HTTP 200 alone
+    doesn't tell us which. This check is the guard: without it, such a
+    page would sail through as "successfully fetched" and get cached
+    forever as a confirmed (but wrong) blank -- exactly the bug already
+    fixed once for outright failures, just via a different door.
+
+    Deliberately lenient (short, normalized token, case/punctuation
+    insensitive) so real suffix differences ("Ltd." vs "Limited") or
+    minor formatting don't cause false rejections."""
+    if not company_name:
+        return True  # nothing to check against -- don't block on this alone
+    normalize = lambda s: re.sub(r"[^a-z0-9]", "", s.lower())
+    needle = normalize(company_name)[:8]  # a handful of characters is enough to confirm identity
+    if not needle:
+        return True
+    return needle in normalize(html)
+
+
+def scrape_ipo_detail_page(url_slug: str, ipo_id: int, company_name: str = "") -> dict:
     """Fetches ONE IPO's individual detail page ONCE and extracts BOTH
     registrar and price band from it -- these used to be two separate
     functions each doing their own fetch; combined into one request since
@@ -964,6 +992,10 @@ def scrape_ipo_detail_page(url_slug: str, ipo_id: int) -> dict:
     reports 331/333/377) -- good for reliability, but means ONE extra
     network request per IPO, so callers should cache aggressively (see
     enrich_with_ipo_details below) rather than refetch every cycle.
+
+    `company_name` (usually the record's own company_name) is used only
+    for the content-sanity check below -- see _detail_page_matches_company.
+    Pass "" to skip that check (falls back to trusting any 200 OK).
 
     Returns {"registrar": str|None, "price_band_floor": float|None,
     "price_band_cap": float|None, "fetch_ok": bool}. Never raises.
@@ -987,7 +1019,11 @@ def scrape_ipo_detail_page(url_slug: str, ipo_id: int) -> dict:
         print(f"WARNING: IPO detail page fetch failed for {url}: {e}", file=sys.stderr)
         return result
 
-    result["fetch_ok"] = True  # a real page is in hand -- anything not found below is a genuine miss
+    if not _detail_page_matches_company(html, company_name):
+        print(f"WARNING: IPO detail page for {url} did not appear to mention '{company_name}' -- possible slug mismatch, treating as unavailable", file=sys.stderr)
+        return result  # fetch_ok stays False -- never cache/trust a page that doesn't match
+
+    result["fetch_ok"] = True  # a real, matching page is in hand -- anything not found below is a genuine miss
     try:
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(html, "html.parser")
@@ -1088,7 +1124,7 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
         if new_fetches_done >= max_new_fetches:
             continue  # cap reached this cycle -- leave unset, pick it up next cycle instead of risking a long stall
 
-        detail = scrape_ipo_detail_page(slug, ipo_id)
+        detail = scrape_ipo_detail_page(slug, ipo_id, rec.company_name)
         rec.registrar = detail["registrar"]
         rec.price_band_floor = detail["price_band_floor"]
         rec.price_band_cap = detail["price_band_cap"]
