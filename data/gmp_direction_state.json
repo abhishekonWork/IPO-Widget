@@ -198,7 +198,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 42,
+    "last_gmp": 21,
     "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 56
@@ -230,9 +230,9 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 0,
-    "last_direction": "flat",
-    "last_seen_day": "2026-09-26",
+    "last_gmp": 1,
+    "last_direction": "up",
+    "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 0
   },
   "ArMee Infotech": {
@@ -254,8 +254,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 10,
-    "last_direction": "up",
+    "last_gmp": 9,
+    "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 9
   },
@@ -290,7 +290,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 13,
+    "last_gmp": 12,
     "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 14
@@ -314,8 +314,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 13,
-    "last_direction": "down",
+    "last_gmp": 24,
+    "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 14
   },
@@ -326,8 +326,8 @@
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 26,
-    "last_direction": "down",
+    "last_gmp": 27,
+    "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 29
   },
@@ -338,15 +338,15 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 90,
-    "last_direction": "flat",
+    "last_gmp": 80,
+    "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 90
   },
   "Shah Investor's Home": {
     "gmp_extremes": {
       "opening": 5.99,
-      "highest": 7.19,
+      "highest": 7.49,
       "lowest": 5.39,
       "frozen": false
     },
@@ -358,24 +358,24 @@
   "SRIT India": {
     "gmp_extremes": {
       "opening": 9.23,
-      "highest": 25.38,
+      "highest": 26.15,
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 25,
-    "last_direction": "down",
+    "last_gmp": 34,
+    "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 33
   },
   "Nityas Gems & Jewellery": {
     "gmp_extremes": {
       "opening": 6.67,
-      "highest": 6.67,
+      "highest": 8.0,
       "lowest": 6.67,
       "frozen": false
     },
-    "last_gmp": 5,
-    "last_direction": null,
+    "last_gmp": 6,
+    "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": null
   },
