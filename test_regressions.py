@@ -452,12 +452,14 @@ class TestFailedRegistrarFetchIsNeverCachedAsPermanentMiss(unittest.TestCase):
     retries it -- exactly like any other not-yet-fetched IPO."""
 
     DETAIL_HTML_WITH_DATA = """
+        <h1>Moneyview IPO Details 2026</h1>
         <table>
           <tr><td>Registrar</td><td>Bigshare Services Pvt.Ltd.</td></tr>
           <tr><td>Price Band</td><td>\u20b940.00-43.00 per share</td></tr>
         </table>
     """
-    DETAIL_HTML_GENUINELY_NO_ROWS = "<table><tr><td>Some Other Field</td><td>x</td></tr></table>"
+    DETAIL_HTML_GENUINELY_NO_ROWS = "<h1>Moneyview IPO Details 2026</h1><table><tr><td>Some Other Field</td><td>x</td></tr></table>"
+    DETAIL_HTML_WRONG_COMPANY = "<h1>SomeOtherCompany IPO Details 2026</h1><table><tr><td>Registrar</td><td>Nobody Pvt.Ltd.</td></tr></table>"
 
     def _row(self, slug="moneyview-ipo", ipo_id=2198):
         return {"~urlrewrite_folder_name": f"/gmp/{slug}/{ipo_id}/"}
@@ -554,6 +556,47 @@ class TestFailedRegistrarFetchIsNeverCachedAsPermanentMiss(unittest.TestCase):
 
         self.assertIsNone(rec.registrar)
         self.assertNotIn("2198", s._load_registrar_cache(), "a parse failure on our own side must not be cached as a confirmed miss")
+
+    def test_wrong_company_page_is_not_cached_as_confirmed_miss(self):
+        # Bug found live 2026-09-26: Acevector/Snapdeal's report row slug
+        # ("snapdeal-ipo", brand name) doesn't match the slug InvestorGain's
+        # own /ipo/ page uses for the same numeric id ("acevector-ipo",
+        # legal name). A URL built from the wrong slug can return SOME
+        # 200 OK page -- just not the right one. This must never be
+        # trusted/cached, even though the HTTP request itself "succeeded".
+        _isolate_data_files(self)
+        rec = IPORecord(company_name="Moneyview", ipo_type="Mainboard")
+
+        def fake_get(url, **kwargs):
+            resp = mock.Mock()
+            resp.text = self.DETAIL_HTML_WRONG_COMPANY  # doesn't mention "Moneyview" anywhere
+            resp.raise_for_status = lambda: None
+            return resp
+
+        with mock.patch.object(s.requests, "get", side_effect=fake_get):
+            s.enrich_with_registrar([rec], {"Moneyview": self._row()})
+
+        self.assertIsNone(rec.registrar, "must not adopt another company's registrar")
+        self.assertNotIn("2198", s._load_registrar_cache(), "a content mismatch must not be cached as a confirmed miss")
+
+    def test_content_check_is_lenient_to_suffix_and_case_differences(self):
+        # The check must not be so strict that legitimate formatting
+        # differences (Ltd. vs Limited, case, punctuation) cause a real,
+        # correct page to be wrongly rejected.
+        _isolate_data_files(self)
+        rec = IPORecord(company_name="Money View Ltd.", ipo_type="Mainboard")
+        html = "<h1>MONEYVIEW IPO Details 2026</h1><table><tr><td>Registrar</td><td>Bigshare Services Pvt.Ltd.</td></tr></table>"
+
+        def fake_get(url, **kwargs):
+            resp = mock.Mock()
+            resp.text = html
+            resp.raise_for_status = lambda: None
+            return resp
+
+        with mock.patch.object(s.requests, "get", side_effect=fake_get):
+            s.enrich_with_registrar([rec], {"Money View Ltd.": self._row()})
+
+        self.assertEqual(rec.registrar, "Bigshare Services Pvt.Ltd.")
 
 
 class TestEnrichmentReportFailureKeepsLastGoodData(unittest.TestCase):
