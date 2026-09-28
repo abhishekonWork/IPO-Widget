@@ -254,7 +254,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 8,
+    "last_gmp": 6,
     "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 9
@@ -302,8 +302,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 1,
-    "last_direction": "flat",
+    "last_gmp": 2,
+    "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 1
   },
@@ -326,7 +326,7 @@
       "lowest": 10.79,
       "frozen": false
     },
-    "last_gmp": 25,
+    "last_gmp": 24,
     "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 29
@@ -338,7 +338,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 75,
+    "last_gmp": 72,
     "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 90
@@ -346,11 +346,11 @@
   "Shah Investor's Home": {
     "gmp_extremes": {
       "opening": 5.99,
-      "highest": 7.49,
+      "highest": 8.38,
       "lowest": 5.39,
       "frozen": false
     },
-    "last_gmp": 12,
+    "last_gmp": 14,
     "last_direction": "up",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 9
@@ -362,8 +362,8 @@
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 34,
-    "last_direction": "up",
+    "last_gmp": 33,
+    "last_direction": "down",
     "last_seen_day": "2026-09-28",
     "prev_day_close_gmp": 33
   },
@@ -381,11 +381,15 @@
   },
   "Vishal Nirmiti": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 0.91,
+      "highest": 0.91,
+      "lowest": 0.91,
       "frozen": false
-    }
+    },
+    "last_gmp": 2,
+    "last_direction": null,
+    "last_seen_day": "2026-09-28",
+    "prev_day_close_gmp": null
   },
   "__meta__": {
     "zero_opening_repair_v1": true
