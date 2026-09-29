@@ -199,9 +199,9 @@
       "frozen": false
     },
     "last_gmp": 28,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": 56
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 28
   },
   "Sonaselection India": {
     "gmp_extremes": {
@@ -231,9 +231,9 @@
       "frozen": false
     },
     "last_gmp": 1,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": 0
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 1
   },
   "ArMee Infotech": {
     "gmp_extremes": {
@@ -243,9 +243,9 @@
       "frozen": false
     },
     "last_gmp": 6,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": 8
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 6
   },
   "Elevate Campuses": {
     "gmp_extremes": {
@@ -255,9 +255,9 @@
       "frozen": false
     },
     "last_gmp": 6,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": 9
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 6
   },
   "Swastika Infra": {
     "gmp_extremes": {
@@ -267,8 +267,8 @@
       "frozen": false
     },
     "last_gmp": 6,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-28",
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 6
   },
   "Adroit Industries": {
@@ -280,7 +280,7 @@
     },
     "last_gmp": 58,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-28",
+    "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 58
   },
   "Moneyview": {
@@ -291,9 +291,9 @@
       "frozen": false
     },
     "last_gmp": 12,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": 14
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 12
   },
   "Acevector": {
     "gmp_extremes": {
@@ -303,9 +303,9 @@
       "frozen": false
     },
     "last_gmp": 2,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": 1
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 2
   },
   "Runwal Enterprises": {
     "gmp_extremes": {
@@ -315,8 +315,8 @@
       "frozen": false
     },
     "last_gmp": 14,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-28",
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 14
   },
   "German Green Steel": {
@@ -327,9 +327,9 @@
       "frozen": false
     },
     "last_gmp": 24,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": 29
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 24
   },
   "Orient Cables": {
     "gmp_extremes": {
@@ -339,9 +339,9 @@
       "frozen": false
     },
     "last_gmp": 72,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": 90
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 72
   },
   "Shah Investor's Home": {
     "gmp_extremes": {
@@ -351,9 +351,9 @@
       "frozen": false
     },
     "last_gmp": 14,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": 9
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 14
   },
   "SRIT India": {
     "gmp_extremes": {
@@ -363,8 +363,8 @@
       "frozen": false
     },
     "last_gmp": 33,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-28",
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 33
   },
   "Nityas Gems & Jewellery": {
@@ -375,9 +375,9 @@
       "frozen": false
     },
     "last_gmp": 9,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 9
   },
   "Vishal Nirmiti": {
     "gmp_extremes": {
@@ -387,9 +387,9 @@
       "frozen": false
     },
     "last_gmp": 2,
-    "last_direction": null,
-    "last_seen_day": "2026-09-28",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-29",
+    "prev_day_close_gmp": 2
   },
   "__meta__": {
     "zero_opening_repair_v1": true
