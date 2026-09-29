@@ -198,7 +198,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 30,
+    "last_gmp": 39,
     "last_direction": "up",
     "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 28
@@ -254,8 +254,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 4,
-    "last_direction": "down",
+    "last_gmp": 5,
+    "last_direction": "up",
     "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 6
   },
@@ -266,8 +266,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 6,
-    "last_direction": "flat",
+    "last_gmp": 7,
+    "last_direction": "up",
     "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 6
   },
@@ -314,8 +314,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 4,
-    "last_direction": "up",
+    "last_gmp": 2,
+    "last_direction": "down",
     "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 14
   },
@@ -338,20 +338,20 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 85,
-    "last_direction": "up",
+    "last_gmp": 81,
+    "last_direction": "down",
     "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 72
   },
   "Shah Investor's Home": {
     "gmp_extremes": {
       "opening": 5.99,
-      "highest": 8.38,
+      "highest": 8.98,
       "lowest": 5.39,
       "frozen": false
     },
-    "last_gmp": 13,
-    "last_direction": "down",
+    "last_gmp": 15,
+    "last_direction": "up",
     "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 14
   },
@@ -362,8 +362,8 @@
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 23,
-    "last_direction": "down",
+    "last_gmp": 31,
+    "last_direction": "up",
     "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 33
   },
@@ -374,8 +374,8 @@
       "lowest": 6.67,
       "frozen": false
     },
-    "last_gmp": 9,
-    "last_direction": "flat",
+    "last_gmp": 5,
+    "last_direction": "down",
     "last_seen_day": "2026-09-29",
     "prev_day_close_gmp": 9
   },
