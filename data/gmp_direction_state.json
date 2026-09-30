@@ -198,7 +198,7 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 36,
+    "last_gmp": 38,
     "last_direction": "up",
     "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 35
@@ -338,8 +338,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 87,
-    "last_direction": "up",
+    "last_gmp": 86,
+    "last_direction": "down",
     "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 85
   },
@@ -350,19 +350,19 @@
       "lowest": 5.39,
       "frozen": false
     },
-    "last_gmp": 15,
-    "last_direction": "flat",
+    "last_gmp": 12,
+    "last_direction": "down",
     "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 15
   },
   "SRIT India": {
     "gmp_extremes": {
       "opening": 9.23,
-      "highest": 26.92,
+      "highest": 30.77,
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 35,
+    "last_gmp": 40,
     "last_direction": "up",
     "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 31
@@ -374,20 +374,20 @@
       "lowest": 4.0,
       "frozen": false
     },
-    "last_gmp": 3,
-    "last_direction": "down",
+    "last_gmp": 5,
+    "last_direction": "up",
     "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 5
   },
   "Vishal Nirmiti": {
     "gmp_extremes": {
       "opening": 0.91,
-      "highest": 2.73,
+      "highest": 4.55,
       "lowest": 0.91,
       "frozen": false
     },
-    "last_gmp": 6,
-    "last_direction": "flat",
+    "last_gmp": 10,
+    "last_direction": "up",
     "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 6
   },
