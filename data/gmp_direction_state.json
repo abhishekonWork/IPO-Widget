@@ -199,9 +199,9 @@
       "frozen": false
     },
     "last_gmp": 35,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 28
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 35
   },
   "Sonaselection India": {
     "gmp_extremes": {
@@ -232,7 +232,7 @@
     },
     "last_gmp": 1,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-29",
+    "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 1
   },
   "ArMee Infotech": {
@@ -244,7 +244,7 @@
     },
     "last_gmp": 6,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-29",
+    "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 6
   },
   "Elevate Campuses": {
@@ -255,8 +255,8 @@
       "frozen": false
     },
     "last_gmp": 6,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-29",
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 6
   },
   "Swastika Infra": {
@@ -267,9 +267,9 @@
       "frozen": false
     },
     "last_gmp": 7,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 6
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 7
   },
   "Adroit Industries": {
     "gmp_extremes": {
@@ -279,9 +279,9 @@
       "frozen": false
     },
     "last_gmp": 55,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 58
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 55
   },
   "Moneyview": {
     "gmp_extremes": {
@@ -292,7 +292,7 @@
     },
     "last_gmp": 12,
     "last_direction": "flat",
-    "last_seen_day": "2026-09-29",
+    "last_seen_day": "2026-09-30",
     "prev_day_close_gmp": 12
   },
   "Acevector": {
@@ -303,9 +303,9 @@
       "frozen": false
     },
     "last_gmp": 1,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 2
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 1
   },
   "Runwal Enterprises": {
     "gmp_extremes": {
@@ -315,9 +315,9 @@
       "frozen": false
     },
     "last_gmp": 2,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 14
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 2
   },
   "German Green Steel": {
     "gmp_extremes": {
@@ -327,9 +327,9 @@
       "frozen": false
     },
     "last_gmp": 13,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 24
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 13
   },
   "Orient Cables": {
     "gmp_extremes": {
@@ -339,9 +339,9 @@
       "frozen": false
     },
     "last_gmp": 85,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 72
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 85
   },
   "Shah Investor's Home": {
     "gmp_extremes": {
@@ -351,9 +351,9 @@
       "frozen": false
     },
     "last_gmp": 15,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 14
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 15
   },
   "SRIT India": {
     "gmp_extremes": {
@@ -363,9 +363,9 @@
       "frozen": false
     },
     "last_gmp": 31,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 33
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 31
   },
   "Nityas Gems & Jewellery": {
     "gmp_extremes": {
@@ -375,9 +375,9 @@
       "frozen": false
     },
     "last_gmp": 5,
-    "last_direction": "down",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 9
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 5
   },
   "Vishal Nirmiti": {
     "gmp_extremes": {
@@ -387,9 +387,9 @@
       "frozen": false
     },
     "last_gmp": 6,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-29",
-    "prev_day_close_gmp": 2
+    "last_direction": "flat",
+    "last_seen_day": "2026-09-30",
+    "prev_day_close_gmp": 6
   },
   "__meta__": {
     "zero_opening_repair_v1": true
