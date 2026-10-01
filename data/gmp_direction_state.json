@@ -302,8 +302,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 1,
-    "last_direction": "up",
+    "last_gmp": 0,
+    "last_direction": "down",
     "last_seen_day": "2026-10-01",
     "prev_day_close_gmp": 0
   },
@@ -311,13 +311,13 @@
     "gmp_extremes": {
       "opening": 5.25,
       "highest": 12.13,
-      "lowest": 0.0,
+      "lowest": -1.64,
       "frozen": false
     },
-    "last_gmp": 4,
-    "last_direction": "up",
-    "last_seen_day": "2026-09-30",
-    "prev_day_close_gmp": 2
+    "last_gmp": -5,
+    "last_direction": "down",
+    "last_seen_day": "2026-10-01",
+    "prev_day_close_gmp": 4
   },
   "German Green Steel": {
     "gmp_extremes": {
@@ -326,8 +326,8 @@
       "lowest": 8.99,
       "frozen": false
     },
-    "last_gmp": 12,
-    "last_direction": "flat",
+    "last_gmp": 13,
+    "last_direction": "up",
     "last_seen_day": "2026-10-01",
     "prev_day_close_gmp": 12
   },
@@ -338,8 +338,8 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 90,
-    "last_direction": "flat",
+    "last_gmp": 105,
+    "last_direction": "up",
     "last_seen_day": "2026-10-01",
     "prev_day_close_gmp": 90
   },
