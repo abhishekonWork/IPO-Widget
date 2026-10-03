@@ -334,12 +334,12 @@
   "Orient Cables": {
     "gmp_extremes": {
       "opening": 29.41,
-      "highest": 45.22,
+      "highest": 45.96,
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 123,
-    "last_direction": "flat",
+    "last_gmp": 125,
+    "last_direction": "up",
     "last_seen_day": "2026-10-03",
     "prev_day_close_gmp": 123
   },
@@ -362,8 +362,8 @@
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 53,
-    "last_direction": "flat",
+    "last_gmp": 52,
+    "last_direction": "down",
     "last_seen_day": "2026-10-03",
     "prev_day_close_gmp": 53
   },
