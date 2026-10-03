@@ -323,7 +323,7 @@
     "gmp_extremes": {
       "opening": 10.79,
       "highest": 21.22,
-      "lowest": 8.27,
+      "lowest": 7.91,
       "frozen": false
     },
     "last_gmp": 11,
@@ -338,15 +338,15 @@
       "lowest": 0.0,
       "frozen": false
     },
-    "last_gmp": 125,
-    "last_direction": "up",
+    "last_gmp": 113,
+    "last_direction": "down",
     "last_seen_day": "2026-10-03",
     "prev_day_close_gmp": 123
   },
   "Shah Investor's Home": {
     "gmp_extremes": {
       "opening": 5.99,
-      "highest": 9.13,
+      "highest": 9.43,
       "lowest": 5.39,
       "frozen": false
     },
