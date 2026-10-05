@@ -350,19 +350,19 @@
       "lowest": 5.39,
       "frozen": false
     },
-    "last_gmp": 15,
-    "last_direction": "down",
+    "last_gmp": 16,
+    "last_direction": "up",
     "last_seen_day": "2026-10-05",
     "prev_day_close_gmp": 17
   },
   "SRIT India": {
     "gmp_extremes": {
       "opening": 9.23,
-      "highest": 40.77,
+      "highest": 43.85,
       "lowest": 9.23,
       "frozen": false
     },
-    "last_gmp": 51,
+    "last_gmp": 57,
     "last_direction": "up",
     "last_seen_day": "2026-10-05",
     "prev_day_close_gmp": 50
@@ -386,7 +386,7 @@
       "lowest": 0.91,
       "frozen": false
     },
-    "last_gmp": 5,
+    "last_gmp": 2,
     "last_direction": "down",
     "last_seen_day": "2026-10-05",
     "prev_day_close_gmp": 20
@@ -395,8 +395,8 @@
     "zero_opening_repair_v1": true
   },
   "Jio Platforms": {
-    "last_gmp": 146,
-    "last_direction": "down",
+    "last_gmp": 159,
+    "last_direction": "up",
     "last_seen_day": "2026-10-05",
     "prev_day_close_gmp": 148,
     "gmp_extremes": {
