@@ -809,25 +809,36 @@ class TestPlaceholderGmpNeverBecomesFakeZeroPercent(unittest.TestCase):
         self.assertEqual(extremes["opening"], 6.25, "the first REAL reading becomes opening")
 
 
-class TestLegacyZeroOpeningRepair(unittest.TestCase):
-    """One-time repair for state files already corrupted by the bug above
-    (opening wrongly locked at 0.0 before the fix existed). Since
-    "opening" is by design set once and never again, the parsing fix
-    alone can't correct an IPO already affected -- this repairs the
-    persisted state directly, exactly once."""
+class TestLegacyZeroGmpExtremesRepair(unittest.TestCase):
+    """One-time repair for state files already corrupted by the
+    placeholder-GMP parsing bug (opening/highest/lowest wrongly locked at
+    0.0 before the fix existed). Since each extreme is by design set/
+    updated independently and "lowest" in particular never self-corrects
+    for a normally-positive-GMP IPO, the parsing fix alone can't correct
+    an IPO already affected -- this repairs the persisted state
+    directly.
 
-    def test_partial_corruption_only_resets_opening(self):
-        # highest already moved to a real 6.25 -- proof a real reading came
-        # in and correctly updated it. Only "opening" is stuck (by design it
-        # locks on first-ever value and never updates again), so only it
-        # should be reset; highest/lowest are already correct and untouched.
+    v2 (2026-10-06): found live on Moneyview -- InvestorGain's own page
+    reports a true low of ~14.7% (Rs 5.00), but our state still showed a
+    leftover fake "Lowest: 0%" even though "Highest" had already moved to
+    a correct 41%+. v1 wrongly assumed "highest moved -> lowest must have
+    too"; v2 judges each of the three fields independently instead."""
+
+    def test_moneyview_style_partial_corruption_resets_opening_and_lowest(self):
+        # Real-world shape (verified against InvestorGain's own live page
+        # for Moneyview, 2026-10-06): highest correctly moved to a real,
+        # high value (self-corrects easily -- any real positive reading
+        # exceeds a fake 0.0 baseline), but lowest is STILL the leftover
+        # fake 0.0, since nothing in a successful IPO's real GMP history
+        # is ever lower than 0 to naturally overwrite it.
         state = {
-            "Acevector": {"gmp_extremes": {"opening": 0.0, "highest": 6.25, "lowest": 0.0, "frozen": False}},
+            "Moneyview": {"gmp_extremes": {"opening": 0.0, "highest": 41.18, "lowest": 0.0, "frozen": False}},
         }
         repaired = s._repair_legacy_zero_gmp_openings(state)
-        self.assertIsNone(repaired["Acevector"]["gmp_extremes"]["opening"])
-        self.assertEqual(repaired["Acevector"]["gmp_extremes"]["highest"], 6.25, "already-real highest is untouched")
-        self.assertEqual(repaired["Acevector"]["gmp_extremes"]["lowest"], 0.0, "not reset -- ambiguous without more info")
+        ex = repaired["Moneyview"]["gmp_extremes"]
+        self.assertIsNone(ex["opening"])
+        self.assertEqual(ex["highest"], 41.18, "already-real highest is untouched")
+        self.assertIsNone(ex["lowest"], "a leftover fake 0.0 lowest must ALSO be reset, even though highest moved")
 
     def test_full_corruption_resets_opening_highest_and_lowest(self):
         # GMP never moved away from the fake reading at all -- opening,
@@ -842,21 +853,47 @@ class TestLegacyZeroOpeningRepair(unittest.TestCase):
         self.assertIsNone(ex["highest"])
         self.assertIsNone(ex["lowest"])
 
+    def test_genuine_negative_lowest_is_never_touched(self):
+        # A real negative reading is unambiguous proof of a genuine
+        # update (the fake baseline was always exactly 0.0, never
+        # negative) -- must never be reset.
+        state = {
+            "DiscountCo": {"gmp_extremes": {"opening": 0.0, "highest": 2.0, "lowest": -3.57, "frozen": False}},
+        }
+        repaired = s._repair_legacy_zero_gmp_openings(state)
+        ex = repaired["DiscountCo"]["gmp_extremes"]
+        self.assertIsNone(ex["opening"])
+        self.assertEqual(ex["lowest"], -3.57, "a real negative reading must never be reset")
+
     def test_frozen_listed_ipo_is_never_touched(self):
         state = {
             "AlreadyListed": {"gmp_extremes": {"opening": 0.0, "highest": 10.0, "lowest": 0.0, "frozen": True}},
         }
         repaired = s._repair_legacy_zero_gmp_openings(state)
-        self.assertEqual(repaired["AlreadyListed"]["gmp_extremes"]["opening"], 0.0, "listed IPOs are permanent history")
+        ex = repaired["AlreadyListed"]["gmp_extremes"]
+        self.assertEqual(ex["opening"], 0.0, "listed IPOs are permanent history")
+        self.assertEqual(ex["lowest"], 0.0, "listed IPOs are permanent history")
 
-    def test_runs_only_once(self):
+    def test_runs_only_once_per_version(self):
         state = {
             "Co": {"gmp_extremes": {"opening": 0.0, "highest": 5.0, "lowest": 0.0, "frozen": False}},
         }
         once = s._repair_legacy_zero_gmp_openings(state)
-        once["Co"]["gmp_extremes"]["opening"] = 0.0  # simulate a genuinely real 0.00% opening recorded AFTER repair
+        once["Co"]["gmp_extremes"]["lowest"] = 0.0  # simulate a genuinely real 0.00% lowest recorded AFTER repair
         twice = s._repair_legacy_zero_gmp_openings(once)
-        self.assertEqual(twice["Co"]["gmp_extremes"]["opening"], 0.0, "a real post-repair 0.00% must not be wiped again")
+        self.assertEqual(twice["Co"]["gmp_extremes"]["lowest"], 0.0, "a real post-repair 0.00% must not be wiped again")
+
+    def test_v1_already_repaired_state_still_gets_the_v2_lowest_fix(self):
+        # Simulates state that already went through the OLD (v1) repair --
+        # opening was reset correctly back then, but lowest was wrongly
+        # left at the leftover fake 0.0 (the exact bug this version fixes).
+        # Bumping the repair-version flag must let v2 revisit it.
+        state = {
+            "Moneyview": {"gmp_extremes": {"opening": 12.5, "highest": 41.18, "lowest": 0.0, "frozen": False}},
+            "__meta__": {"zero_opening_repair_v1": True},
+        }
+        repaired = s._repair_legacy_zero_gmp_openings(state)
+        self.assertIsNone(repaired["Moneyview"]["gmp_extremes"]["lowest"], "v2 must still catch what v1 missed")
 
     def test_nonzero_opening_is_left_alone(self):
         state = {
