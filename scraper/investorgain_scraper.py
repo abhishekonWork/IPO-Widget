@@ -1153,26 +1153,41 @@ def enrich_with_registrar(records: list[IPORecord], gmp_rows_by_name: dict[str, 
 
 
 ZERO_OPENING_REPAIR_KEY = "__meta__"
-ZERO_OPENING_REPAIR_FLAG = "zero_opening_repair_v1"
+ZERO_OPENING_REPAIR_FLAG = "zero_opening_repair_v2"
 
 
 def _repair_legacy_zero_gmp_openings(state: dict) -> dict:
-    """One-time repair for state already corrupted by the bug fixed above
-    (2026-09-25): before the fix, every IPO's very first cycle -- while
-    GMP was still "--" -- got its permanent "Opening GMP" wrongly locked
-    to 0.0 instead of staying unset. That's already written into the
-    persisted (GitHub-backed) state file, so the parsing fix alone can't
-    correct IPOs already affected -- "opening" only ever gets set ONCE,
-    by design, so a bad 0.0 already there is neither seen as missing nor
-    updated by new real readings.
+    """One-time repair for state already corrupted by the placeholder-GMP
+    parsing bug fixed above (2026-09-25): before that fix, every IPO's
+    very first cycle -- while GMP was still "--" -- got Opening/Highest/
+    Lowest all wrongly locked to a fake 0.0 instead of staying unset.
+    That's already written into the persisted (GitHub-backed) state
+    file, so the parsing fix alone can't correct IPOs already affected.
 
-    This resets `opening` back to None for any NOT-YET-LISTED IPO whose
-    opening is exactly 0.0, so the very next real reading becomes the new
-    (correct) opening -- same rule as if it had never been set. Listed
+    v2 (2026-09-27): v1 only reset "opening" once "highest" had moved
+    away from 0.0, on the assumption that meant a real reading had
+    already corrected everything. That assumption held for "highest"
+    but not "lowest" -- confirmed live on Moneyview, where InvestorGain's
+    own page reports a true low of ~14.7% (Rs 5.00) across its tracked
+    sessions, while our state still showed a leftover fake "Lowest: 0%"
+    even though "Highest" had long since correctly moved to 41%+. The
+    reason: "highest" only needs ONE real positive reading to exceed a
+    fake 0.0 baseline and self-correct, but "lowest" only decreases on a
+    LOWER reading -- for a normally-positive-GMP IPO, nothing is ever
+    lower than 0, so a fake 0.0 "lowest" essentially never self-heals.
+
+    So each of opening/highest/lowest is now judged independently: any
+    one of them still sitting at exactly 0.0 is reset to None on its own
+    (not conditioned on whether the other two have moved), so the next
+    real reading re-establishes it -- same as if it had never been set.
+    A genuinely negative "lowest" (proof of a real reading, since the
+    fake baseline was always exactly 0.0) is never touched. Listed
     (frozen) IPOs are left untouched, since those are permanent history.
-    Runs once: a "__meta__" flag in the state itself marks it done, so a
-    genuinely real 0.00% opening recorded AFTER this repair is never
-    reset again."""
+    Runs once per version: the "__meta__" flag records which version has
+    already applied, so a genuinely real 0.00% recorded AFTER a given
+    version's repair is never reset again by that same version -- and
+    bumping the flag (as done here, v1 -> v2) lets an improved repair
+    revisit state a previous version already touched but got wrong."""
     meta = state.get(ZERO_OPENING_REPAIR_KEY)
     if isinstance(meta, dict) and meta.get(ZERO_OPENING_REPAIR_FLAG):
         return state
@@ -1182,21 +1197,12 @@ def _repair_legacy_zero_gmp_openings(state: dict) -> dict:
         extremes = entry.get("gmp_extremes")
         if not isinstance(extremes, dict) or extremes.get("frozen"):
             continue
-        if extremes.get("opening") != 0.0:
-            continue
-        if extremes.get("highest") == 0.0 and extremes.get("lowest") == 0.0:
-            # highest/lowest never moved away from the fake reading either --
-            # the bug corrupted all three on that first cycle, so all three
-            # need to re-establish themselves from the next real reading.
+        if extremes.get("opening") == 0.0:
             extremes["opening"] = None
+        if extremes.get("highest") == 0.0:
             extremes["highest"] = None
+        if extremes.get("lowest") == 0.0:
             extremes["lowest"] = None
-        else:
-            # highest and/or lowest DID move since -- a real reading already
-            # came in and correctly updated them. Only "opening" is stuck,
-            # since by design it locks on the first-ever value and never
-            # updates again. Leave the already-correct highest/lowest alone.
-            extremes["opening"] = None
     state[ZERO_OPENING_REPAIR_KEY] = {ZERO_OPENING_REPAIR_FLAG: True}
     return state
 
