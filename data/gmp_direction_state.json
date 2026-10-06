@@ -195,7 +195,7 @@
     "gmp_extremes": {
       "opening": 12.59,
       "highest": 15.8,
-      "lowest": 0.0,
+      "lowest": 11.36,
       "frozen": false
     },
     "last_gmp": 46,
@@ -207,7 +207,7 @@
     "gmp_extremes": {
       "opening": null,
       "highest": 8.08,
-      "lowest": 0.0,
+      "lowest": null,
       "frozen": false
     },
     "last_gmp": 2,
@@ -227,7 +227,7 @@
     "gmp_extremes": {
       "opening": 0.34,
       "highest": 10.14,
-      "lowest": 0.0,
+      "lowest": 0.68,
       "frozen": false
     },
     "last_gmp": 1,
@@ -239,7 +239,7 @@
     "gmp_extremes": {
       "opening": 2.13,
       "highest": 14.93,
-      "lowest": 0.0,
+      "lowest": 1.6,
       "frozen": false
     },
     "last_gmp": 6,
@@ -251,7 +251,7 @@
     "gmp_extremes": {
       "opening": 1.1,
       "highest": 4.42,
-      "lowest": 0.0,
+      "lowest": 1.8,
       "frozen": false
     },
     "last_gmp": 6,
@@ -263,7 +263,7 @@
     "gmp_extremes": {
       "opening": 2.43,
       "highest": 5.41,
-      "lowest": 0.0,
+      "lowest": 3.78,
       "frozen": false
     },
     "last_gmp": 7,
@@ -275,7 +275,7 @@
     "gmp_extremes": {
       "opening": 35.07,
       "highest": 43.28,
-      "lowest": 0.0,
+      "lowest": 41.04,
       "frozen": false
     },
     "last_gmp": 55,
@@ -287,7 +287,7 @@
     "gmp_extremes": {
       "opening": 39.71,
       "highest": 45.59,
-      "lowest": 0.0,
+      "lowest": 42.65,
       "frozen": false
     },
     "last_gmp": 14,
@@ -299,7 +299,7 @@
     "gmp_extremes": {
       "opening": 6.25,
       "highest": 9.38,
-      "lowest": 0.0,
+      "lowest": null,
       "frozen": false
     },
     "last_gmp": 1,
@@ -335,7 +335,7 @@
     "gmp_extremes": {
       "opening": 29.41,
       "highest": 45.96,
-      "lowest": 0.0,
+      "lowest": 40.44,
       "frozen": false
     },
     "last_gmp": 110,
@@ -392,7 +392,7 @@
     "prev_day_close_gmp": 2
   },
   "__meta__": {
-    "zero_opening_repair_v1": true
+    "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
     "last_gmp": 167,
