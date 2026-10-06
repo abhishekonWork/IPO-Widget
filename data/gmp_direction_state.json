@@ -395,10 +395,18 @@
     "zero_opening_repair_v1": true
   },
   "Jio Platforms": {
-    "last_gmp": 156,
-    "last_direction": "flat",
+    "last_gmp": 158,
+    "last_direction": "up",
     "last_seen_day": "2026-10-06",
     "prev_day_close_gmp": 156,
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
+  },
+  "HD Fire Protect": {
     "gmp_extremes": {
       "opening": null,
       "highest": null,
