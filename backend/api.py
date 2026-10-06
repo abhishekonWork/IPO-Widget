@@ -507,7 +507,21 @@ def get_open_ipos(response: Response):
     # though the backend itself was current on both.
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
     cache = scraper.load_cache("open")
-    if not cache["records"]:
+    # Bug fixed 2026-10-06: this used to 503 on ANY empty "open" result,
+    # conflating "the scraper never successfully completed a refresh" with
+    # "the scraper ran fine and there are just genuinely zero Mainboard
+    # IPOs open for subscription right now" -- the latter is a perfectly
+    # normal market state (confirmed live: there was no Mainboard IPO open
+    # on 2026-10-06 -- the two most recent closed the day before, and the
+    # next one doesn't open until 2026-10-21), not an error, and showed
+    # the frontend's scary "Update failed" message for an ordinary quiet
+    # day. `attempted_at` is set the moment the FIRST real refresh cycle
+    # completes for this tab and, unlike `records`, is never cleared by a
+    # later cycle finding nothing -- so it's None only before that first
+    # successful refresh has ever happened. Once it's set, an empty
+    # result is trusted and returned normally, exactly like /upcoming and
+    # /closed already do below.
+    if not cache["records"] and cache.get("attempted_at") is None:
         raise HTTPException(
             status_code=503,
             detail="No IPO data available yet. First refresh may still be running, "
