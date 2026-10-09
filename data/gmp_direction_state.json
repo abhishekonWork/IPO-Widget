@@ -395,7 +395,7 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 174,
+    "last_gmp": 175,
     "last_direction": "up",
     "last_seen_day": "2026-10-09",
     "prev_day_close_gmp": 167,
@@ -413,7 +413,7 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 67,
+    "last_gmp": 75,
     "last_direction": "up",
     "last_seen_day": "2026-10-09",
     "prev_day_close_gmp": 63
@@ -421,12 +421,12 @@
   "Fusion CX": {
     "gmp_extremes": {
       "opening": 13.84,
-      "highest": 13.84,
+      "highest": 19.03,
       "lowest": 13.84,
       "frozen": false
     },
-    "last_gmp": 40,
-    "last_direction": null,
+    "last_gmp": 55,
+    "last_direction": "up",
     "last_seen_day": "2026-10-09",
     "prev_day_close_gmp": null
   }
