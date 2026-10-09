@@ -417,5 +417,13 @@
     "last_direction": "flat",
     "last_seen_day": "2026-10-09",
     "prev_day_close_gmp": 63
+  },
+  "Fusion CX": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
   }
 }
