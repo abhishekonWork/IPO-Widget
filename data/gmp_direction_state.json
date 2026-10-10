@@ -413,8 +413,8 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 73,
-    "last_direction": "down",
+    "last_gmp": 75,
+    "last_direction": "up",
     "last_seen_day": "2026-10-10",
     "prev_day_close_gmp": 74
   },
@@ -425,8 +425,8 @@
       "lowest": 13.84,
       "frozen": false
     },
-    "last_gmp": 55,
-    "last_direction": "flat",
+    "last_gmp": 53,
+    "last_direction": "down",
     "last_seen_day": "2026-10-10",
     "prev_day_close_gmp": 55
   },
@@ -439,6 +439,18 @@
     }
   },
   "Bonfiglioli Transmissions": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    },
+    "last_gmp": 130,
+    "last_direction": null,
+    "last_seen_day": "2026-10-10",
+    "prev_day_close_gmp": null
+  },
+  "Sahajanand Medical Technologies": {
     "gmp_extremes": {
       "opening": null,
       "highest": null,
