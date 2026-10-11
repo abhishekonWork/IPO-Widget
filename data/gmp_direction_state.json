@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 171,
-    "last_direction": "flat",
+    "last_gmp": 170,
+    "last_direction": "down",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": 171,
     "gmp_extremes": {
@@ -413,8 +413,8 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 75,
-    "last_direction": "flat",
+    "last_gmp": 77,
+    "last_direction": "up",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": 75
   },
@@ -422,11 +422,11 @@
     "gmp_extremes": {
       "opening": 13.84,
       "highest": 19.03,
-      "lowest": 13.84,
+      "lowest": 10.38,
       "frozen": false
     },
-    "last_gmp": 53,
-    "last_direction": "flat",
+    "last_gmp": 30,
+    "last_direction": "down",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": 53
   },
@@ -445,12 +445,36 @@
       "lowest": null,
       "frozen": false
     },
-    "last_gmp": 137,
-    "last_direction": "flat",
+    "last_gmp": 148,
+    "last_direction": "up",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": 137
   },
   "Sahajanand Medical Technologies": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    },
+    "last_gmp": 25,
+    "last_direction": null,
+    "last_seen_day": "2026-10-11",
+    "prev_day_close_gmp": null
+  },
+  "Tonbo Imaging India": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
+  },
+  "Zetwerk": {
+    "last_gmp": 30,
+    "last_direction": null,
+    "last_seen_day": "2026-10-11",
+    "prev_day_close_gmp": null,
     "gmp_extremes": {
       "opening": null,
       "highest": null,
