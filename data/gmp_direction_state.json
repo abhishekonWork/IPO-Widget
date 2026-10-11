@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 168,
-    "last_direction": "down",
+    "last_gmp": 172,
+    "last_direction": "up",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": 171,
     "gmp_extremes": {
@@ -409,11 +409,11 @@
   "HD Fire Protect": {
     "gmp_extremes": {
       "opening": 22.14,
-      "highest": 29.52,
+      "highest": 31.73,
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 77,
+    "last_gmp": 86,
     "last_direction": "up",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": 75
@@ -445,7 +445,7 @@
       "lowest": null,
       "frozen": false
     },
-    "last_gmp": 163,
+    "last_gmp": 175,
     "last_direction": "up",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": 137
@@ -457,7 +457,7 @@
       "lowest": null,
       "frozen": false
     },
-    "last_gmp": 35,
+    "last_gmp": 40,
     "last_direction": "up",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": null
@@ -469,14 +469,14 @@
       "lowest": null,
       "frozen": false
     },
-    "last_gmp": 125,
-    "last_direction": null,
+    "last_gmp": 270,
+    "last_direction": "up",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": null
   },
   "Zetwerk": {
-    "last_gmp": 40,
-    "last_direction": "up",
+    "last_gmp": 25,
+    "last_direction": "down",
     "last_seen_day": "2026-10-11",
     "prev_day_close_gmp": null,
     "gmp_extremes": {
