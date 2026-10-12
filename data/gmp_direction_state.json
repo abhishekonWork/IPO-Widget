@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 182,
-    "last_direction": "up",
+    "last_gmp": 181,
+    "last_direction": "down",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 172,
     "gmp_extremes": {
@@ -413,8 +413,8 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 84,
-    "last_direction": "down",
+    "last_gmp": 86,
+    "last_direction": "up",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 86
   },
@@ -425,8 +425,8 @@
       "lowest": 4.84,
       "frozen": false
     },
-    "last_gmp": 16,
-    "last_direction": "down",
+    "last_gmp": 17,
+    "last_direction": "up",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 22
   },
@@ -445,8 +445,8 @@
       "lowest": 24.57,
       "frozen": false
     },
-    "last_gmp": 144,
-    "last_direction": "down",
+    "last_gmp": 155,
+    "last_direction": "up",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 175
   },
@@ -465,18 +465,18 @@
   "Tonbo Imaging India": {
     "gmp_extremes": {
       "opening": 38.57,
-      "highest": 62.86,
+      "highest": 65.71,
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 398,
-    "last_direction": "down",
+    "last_gmp": 460,
+    "last_direction": "up",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 270
   },
   "Zetwerk": {
-    "last_gmp": 11,
-    "last_direction": "down",
+    "last_gmp": 15,
+    "last_direction": "up",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 30,
     "gmp_extremes": {
