@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 172,
-    "last_direction": "flat",
+    "last_gmp": 176,
+    "last_direction": "up",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 172,
     "gmp_extremes": {
@@ -440,9 +440,9 @@
   },
   "Bonfiglioli Transmissions": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 29.86,
+      "highest": 29.86,
+      "lowest": 29.86,
       "frozen": false
     },
     "last_gmp": 175,
@@ -452,9 +452,9 @@
   },
   "Sahajanand Medical Technologies": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 11.63,
+      "highest": 11.63,
+      "lowest": 11.63,
       "frozen": false
     },
     "last_gmp": 40,
@@ -464,9 +464,9 @@
   },
   "Tonbo Imaging India": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 38.57,
+      "highest": 38.57,
+      "lowest": 38.57,
       "frozen": false
     },
     "last_gmp": 270,
@@ -475,14 +475,14 @@
     "prev_day_close_gmp": 270
   },
   "Zetwerk": {
-    "last_gmp": 30,
-    "last_direction": "flat",
+    "last_gmp": 22,
+    "last_direction": "down",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 30,
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 14.57,
+      "highest": 14.57,
+      "lowest": 14.57,
       "frozen": false
     }
   }
