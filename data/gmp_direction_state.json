@@ -395,7 +395,7 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 176,
+    "last_gmp": 180,
     "last_direction": "up",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 172,
@@ -413,8 +413,8 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 86,
-    "last_direction": "flat",
+    "last_gmp": 78,
+    "last_direction": "down",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 86
   },
@@ -422,11 +422,11 @@
     "gmp_extremes": {
       "opening": 13.84,
       "highest": 19.03,
-      "lowest": 6.92,
+      "lowest": 4.84,
       "frozen": false
     },
-    "last_gmp": 22,
-    "last_direction": "flat",
+    "last_gmp": 14,
+    "last_direction": "down",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 22
   },
@@ -442,47 +442,47 @@
     "gmp_extremes": {
       "opening": 29.86,
       "highest": 29.86,
-      "lowest": 29.86,
+      "lowest": 26.11,
       "frozen": false
     },
-    "last_gmp": 175,
-    "last_direction": "flat",
+    "last_gmp": 153,
+    "last_direction": "down",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 175
   },
   "Sahajanand Medical Technologies": {
     "gmp_extremes": {
       "opening": 11.63,
-      "highest": 11.63,
+      "highest": 13.37,
       "lowest": 11.63,
       "frozen": false
     },
-    "last_gmp": 40,
-    "last_direction": "flat",
+    "last_gmp": 46,
+    "last_direction": "up",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 40
   },
   "Tonbo Imaging India": {
     "gmp_extremes": {
       "opening": 38.57,
-      "highest": 38.57,
+      "highest": 49.29,
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 270,
-    "last_direction": "flat",
+    "last_gmp": 345,
+    "last_direction": "up",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 270
   },
   "Zetwerk": {
-    "last_gmp": 22,
+    "last_gmp": 16,
     "last_direction": "down",
     "last_seen_day": "2026-10-12",
     "prev_day_close_gmp": 30,
     "gmp_extremes": {
       "opening": 14.57,
       "highest": 14.57,
-      "lowest": 14.57,
+      "lowest": 10.93,
       "frozen": false
     }
   }
