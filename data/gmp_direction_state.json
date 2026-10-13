@@ -465,11 +465,11 @@
   "Tonbo Imaging India": {
     "gmp_extremes": {
       "opening": 38.57,
-      "highest": 69.29,
+      "highest": 70.0,
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 485,
+    "last_gmp": 490,
     "last_direction": "up",
     "last_seen_day": "2026-10-13",
     "prev_day_close_gmp": 425
