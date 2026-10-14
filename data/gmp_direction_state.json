@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 218,
-    "last_direction": "flat",
+    "last_gmp": 207,
+    "last_direction": "down",
     "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 218,
     "gmp_extremes": {
@@ -425,8 +425,8 @@
       "lowest": 4.84,
       "frozen": false
     },
-    "last_gmp": 31,
-    "last_direction": "down",
+    "last_gmp": 36,
+    "last_direction": "up",
     "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 33
   },
@@ -441,12 +441,12 @@
   "Bonfiglioli Transmissions": {
     "gmp_extremes": {
       "opening": 29.86,
-      "highest": 29.86,
+      "highest": 31.06,
       "lowest": 24.57,
       "frozen": false
     },
-    "last_gmp": 175,
-    "last_direction": "flat",
+    "last_gmp": 182,
+    "last_direction": "up",
     "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 175
   },
@@ -457,8 +457,8 @@
       "lowest": 10.17,
       "frozen": false
     },
-    "last_gmp": 41,
-    "last_direction": "flat",
+    "last_gmp": 43,
+    "last_direction": "up",
     "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 41
   },
@@ -475,8 +475,8 @@
     "prev_day_close_gmp": 490
   },
   "Zetwerk": {
-    "last_gmp": 24,
-    "last_direction": "up",
+    "last_gmp": 20,
+    "last_direction": "down",
     "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 23,
     "gmp_extremes": {
