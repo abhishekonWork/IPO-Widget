@@ -200,7 +200,7 @@
     },
     "last_gmp": 46,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 46
   },
   "Sonaselection India": {
@@ -256,7 +256,7 @@
     },
     "last_gmp": 6,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 6
   },
   "Swastika Infra": {
@@ -280,7 +280,7 @@
     },
     "last_gmp": 55,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 55
   },
   "Moneyview": {
@@ -292,7 +292,7 @@
     },
     "last_gmp": 14,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 14
   },
   "Acevector": {
@@ -328,7 +328,7 @@
     },
     "last_gmp": 9,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 9
   },
   "Orient Cables": {
@@ -340,7 +340,7 @@
     },
     "last_gmp": 110,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 110
   },
   "Shah Investor's Home": {
@@ -352,7 +352,7 @@
     },
     "last_gmp": 17,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 17
   },
   "SRIT India": {
@@ -364,7 +364,7 @@
     },
     "last_gmp": 59,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 59
   },
   "Nityas Gems & Jewellery": {
@@ -376,7 +376,7 @@
     },
     "last_gmp": 1,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 1
   },
   "Vishal Nirmiti": {
@@ -388,7 +388,7 @@
     },
     "last_gmp": 2,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-13",
+    "last_seen_day": "2026-10-14",
     "prev_day_close_gmp": 2
   },
   "__meta__": {
@@ -396,9 +396,9 @@
   },
   "Jio Platforms": {
     "last_gmp": 218,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-13",
-    "prev_day_close_gmp": 182,
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-14",
+    "prev_day_close_gmp": 218,
     "gmp_extremes": {
       "opening": null,
       "highest": null,
@@ -414,9 +414,9 @@
       "frozen": false
     },
     "last_gmp": 91,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-13",
-    "prev_day_close_gmp": 86
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-14",
+    "prev_day_close_gmp": 91
   },
   "Fusion CX": {
     "gmp_extremes": {
@@ -426,9 +426,9 @@
       "frozen": false
     },
     "last_gmp": 33,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-13",
-    "prev_day_close_gmp": 19
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-14",
+    "prev_day_close_gmp": 33
   },
   "Bonfigloli Transmissions": {
     "gmp_extremes": {
@@ -446,9 +446,9 @@
       "frozen": false
     },
     "last_gmp": 175,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-13",
-    "prev_day_close_gmp": 155
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-14",
+    "prev_day_close_gmp": 175
   },
   "Sahajanand Medical Technologies": {
     "gmp_extremes": {
@@ -458,9 +458,9 @@
       "frozen": false
     },
     "last_gmp": 41,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-13",
-    "prev_day_close_gmp": 35
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-14",
+    "prev_day_close_gmp": 41
   },
   "Tonbo Imaging India": {
     "gmp_extremes": {
@@ -470,15 +470,15 @@
       "frozen": false
     },
     "last_gmp": 490,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-13",
-    "prev_day_close_gmp": 425
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-14",
+    "prev_day_close_gmp": 490
   },
   "Zetwerk": {
     "last_gmp": 23,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-13",
-    "prev_day_close_gmp": 16,
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-14",
+    "prev_day_close_gmp": 23,
     "gmp_extremes": {
       "opening": 14.57,
       "highest": 15.23,
