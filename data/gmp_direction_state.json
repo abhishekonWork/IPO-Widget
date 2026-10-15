@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 212,
-    "last_direction": "down",
+    "last_gmp": 219,
+    "last_direction": "up",
     "last_seen_day": "2026-10-15",
     "prev_day_close_gmp": 206,
     "gmp_extremes": {
@@ -413,8 +413,8 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 89,
-    "last_direction": "up",
+    "last_gmp": 78,
+    "last_direction": "down",
     "last_seen_day": "2026-10-15",
     "prev_day_close_gmp": 89
   },
@@ -425,8 +425,8 @@
       "lowest": 4.84,
       "frozen": false
     },
-    "last_gmp": 33,
-    "last_direction": "flat",
+    "last_gmp": 17,
+    "last_direction": "down",
     "last_seen_day": "2026-10-15",
     "prev_day_close_gmp": 33
   },
@@ -445,8 +445,8 @@
       "lowest": 24.57,
       "frozen": false
     },
-    "last_gmp": 178,
-    "last_direction": "up",
+    "last_gmp": 168,
+    "last_direction": "down",
     "last_seen_day": "2026-10-15",
     "prev_day_close_gmp": 178
   },
@@ -457,26 +457,26 @@
       "lowest": 10.17,
       "frozen": false
     },
-    "last_gmp": 41,
-    "last_direction": "down",
+    "last_gmp": 47,
+    "last_direction": "up",
     "last_seen_day": "2026-10-15",
     "prev_day_close_gmp": 41
   },
   "Tonbo Imaging India": {
     "gmp_extremes": {
       "opening": 38.57,
-      "highest": 71.43,
+      "highest": 71.57,
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 500,
-    "last_direction": "flat",
+    "last_gmp": 501,
+    "last_direction": "up",
     "last_seen_day": "2026-10-15",
     "prev_day_close_gmp": 500
   },
   "Zetwerk": {
-    "last_gmp": 22,
-    "last_direction": "up",
+    "last_gmp": 17,
+    "last_direction": "down",
     "last_seen_day": "2026-10-15",
     "prev_day_close_gmp": 22,
     "gmp_extremes": {
@@ -493,8 +493,8 @@
       "lowest": 11.98,
       "frozen": false
     },
-    "last_gmp": 83,
-    "last_direction": "down",
+    "last_gmp": 111,
+    "last_direction": "up",
     "last_seen_day": "2026-10-15",
     "prev_day_close_gmp": 83
   }
