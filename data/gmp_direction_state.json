@@ -395,14 +395,14 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 206,
-    "last_direction": "flat",
+    "last_gmp": 212,
+    "last_direction": "up",
     "last_seen_day": "2026-10-15",
     "prev_day_close_gmp": 206,
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 18.95,
+      "highest": 18.95,
+      "lowest": 18.95,
       "frozen": false
     }
   },
@@ -488,9 +488,9 @@
   },
   "Paras Healthcare": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 11.98,
+      "highest": 11.98,
+      "lowest": 11.98,
       "frozen": false
     },
     "last_gmp": 83,
