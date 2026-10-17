@@ -413,7 +413,7 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 72,
+    "last_gmp": 65,
     "last_direction": "down",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 77
@@ -425,7 +425,7 @@
       "lowest": 2.08,
       "frozen": false
     },
-    "last_gmp": 11,
+    "last_gmp": 12,
     "last_direction": "up",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 10
@@ -445,7 +445,7 @@
       "lowest": 21.33,
       "frozen": false
     },
-    "last_gmp": 131,
+    "last_gmp": 132,
     "last_direction": "up",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 129
@@ -454,10 +454,10 @@
     "gmp_extremes": {
       "opening": 11.63,
       "highest": 13.66,
-      "lowest": 6.1,
+      "lowest": 4.94,
       "frozen": false
     },
-    "last_gmp": 21,
+    "last_gmp": 17,
     "last_direction": "down",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 35
@@ -469,13 +469,13 @@
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 525,
-    "last_direction": "up",
+    "last_gmp": 505,
+    "last_direction": "down",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 516
   },
   "Zetwerk": {
-    "last_gmp": 6,
+    "last_gmp": 5,
     "last_direction": "down",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 7,
@@ -493,8 +493,8 @@
       "lowest": 11.98,
       "frozen": false
     },
-    "last_gmp": 95,
-    "last_direction": "flat",
+    "last_gmp": 96,
+    "last_direction": "up",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 95
   }
