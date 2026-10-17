@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 221,
-    "last_direction": "flat",
+    "last_gmp": 223,
+    "last_direction": "up",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 221,
     "gmp_extremes": {
@@ -413,8 +413,8 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 65,
-    "last_direction": "down",
+    "last_gmp": 69,
+    "last_direction": "up",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 77
   },
@@ -425,7 +425,7 @@
       "lowest": 2.08,
       "frozen": false
     },
-    "last_gmp": 12,
+    "last_gmp": 15,
     "last_direction": "up",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 10
@@ -454,10 +454,10 @@
     "gmp_extremes": {
       "opening": 11.63,
       "highest": 13.66,
-      "lowest": 4.94,
+      "lowest": 4.36,
       "frozen": false
     },
-    "last_gmp": 17,
+    "last_gmp": 15,
     "last_direction": "down",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 35
@@ -475,8 +475,8 @@
     "prev_day_close_gmp": 516
   },
   "Zetwerk": {
-    "last_gmp": 5,
-    "last_direction": "down",
+    "last_gmp": 7,
+    "last_direction": "up",
     "last_seen_day": "2026-10-17",
     "prev_day_close_gmp": 7,
     "gmp_extremes": {
