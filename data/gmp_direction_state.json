@@ -425,8 +425,8 @@
       "lowest": 2.08,
       "frozen": false
     },
-    "last_gmp": 19,
-    "last_direction": "flat",
+    "last_gmp": 17,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 19
   },
@@ -445,8 +445,8 @@
       "lowest": 21.33,
       "frozen": false
     },
-    "last_gmp": 130,
-    "last_direction": "flat",
+    "last_gmp": 125,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 130
   },
@@ -457,8 +457,8 @@
       "lowest": 4.36,
       "frozen": false
     },
-    "last_gmp": 25,
-    "last_direction": "flat",
+    "last_gmp": 27,
+    "last_direction": "up",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 25
   },
@@ -469,20 +469,20 @@
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 515,
-    "last_direction": "flat",
+    "last_gmp": 520,
+    "last_direction": "up",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 515
   },
   "Zetwerk": {
-    "last_gmp": 5,
-    "last_direction": "flat",
+    "last_gmp": 4,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 5,
     "gmp_extremes": {
       "opening": 14.57,
       "highest": 15.89,
-      "lowest": 3.31,
+      "lowest": 2.65,
       "frozen": false
     }
   },
@@ -497,5 +497,17 @@
     "last_direction": "flat",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 92
+  },
+  "BLS Polymers": {
+    "last_gmp": 25,
+    "last_direction": null,
+    "last_seen_day": "2026-10-19",
+    "prev_day_close_gmp": null,
+    "gmp_extremes": {
+      "opening": 16.67,
+      "highest": 16.67,
+      "lowest": 16.67,
+      "frozen": false
+    }
   }
 }
