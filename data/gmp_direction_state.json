@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 253,
-    "last_direction": "up",
+    "last_gmp": 245,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 250,
     "gmp_extremes": {
@@ -425,8 +425,8 @@
       "lowest": 2.08,
       "frozen": false
     },
-    "last_gmp": 16,
-    "last_direction": "up",
+    "last_gmp": 13,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 19
   },
@@ -493,14 +493,14 @@
       "lowest": 10.82,
       "frozen": false
     },
-    "last_gmp": 84,
-    "last_direction": "up",
+    "last_gmp": 78,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 92
   },
   "BLS Polymers": {
-    "last_gmp": 28,
-    "last_direction": "up",
+    "last_gmp": 18,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": null,
     "gmp_extremes": {
