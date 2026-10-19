@@ -395,13 +395,13 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 250,
-    "last_direction": "flat",
+    "last_gmp": 252,
+    "last_direction": "up",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 250,
     "gmp_extremes": {
       "opening": 18.95,
-      "highest": 22.34,
+      "highest": 22.52,
       "lowest": 18.95,
       "frozen": false
     }
@@ -425,8 +425,8 @@
       "lowest": 2.08,
       "frozen": false
     },
-    "last_gmp": 17,
-    "last_direction": "down",
+    "last_gmp": 20,
+    "last_direction": "up",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 19
   },
@@ -442,10 +442,10 @@
     "gmp_extremes": {
       "opening": 29.86,
       "highest": 31.06,
-      "lowest": 21.33,
+      "lowest": 17.92,
       "frozen": false
     },
-    "last_gmp": 125,
+    "last_gmp": 105,
     "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 130
@@ -457,8 +457,8 @@
       "lowest": 4.36,
       "frozen": false
     },
-    "last_gmp": 27,
-    "last_direction": "up",
+    "last_gmp": 17,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 25
   },
@@ -469,20 +469,20 @@
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 520,
-    "last_direction": "up",
+    "last_gmp": 515,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 515
   },
   "Zetwerk": {
-    "last_gmp": 4,
+    "last_gmp": 3,
     "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 5,
     "gmp_extremes": {
       "opening": 14.57,
       "highest": 15.89,
-      "lowest": 2.65,
+      "lowest": 2.32,
       "frozen": false
     }
   },
@@ -490,23 +490,23 @@
     "gmp_extremes": {
       "opening": 11.98,
       "highest": 17.32,
-      "lowest": 11.98,
+      "lowest": 10.82,
       "frozen": false
     },
-    "last_gmp": 92,
-    "last_direction": "flat",
+    "last_gmp": 75,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": 92
   },
   "BLS Polymers": {
-    "last_gmp": 25,
-    "last_direction": null,
+    "last_gmp": 20,
+    "last_direction": "down",
     "last_seen_day": "2026-10-19",
     "prev_day_close_gmp": null,
     "gmp_extremes": {
       "opening": 16.67,
       "highest": 16.67,
-      "lowest": 16.67,
+      "lowest": 13.33,
       "frozen": false
     }
   }
