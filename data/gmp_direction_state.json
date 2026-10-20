@@ -395,13 +395,13 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 254,
+    "last_gmp": 260,
     "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 245,
     "gmp_extremes": {
       "opening": 18.95,
-      "highest": 22.97,
+      "highest": 23.24,
       "lowest": 18.95,
       "frozen": false
     }
@@ -413,8 +413,8 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 63,
-    "last_direction": "down",
+    "last_gmp": 65,
+    "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 61
   },
@@ -445,7 +445,7 @@
       "lowest": 17.92,
       "frozen": false
     },
-    "last_gmp": 128,
+    "last_gmp": 130,
     "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 127
@@ -469,20 +469,20 @@
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 510,
+    "last_gmp": 515,
     "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 510
   },
   "Zetwerk": {
-    "last_gmp": 3,
-    "last_direction": "flat",
+    "last_gmp": 2,
+    "last_direction": "down",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 3,
     "gmp_extremes": {
       "opening": 14.57,
       "highest": 15.89,
-      "lowest": 1.99,
+      "lowest": 1.66,
       "frozen": false
     }
   },
@@ -490,22 +490,22 @@
     "gmp_extremes": {
       "opening": 11.98,
       "highest": 17.32,
-      "lowest": 10.1,
+      "lowest": 6.35,
       "frozen": false
     },
-    "last_gmp": 70,
+    "last_gmp": 44,
     "last_direction": "down",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 78
   },
   "BLS Polymers": {
-    "last_gmp": 27,
-    "last_direction": "down",
+    "last_gmp": 37,
+    "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 18,
     "gmp_extremes": {
       "opening": 16.67,
-      "highest": 20.0,
+      "highest": 24.67,
       "lowest": 12.0,
       "frozen": false
     }
