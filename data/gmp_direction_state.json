@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 234,
-    "last_direction": "down",
+    "last_gmp": 254,
+    "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 245,
     "gmp_extremes": {
@@ -413,8 +413,8 @@
       "lowest": 20.3,
       "frozen": false
     },
-    "last_gmp": 64,
-    "last_direction": "up",
+    "last_gmp": 63,
+    "last_direction": "down",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 61
   },
@@ -425,7 +425,7 @@
       "lowest": 2.08,
       "frozen": false
     },
-    "last_gmp": 17,
+    "last_gmp": 20,
     "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 13
@@ -445,8 +445,8 @@
       "lowest": 17.92,
       "frozen": false
     },
-    "last_gmp": 126,
-    "last_direction": "down",
+    "last_gmp": 128,
+    "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 127
   },
@@ -457,8 +457,8 @@
       "lowest": 4.36,
       "frozen": false
     },
-    "last_gmp": 24,
-    "last_direction": "flat",
+    "last_gmp": 25,
+    "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 24
   },
@@ -469,8 +469,8 @@
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 501,
-    "last_direction": "down",
+    "last_gmp": 510,
+    "last_direction": "up",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 510
   },
@@ -482,7 +482,7 @@
     "gmp_extremes": {
       "opening": 14.57,
       "highest": 15.89,
-      "lowest": 2.32,
+      "lowest": 1.99,
       "frozen": false
     }
   },
@@ -490,17 +490,17 @@
     "gmp_extremes": {
       "opening": 11.98,
       "highest": 17.32,
-      "lowest": 10.82,
+      "lowest": 10.1,
       "frozen": false
     },
-    "last_gmp": 81,
-    "last_direction": "up",
+    "last_gmp": 70,
+    "last_direction": "down",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 78
   },
   "BLS Polymers": {
-    "last_gmp": 30,
-    "last_direction": "up",
+    "last_gmp": 27,
+    "last_direction": "down",
     "last_seen_day": "2026-10-20",
     "prev_day_close_gmp": 18,
     "gmp_extremes": {
