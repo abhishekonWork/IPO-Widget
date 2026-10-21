@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 261,
-    "last_direction": "up",
+    "last_gmp": 254,
+    "last_direction": "down",
     "last_seen_day": "2026-10-21",
     "prev_day_close_gmp": 273,
     "gmp_extremes": {
@@ -475,8 +475,8 @@
     "prev_day_close_gmp": 515
   },
   "Zetwerk": {
-    "last_gmp": 0,
-    "last_direction": "down",
+    "last_gmp": 1,
+    "last_direction": "up",
     "last_seen_day": "2026-10-21",
     "prev_day_close_gmp": 2,
     "gmp_extremes": {
@@ -493,8 +493,8 @@
       "lowest": 5.05,
       "frozen": false
     },
-    "last_gmp": 39,
-    "last_direction": "up",
+    "last_gmp": 35,
+    "last_direction": "down",
     "last_seen_day": "2026-10-21",
     "prev_day_close_gmp": 50
   },
