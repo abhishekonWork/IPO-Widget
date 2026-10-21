@@ -376,7 +376,7 @@
     },
     "last_gmp": 1,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-20",
+    "last_seen_day": "2026-10-21",
     "prev_day_close_gmp": 1
   },
   "Vishal Nirmiti": {
@@ -388,7 +388,7 @@
     },
     "last_gmp": 2,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-20",
+    "last_seen_day": "2026-10-21",
     "prev_day_close_gmp": 2
   },
   "__meta__": {
@@ -396,9 +396,9 @@
   },
   "Jio Platforms": {
     "last_gmp": 273,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-20",
-    "prev_day_close_gmp": 245,
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-21",
+    "prev_day_close_gmp": 273,
     "gmp_extremes": {
       "opening": 18.95,
       "highest": 24.4,
@@ -414,9 +414,9 @@
       "frozen": false
     },
     "last_gmp": 71,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-20",
-    "prev_day_close_gmp": 61
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-21",
+    "prev_day_close_gmp": 71
   },
   "Fusion CX": {
     "gmp_extremes": {
@@ -426,9 +426,9 @@
       "frozen": false
     },
     "last_gmp": 20,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-20",
-    "prev_day_close_gmp": 13
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-21",
+    "prev_day_close_gmp": 20
   },
   "Bonfigloli Transmissions": {
     "gmp_extremes": {
@@ -446,9 +446,9 @@
       "frozen": false
     },
     "last_gmp": 137,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-20",
-    "prev_day_close_gmp": 127
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-21",
+    "prev_day_close_gmp": 137
   },
   "Sahajanand Medical Technologies": {
     "gmp_extremes": {
@@ -458,8 +458,8 @@
       "frozen": false
     },
     "last_gmp": 24,
-    "last_direction": "down",
-    "last_seen_day": "2026-10-20",
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-21",
     "prev_day_close_gmp": 24
   },
   "Tonbo Imaging India": {
@@ -470,15 +470,15 @@
       "frozen": false
     },
     "last_gmp": 515,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-20",
-    "prev_day_close_gmp": 510
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-21",
+    "prev_day_close_gmp": 515
   },
   "Zetwerk": {
     "last_gmp": 2,
-    "last_direction": "down",
-    "last_seen_day": "2026-10-20",
-    "prev_day_close_gmp": 3,
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-21",
+    "prev_day_close_gmp": 2,
     "gmp_extremes": {
       "opening": 14.57,
       "highest": 15.89,
@@ -494,15 +494,15 @@
       "frozen": false
     },
     "last_gmp": 50,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-20",
-    "prev_day_close_gmp": 78
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-21",
+    "prev_day_close_gmp": 50
   },
   "BLS Polymers": {
     "last_gmp": 30,
-    "last_direction": "down",
-    "last_seen_day": "2026-10-20",
-    "prev_day_close_gmp": 18,
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-21",
+    "prev_day_close_gmp": 30,
     "gmp_extremes": {
       "opening": 16.67,
       "highest": 24.67,
