@@ -395,7 +395,7 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 254,
+    "last_gmp": 246,
     "last_direction": "down",
     "last_seen_day": "2026-10-21",
     "prev_day_close_gmp": 273,
@@ -445,7 +445,7 @@
       "lowest": 17.92,
       "frozen": false
     },
-    "last_gmp": 135,
+    "last_gmp": 132,
     "last_direction": "down",
     "last_seen_day": "2026-10-21",
     "prev_day_close_gmp": 137
@@ -469,7 +469,7 @@
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 513,
+    "last_gmp": 512,
     "last_direction": "down",
     "last_seen_day": "2026-10-21",
     "prev_day_close_gmp": 515
@@ -512,11 +512,15 @@
   },
   "SFC Environmental Technologies": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 9.39,
+      "highest": 9.39,
+      "lowest": 9.39,
       "frozen": false
-    }
+    },
+    "last_gmp": 31,
+    "last_direction": null,
+    "last_seen_day": "2026-10-21",
+    "prev_day_close_gmp": null
   },
   "EAAA India Alternatives": {
     "gmp_extremes": {
