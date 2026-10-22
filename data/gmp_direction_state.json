@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 246,
-    "last_direction": "flat",
+    "last_gmp": 247,
+    "last_direction": "up",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 246,
     "gmp_extremes": {
@@ -445,7 +445,7 @@
       "lowest": 17.92,
       "frozen": false
     },
-    "last_gmp": 121,
+    "last_gmp": 105,
     "last_direction": "down",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 132
@@ -457,8 +457,8 @@
       "lowest": 4.36,
       "frozen": false
     },
-    "last_gmp": 19,
-    "last_direction": "flat",
+    "last_gmp": 17,
+    "last_direction": "down",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 19
   },
@@ -469,8 +469,8 @@
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 512,
-    "last_direction": "flat",
+    "last_gmp": 470,
+    "last_direction": "down",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 512
   },
@@ -490,17 +490,17 @@
     "gmp_extremes": {
       "opening": 11.98,
       "highest": 17.32,
-      "lowest": 3.61,
+      "lowest": 2.6,
       "frozen": false
     },
-    "last_gmp": 25,
-    "last_direction": "flat",
+    "last_gmp": 18,
+    "last_direction": "down",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 25
   },
   "BLS Polymers": {
-    "last_gmp": 30,
-    "last_direction": "flat",
+    "last_gmp": 29,
+    "last_direction": "down",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 30,
     "gmp_extremes": {
@@ -523,6 +523,14 @@
     "prev_day_close_gmp": 31
   },
   "EAAA India Alternatives": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
+  },
+  "Bombay Coated and Special Steels": {
     "gmp_extremes": {
       "opening": null,
       "highest": null,
