@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 237,
-    "last_direction": "down",
+    "last_gmp": 244,
+    "last_direction": "up",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 246,
     "gmp_extremes": {
@@ -445,8 +445,8 @@
       "lowest": 12.8,
       "frozen": false
     },
-    "last_gmp": 75,
-    "last_direction": "down",
+    "last_gmp": 77,
+    "last_direction": "up",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 132
   },
@@ -457,7 +457,7 @@
       "lowest": 4.36,
       "frozen": false
     },
-    "last_gmp": 17,
+    "last_gmp": 15,
     "last_direction": "down",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 19
@@ -469,16 +469,16 @@
       "lowest": 38.57,
       "frozen": false
     },
-    "last_gmp": 460,
+    "last_gmp": 438,
     "last_direction": "down",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 512
   },
   "Zetwerk": {
     "last_gmp": 1,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-21",
-    "prev_day_close_gmp": 2,
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-22",
+    "prev_day_close_gmp": 1,
     "gmp_extremes": {
       "opening": 14.57,
       "highest": 15.89,
@@ -490,17 +490,17 @@
     "gmp_extremes": {
       "opening": 11.98,
       "highest": 17.32,
-      "lowest": 2.16,
+      "lowest": 1.88,
       "frozen": false
     },
-    "last_gmp": 15,
+    "last_gmp": 13,
     "last_direction": "down",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 25
   },
   "BLS Polymers": {
-    "last_gmp": 29,
-    "last_direction": "down",
+    "last_gmp": 35,
+    "last_direction": "up",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 30,
     "gmp_extremes": {
@@ -514,11 +514,11 @@
     "gmp_extremes": {
       "opening": 9.39,
       "highest": 9.39,
-      "lowest": 9.39,
+      "lowest": 6.36,
       "frozen": false
     },
-    "last_gmp": 31,
-    "last_direction": "flat",
+    "last_gmp": 21,
+    "last_direction": "down",
     "last_seen_day": "2026-10-22",
     "prev_day_close_gmp": 31
   },
