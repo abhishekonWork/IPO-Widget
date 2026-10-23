@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 254,
-    "last_direction": "up",
+    "last_gmp": 250,
+    "last_direction": "down",
     "last_seen_day": "2026-10-23",
     "prev_day_close_gmp": 240,
     "gmp_extremes": {
@@ -493,8 +493,8 @@
       "lowest": 1.01,
       "frozen": false
     },
-    "last_gmp": 7,
-    "last_direction": "down",
+    "last_gmp": 15,
+    "last_direction": "up",
     "last_seen_day": "2026-10-23",
     "prev_day_close_gmp": 13
   },
@@ -532,11 +532,15 @@
   },
   "Bombay Coated and Special Steels": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 9.76,
+      "highest": 9.76,
+      "lowest": 9.76,
       "frozen": false
-    }
+    },
+    "last_gmp": 8,
+    "last_direction": null,
+    "last_seen_day": "2026-10-23",
+    "prev_day_close_gmp": null
   },
   "M.K.Sons Fine Jewels": {
     "gmp_extremes": {
