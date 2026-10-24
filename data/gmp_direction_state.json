@@ -395,7 +395,7 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 248,
+    "last_gmp": 246,
     "last_direction": "down",
     "last_seen_day": "2026-10-24",
     "prev_day_close_gmp": 250,
@@ -499,13 +499,13 @@
     "prev_day_close_gmp": 11
   },
   "BLS Polymers": {
-    "last_gmp": 35,
+    "last_gmp": 40,
     "last_direction": "up",
     "last_seen_day": "2026-10-24",
     "prev_day_close_gmp": 38,
     "gmp_extremes": {
       "opening": 16.67,
-      "highest": 25.33,
+      "highest": 26.67,
       "lowest": 12.0,
       "frozen": false
     }
@@ -513,11 +513,11 @@
   "SFC Environmental Technologies": {
     "gmp_extremes": {
       "opening": 9.39,
-      "highest": 9.39,
+      "highest": 9.7,
       "lowest": 6.36,
       "frozen": false
     },
-    "last_gmp": 30,
+    "last_gmp": 32,
     "last_direction": "up",
     "last_seen_day": "2026-10-24",
     "prev_day_close_gmp": 21
@@ -526,10 +526,10 @@
     "gmp_extremes": {
       "opening": 7.27,
       "highest": 7.27,
-      "lowest": 6.01,
+      "lowest": 4.08,
       "frozen": false
     },
-    "last_gmp": 100,
+    "last_gmp": 68,
     "last_direction": "down",
     "last_seen_day": "2026-10-24",
     "prev_day_close_gmp": 121
@@ -550,11 +550,11 @@
     "gmp_extremes": {
       "opening": 4.94,
       "highest": 4.94,
-      "lowest": 4.94,
+      "lowest": 4.32,
       "frozen": false
     },
-    "last_gmp": 8,
-    "last_direction": null,
+    "last_gmp": 7,
+    "last_direction": "down",
     "last_seen_day": "2026-10-24",
     "prev_day_close_gmp": null
   }
