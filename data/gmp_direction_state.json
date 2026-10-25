@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 247,
-    "last_direction": "flat",
+    "last_gmp": 250,
+    "last_direction": "up",
     "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 247,
     "gmp_extremes": {
@@ -526,11 +526,11 @@
     "gmp_extremes": {
       "opening": 7.27,
       "highest": 7.27,
-      "lowest": 2.7,
+      "lowest": 2.52,
       "frozen": false
     },
-    "last_gmp": 45,
-    "last_direction": "flat",
+    "last_gmp": 42,
+    "last_direction": "down",
     "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 45
   },
