@@ -396,9 +396,9 @@
   },
   "Jio Platforms": {
     "last_gmp": 247,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-24",
-    "prev_day_close_gmp": 250,
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-25",
+    "prev_day_close_gmp": 247,
     "gmp_extremes": {
       "opening": 18.95,
       "highest": 24.4,
@@ -415,7 +415,7 @@
     },
     "last_gmp": 70,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-24",
+    "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 70
   },
   "Fusion CX": {
@@ -427,7 +427,7 @@
     },
     "last_gmp": 13,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-24",
+    "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 13
   },
   "Bonfigloli Transmissions": {
@@ -447,7 +447,7 @@
     },
     "last_gmp": 66,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-24",
+    "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 66
   },
   "Sahajanand Medical Technologies": {
@@ -459,7 +459,7 @@
     },
     "last_gmp": 17,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-24",
+    "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 17
   },
   "Tonbo Imaging India": {
@@ -471,13 +471,13 @@
     },
     "last_gmp": 452,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-24",
+    "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 452
   },
   "Zetwerk": {
     "last_gmp": 1,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-24",
+    "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 1,
     "gmp_extremes": {
       "opening": 14.57,
@@ -494,14 +494,14 @@
       "frozen": false
     },
     "last_gmp": 12,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-24",
-    "prev_day_close_gmp": 11
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-25",
+    "prev_day_close_gmp": 12
   },
   "BLS Polymers": {
     "last_gmp": 38,
-    "last_direction": "down",
-    "last_seen_day": "2026-10-24",
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 38,
     "gmp_extremes": {
       "opening": 16.67,
@@ -518,9 +518,9 @@
       "frozen": false
     },
     "last_gmp": 32,
-    "last_direction": "up",
-    "last_seen_day": "2026-10-24",
-    "prev_day_close_gmp": 21
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-25",
+    "prev_day_close_gmp": 32
   },
   "EAAA India Alternatives": {
     "gmp_extremes": {
@@ -530,9 +530,9 @@
       "frozen": false
     },
     "last_gmp": 45,
-    "last_direction": "down",
-    "last_seen_day": "2026-10-24",
-    "prev_day_close_gmp": 121
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-25",
+    "prev_day_close_gmp": 45
   },
   "Bombay Coated and Special Steels": {
     "gmp_extremes": {
@@ -543,7 +543,7 @@
     },
     "last_gmp": 8,
     "last_direction": "flat",
-    "last_seen_day": "2026-10-24",
+    "last_seen_day": "2026-10-25",
     "prev_day_close_gmp": 8
   },
   "M.K.Sons Fine Jewels": {
@@ -554,8 +554,8 @@
       "frozen": false
     },
     "last_gmp": 7,
-    "last_direction": "down",
-    "last_seen_day": "2026-10-24",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-10-25",
+    "prev_day_close_gmp": 7
   }
 }
