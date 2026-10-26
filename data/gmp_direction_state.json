@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 248,
-    "last_direction": "up",
+    "last_gmp": 247,
+    "last_direction": "down",
     "last_seen_day": "2026-10-26",
     "prev_day_close_gmp": 247,
     "gmp_extremes": {
@@ -499,8 +499,8 @@
     "prev_day_close_gmp": 9
   },
   "BLS Polymers": {
-    "last_gmp": 39,
-    "last_direction": "down",
+    "last_gmp": 40,
+    "last_direction": "up",
     "last_seen_day": "2026-10-26",
     "prev_day_close_gmp": 38,
     "gmp_extremes": {
