@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 247,
-    "last_direction": "flat",
+    "last_gmp": 248,
+    "last_direction": "up",
     "last_seen_day": "2026-10-26",
     "prev_day_close_gmp": 247,
     "gmp_extremes": {
@@ -517,7 +517,7 @@
       "lowest": 6.36,
       "frozen": false
     },
-    "last_gmp": 28,
+    "last_gmp": 22,
     "last_direction": "down",
     "last_seen_day": "2026-10-26",
     "prev_day_close_gmp": 32
@@ -526,11 +526,11 @@
     "gmp_extremes": {
       "opening": 7.27,
       "highest": 7.27,
-      "lowest": 1.98,
+      "lowest": 1.38,
       "frozen": false
     },
-    "last_gmp": 36,
-    "last_direction": "up",
+    "last_gmp": 23,
+    "last_direction": "down",
     "last_seen_day": "2026-10-26",
     "prev_day_close_gmp": 33
   },
@@ -549,7 +549,7 @@
   "M.K.Sons Fine Jewels": {
     "gmp_extremes": {
       "opening": 4.94,
-      "highest": 4.94,
+      "highest": 5.25,
       "lowest": 4.32,
       "frozen": false
     },
