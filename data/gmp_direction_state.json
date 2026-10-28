@@ -499,13 +499,13 @@
     "prev_day_close_gmp": 13
   },
   "BLS Polymers": {
-    "last_gmp": 46,
+    "last_gmp": 47,
     "last_direction": "up",
     "last_seen_day": "2026-10-28",
     "prev_day_close_gmp": 44,
     "gmp_extremes": {
       "opening": 16.67,
-      "highest": 30.67,
+      "highest": 31.33,
       "lowest": 12.0,
       "frozen": false
     }
@@ -514,11 +514,11 @@
     "gmp_extremes": {
       "opening": 9.39,
       "highest": 9.7,
-      "lowest": 5.15,
+      "lowest": 4.55,
       "frozen": false
     },
-    "last_gmp": 17,
-    "last_direction": "flat",
+    "last_gmp": 15,
+    "last_direction": "down",
     "last_seen_day": "2026-10-28",
     "prev_day_close_gmp": 17
   },
@@ -529,8 +529,8 @@
       "lowest": 0.54,
       "frozen": false
     },
-    "last_gmp": 9,
-    "last_direction": "down",
+    "last_gmp": 22,
+    "last_direction": "up",
     "last_seen_day": "2026-10-28",
     "prev_day_close_gmp": 11
   },
@@ -549,11 +549,11 @@
   "M.K.Sons Fine Jewels": {
     "gmp_extremes": {
       "opening": 4.94,
-      "highest": 7.1,
+      "highest": 7.41,
       "lowest": 4.32,
       "frozen": false
     },
-    "last_gmp": 11,
+    "last_gmp": 12,
     "last_direction": "up",
     "last_seen_day": "2026-10-28",
     "prev_day_close_gmp": 10
