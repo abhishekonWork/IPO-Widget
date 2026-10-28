@@ -395,8 +395,8 @@
     "zero_opening_repair_v2": true
   },
   "Jio Platforms": {
-    "last_gmp": 248,
-    "last_direction": "flat",
+    "last_gmp": 250,
+    "last_direction": "up",
     "last_seen_day": "2026-10-28",
     "prev_day_close_gmp": 248,
     "gmp_extremes": {
@@ -499,13 +499,13 @@
     "prev_day_close_gmp": 13
   },
   "BLS Polymers": {
-    "last_gmp": 44,
-    "last_direction": "flat",
+    "last_gmp": 46,
+    "last_direction": "up",
     "last_seen_day": "2026-10-28",
     "prev_day_close_gmp": 44,
     "gmp_extremes": {
       "opening": 16.67,
-      "highest": 29.33,
+      "highest": 30.67,
       "lowest": 12.0,
       "frozen": false
     }
@@ -526,11 +526,11 @@
     "gmp_extremes": {
       "opening": 7.27,
       "highest": 7.27,
-      "lowest": 0.6,
+      "lowest": 0.54,
       "frozen": false
     },
-    "last_gmp": 11,
-    "last_direction": "flat",
+    "last_gmp": 9,
+    "last_direction": "down",
     "last_seen_day": "2026-10-28",
     "prev_day_close_gmp": 11
   },
@@ -549,12 +549,12 @@
   "M.K.Sons Fine Jewels": {
     "gmp_extremes": {
       "opening": 4.94,
-      "highest": 6.17,
+      "highest": 7.1,
       "lowest": 4.32,
       "frozen": false
     },
-    "last_gmp": 10,
-    "last_direction": "flat",
+    "last_gmp": 11,
+    "last_direction": "up",
     "last_seen_day": "2026-10-28",
     "prev_day_close_gmp": 10
   }
