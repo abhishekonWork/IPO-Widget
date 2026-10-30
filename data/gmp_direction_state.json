@@ -499,13 +499,13 @@
     "prev_day_close_gmp": 13
   },
   "BLS Polymers": {
-    "last_gmp": 70,
+    "last_gmp": 73,
     "last_direction": "up",
     "last_seen_day": "2026-10-30",
     "prev_day_close_gmp": 68,
     "gmp_extremes": {
       "opening": 16.67,
-      "highest": 46.67,
+      "highest": 48.67,
       "lowest": 12.0,
       "frozen": false
     }
@@ -517,7 +517,7 @@
       "lowest": 1.97,
       "frozen": false
     },
-    "last_gmp": 20,
+    "last_gmp": 21,
     "last_direction": "up",
     "last_seen_day": "2026-10-30",
     "prev_day_close_gmp": 19
@@ -529,8 +529,8 @@
       "lowest": 0.54,
       "frozen": false
     },
-    "last_gmp": 56,
-    "last_direction": "up",
+    "last_gmp": 52,
+    "last_direction": "down",
     "last_seen_day": "2026-10-30",
     "prev_day_close_gmp": 37
   },
@@ -538,10 +538,10 @@
     "gmp_extremes": {
       "opening": 9.76,
       "highest": 10.98,
-      "lowest": 9.76,
+      "lowest": 8.54,
       "frozen": false
     },
-    "last_gmp": 8,
+    "last_gmp": 7,
     "last_direction": "down",
     "last_seen_day": "2026-10-30",
     "prev_day_close_gmp": 9
@@ -550,10 +550,10 @@
     "gmp_extremes": {
       "opening": 4.94,
       "highest": 9.88,
-      "lowest": 4.32,
+      "lowest": 3.09,
       "frozen": false
     },
-    "last_gmp": 8,
+    "last_gmp": 5,
     "last_direction": "down",
     "last_seen_day": "2026-10-30",
     "prev_day_close_gmp": 12
