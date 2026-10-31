@@ -499,8 +499,8 @@
     "prev_day_close_gmp": 13
   },
   "BLS Polymers": {
-    "last_gmp": 70,
-    "last_direction": "flat",
+    "last_gmp": 66,
+    "last_direction": "down",
     "last_seen_day": "2026-10-31",
     "prev_day_close_gmp": 70,
     "gmp_extremes": {
@@ -517,8 +517,8 @@
       "lowest": 1.97,
       "frozen": false
     },
-    "last_gmp": 20,
-    "last_direction": "flat",
+    "last_gmp": 25,
+    "last_direction": "up",
     "last_seen_day": "2026-10-31",
     "prev_day_close_gmp": 20
   },
@@ -529,20 +529,20 @@
       "lowest": 0.54,
       "frozen": false
     },
-    "last_gmp": 52,
-    "last_direction": "flat",
+    "last_gmp": 53,
+    "last_direction": "up",
     "last_seen_day": "2026-10-31",
     "prev_day_close_gmp": 52
   },
   "Bombay Coated and Special Steels": {
     "gmp_extremes": {
       "opening": 9.76,
-      "highest": 10.98,
+      "highest": 12.2,
       "lowest": 8.54,
       "frozen": false
     },
-    "last_gmp": 7,
-    "last_direction": "flat",
+    "last_gmp": 10,
+    "last_direction": "up",
     "last_seen_day": "2026-10-31",
     "prev_day_close_gmp": 7
   },
@@ -553,8 +553,8 @@
       "lowest": 3.09,
       "frozen": false
     },
-    "last_gmp": 6,
-    "last_direction": "flat",
+    "last_gmp": 5,
+    "last_direction": "down",
     "last_seen_day": "2026-10-31",
     "prev_day_close_gmp": 6
   }
