@@ -517,8 +517,8 @@
       "lowest": 1.97,
       "frozen": false
     },
-    "last_gmp": 21,
-    "last_direction": "up",
+    "last_gmp": 15,
+    "last_direction": "down",
     "last_seen_day": "2026-11-02",
     "prev_day_close_gmp": 26
   },
@@ -541,8 +541,8 @@
       "lowest": 8.54,
       "frozen": false
     },
-    "last_gmp": 9,
-    "last_direction": "flat",
+    "last_gmp": 8,
+    "last_direction": "down",
     "last_seen_day": "2026-11-02",
     "prev_day_close_gmp": 9
   },
@@ -553,8 +553,8 @@
       "lowest": 3.09,
       "frozen": false
     },
-    "last_gmp": 5,
-    "last_direction": "flat",
+    "last_gmp": 6,
+    "last_direction": "up",
     "last_seen_day": "2026-11-02",
     "prev_day_close_gmp": 5
   }
