@@ -499,8 +499,8 @@
     "prev_day_close_gmp": 13
   },
   "BLS Polymers": {
-    "last_gmp": 67,
-    "last_direction": "down",
+    "last_gmp": 68,
+    "last_direction": "up",
     "last_seen_day": "2026-11-02",
     "prev_day_close_gmp": 68,
     "gmp_extremes": {
