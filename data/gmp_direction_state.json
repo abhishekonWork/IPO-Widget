@@ -541,8 +541,8 @@
       "lowest": 8.54,
       "frozen": false
     },
-    "last_gmp": 8,
-    "last_direction": "flat",
+    "last_gmp": 9,
+    "last_direction": "up",
     "last_seen_day": "2026-11-03",
     "prev_day_close_gmp": 8
   },
@@ -553,8 +553,8 @@
       "lowest": 3.09,
       "frozen": false
     },
-    "last_gmp": 6,
-    "last_direction": "flat",
+    "last_gmp": 10,
+    "last_direction": "up",
     "last_seen_day": "2026-11-03",
     "prev_day_close_gmp": 6
   }
