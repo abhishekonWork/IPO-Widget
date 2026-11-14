@@ -397,7 +397,7 @@
   "Jio Platforms": {
     "last_gmp": 250,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 250,
     "gmp_extremes": {
       "opening": 18.95,
@@ -447,7 +447,7 @@
     },
     "last_gmp": 66,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 66
   },
   "Sahajanand Medical Technologies": {
@@ -459,7 +459,7 @@
     },
     "last_gmp": 17,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 17
   },
   "Tonbo Imaging India": {
@@ -471,13 +471,13 @@
     },
     "last_gmp": 452,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 452
   },
   "Zetwerk": {
     "last_gmp": 1,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 1,
     "gmp_extremes": {
       "opening": 14.57,
@@ -495,13 +495,13 @@
     },
     "last_gmp": 13,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 13
   },
   "BLS Polymers": {
     "last_gmp": 69,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 69,
     "gmp_extremes": {
       "opening": 16.67,
@@ -519,7 +519,7 @@
     },
     "last_gmp": 15,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 15
   },
   "EAAA India Alternatives": {
@@ -531,7 +531,7 @@
     },
     "last_gmp": 54,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 54
   },
   "Bombay Coated and Special Steels": {
@@ -543,7 +543,7 @@
     },
     "last_gmp": 8,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 8
   },
   "M.K.Sons Fine Jewels": {
@@ -555,7 +555,7 @@
     },
     "last_gmp": 11,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-13",
+    "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 11
   },
   "Crystal Crop Protection": {
@@ -566,8 +566,8 @@
       "frozen": false
     },
     "last_gmp": 40,
-    "last_direction": "down",
-    "last_seen_day": "2026-11-13",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-11-14",
+    "prev_day_close_gmp": 40
   }
 }
