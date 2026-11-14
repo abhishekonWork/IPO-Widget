@@ -562,10 +562,10 @@
     "gmp_extremes": {
       "opening": 17.28,
       "highest": 17.28,
-      "lowest": 11.03,
+      "lowest": 9.93,
       "frozen": false
     },
-    "last_gmp": 30,
+    "last_gmp": 27,
     "last_direction": "down",
     "last_seen_day": "2026-11-14",
     "prev_day_close_gmp": 40
