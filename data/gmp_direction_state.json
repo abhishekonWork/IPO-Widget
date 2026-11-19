@@ -477,7 +477,7 @@
   "Zetwerk": {
     "last_gmp": 1,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-18",
+    "last_seen_day": "2026-11-19",
     "prev_day_close_gmp": 1,
     "gmp_extremes": {
       "opening": 14.57,
@@ -571,14 +571,26 @@
     "prev_day_close_gmp": 19
   },
   "Mahanadi Coalfields": {
-    "last_gmp": 2,
-    "last_direction": "up",
+    "last_gmp": 1,
+    "last_direction": "down",
     "last_seen_day": "2026-11-19",
     "prev_day_close_gmp": 3,
     "gmp_extremes": {
       "opening": 4.23,
       "highest": 4.23,
       "lowest": 1.25,
+      "frozen": false
+    }
+  },
+  "Foodlink F&B Holdings": {
+    "last_gmp": 12,
+    "last_direction": null,
+    "last_seen_day": "2026-11-19",
+    "prev_day_close_gmp": null,
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
       "frozen": false
     }
   }
