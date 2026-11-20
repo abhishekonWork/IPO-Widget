@@ -471,7 +471,7 @@
     },
     "last_gmp": 452,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-19",
+    "last_seen_day": "2026-11-20",
     "prev_day_close_gmp": 452
   },
   "Zetwerk": {
@@ -565,8 +565,8 @@
       "lowest": 4.78,
       "frozen": false
     },
-    "last_gmp": 17,
-    "last_direction": "flat",
+    "last_gmp": 15,
+    "last_direction": "down",
     "last_seen_day": "2026-11-20",
     "prev_day_close_gmp": 17
   },
@@ -578,7 +578,7 @@
     "gmp_extremes": {
       "opening": 4.23,
       "highest": 4.23,
-      "lowest": 1.25,
+      "lowest": 0.99,
       "frozen": false
     }
   },
@@ -587,6 +587,22 @@
     "last_direction": "flat",
     "last_seen_day": "2026-11-20",
     "prev_day_close_gmp": 12,
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
+  },
+  "Integris Medtech": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
+  },
+  "Monomark Engineering": {
     "gmp_extremes": {
       "opening": null,
       "highest": null,
