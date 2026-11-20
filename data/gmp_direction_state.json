@@ -571,14 +571,14 @@
     "prev_day_close_gmp": 17
   },
   "Mahanadi Coalfields": {
-    "last_gmp": 1,
-    "last_direction": "flat",
+    "last_gmp": 0,
+    "last_direction": "down",
     "last_seen_day": "2026-11-20",
     "prev_day_close_gmp": 1,
     "gmp_extremes": {
       "opening": 4.23,
       "highest": 4.23,
-      "lowest": 0.96,
+      "lowest": 0.55,
       "frozen": false
     }
   },
