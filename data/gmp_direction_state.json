@@ -447,7 +447,7 @@
     },
     "last_gmp": 66,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-19",
+    "last_seen_day": "2026-11-20",
     "prev_day_close_gmp": 66
   },
   "Sahajanand Medical Technologies": {
@@ -565,7 +565,7 @@
       "lowest": 4.78,
       "frozen": false
     },
-    "last_gmp": 15,
+    "last_gmp": 14,
     "last_direction": "down",
     "last_seen_day": "2026-11-20",
     "prev_day_close_gmp": 17
@@ -578,7 +578,7 @@
     "gmp_extremes": {
       "opening": 4.23,
       "highest": 4.23,
-      "lowest": 0.99,
+      "lowest": 0.96,
       "frozen": false
     }
   },
