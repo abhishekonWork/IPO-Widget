@@ -578,7 +578,7 @@
     "gmp_extremes": {
       "opening": 4.23,
       "highest": 4.23,
-      "lowest": 0.29,
+      "lowest": 0.15,
       "frozen": false
     }
   },
@@ -617,7 +617,7 @@
   "Matangi Rubber": {
     "gmp_extremes": {
       "opening": 12.21,
-      "highest": 12.21,
+      "highest": 12.5,
       "lowest": 12.21,
       "frozen": false
     },
