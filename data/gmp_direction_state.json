@@ -578,7 +578,7 @@
     "gmp_extremes": {
       "opening": 4.23,
       "highest": 4.23,
-      "lowest": 0.51,
+      "lowest": 0.37,
       "frozen": false
     }
   },
@@ -588,9 +588,9 @@
     "last_seen_day": "2026-11-23",
     "prev_day_close_gmp": 12,
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 6.28,
+      "highest": 6.28,
+      "lowest": 6.28,
       "frozen": false
     }
   },
@@ -613,5 +613,13 @@
     "last_direction": "flat",
     "last_seen_day": "2026-11-23",
     "prev_day_close_gmp": 23
+  },
+  "Matangi Rubber": {
+    "gmp_extremes": {
+      "opening": null,
+      "highest": null,
+      "lowest": null,
+      "frozen": false
+    }
   }
 }
