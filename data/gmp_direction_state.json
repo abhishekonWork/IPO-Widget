@@ -583,13 +583,13 @@
     }
   },
   "Foodlink F&B Holdings": {
-    "last_gmp": 17,
+    "last_gmp": 20,
     "last_direction": "up",
     "last_seen_day": "2026-11-24",
     "prev_day_close_gmp": 15,
     "gmp_extremes": {
       "opening": 6.28,
-      "highest": 8.9,
+      "highest": 10.47,
       "lowest": 6.28,
       "frozen": false
     }
