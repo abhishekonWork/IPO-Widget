@@ -397,7 +397,7 @@
   "Jio Platforms": {
     "last_gmp": 250,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-23",
+    "last_seen_day": "2026-11-24",
     "prev_day_close_gmp": 250,
     "gmp_extremes": {
       "opening": 18.95,
@@ -501,7 +501,7 @@
   "BLS Polymers": {
     "last_gmp": 69,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-23",
+    "last_seen_day": "2026-11-24",
     "prev_day_close_gmp": 69,
     "gmp_extremes": {
       "opening": 16.67,
@@ -519,7 +519,7 @@
     },
     "last_gmp": 15,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-23",
+    "last_seen_day": "2026-11-24",
     "prev_day_close_gmp": 15
   },
   "EAAA India Alternatives": {
@@ -531,7 +531,7 @@
     },
     "last_gmp": 54,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-23",
+    "last_seen_day": "2026-11-24",
     "prev_day_close_gmp": 54
   },
   "Bombay Coated and Special Steels": {
@@ -543,7 +543,7 @@
     },
     "last_gmp": 8,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-23",
+    "last_seen_day": "2026-11-24",
     "prev_day_close_gmp": 8
   },
   "M.K.Sons Fine Jewels": {
@@ -555,7 +555,7 @@
     },
     "last_gmp": 11,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-23",
+    "last_seen_day": "2026-11-24",
     "prev_day_close_gmp": 11
   },
   "Crystal Crop Protection": {
@@ -567,7 +567,7 @@
     },
     "last_gmp": 14,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-23",
+    "last_seen_day": "2026-11-24",
     "prev_day_close_gmp": 14
   },
   "Mahanadi Coalfields": {
@@ -584,9 +584,9 @@
   },
   "Foodlink F&B Holdings": {
     "last_gmp": 15,
-    "last_direction": "up",
-    "last_seen_day": "2026-11-23",
-    "prev_day_close_gmp": 12,
+    "last_direction": "flat",
+    "last_seen_day": "2026-11-24",
+    "prev_day_close_gmp": 15,
     "gmp_extremes": {
       "opening": 6.28,
       "highest": 7.85,
@@ -611,7 +611,7 @@
     },
     "last_gmp": 23,
     "last_direction": "flat",
-    "last_seen_day": "2026-11-23",
+    "last_seen_day": "2026-11-24",
     "prev_day_close_gmp": 23
   },
   "Matangi Rubber": {
@@ -622,8 +622,8 @@
       "frozen": false
     },
     "last_gmp": 21,
-    "last_direction": null,
-    "last_seen_day": "2026-11-23",
-    "prev_day_close_gmp": null
+    "last_direction": "flat",
+    "last_seen_day": "2026-11-24",
+    "prev_day_close_gmp": 21
   }
 }
