@@ -583,13 +583,13 @@
     }
   },
   "Foodlink F&B Holdings": {
-    "last_gmp": 21,
-    "last_direction": "flat",
+    "last_gmp": 27,
+    "last_direction": "up",
     "last_seen_day": "2026-11-25",
     "prev_day_close_gmp": 21,
     "gmp_extremes": {
       "opening": 6.28,
-      "highest": 10.99,
+      "highest": 14.14,
       "lowest": 6.28,
       "frozen": false
     }
@@ -604,13 +604,13 @@
   },
   "Monomark Engineering": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 32.31,
+      "highest": 32.31,
+      "lowest": 32.31,
       "frozen": false
     },
-    "last_gmp": 23,
-    "last_direction": "flat",
+    "last_gmp": 21,
+    "last_direction": "down",
     "last_seen_day": "2026-11-25",
     "prev_day_close_gmp": 23
   },
