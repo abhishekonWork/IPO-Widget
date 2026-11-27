@@ -583,14 +583,14 @@
     }
   },
   "Foodlink F&B Holdings": {
-    "last_gmp": 7,
-    "last_direction": "flat",
+    "last_gmp": 4,
+    "last_direction": "down",
     "last_seen_day": "2026-11-27",
     "prev_day_close_gmp": 7,
     "gmp_extremes": {
       "opening": 6.28,
       "highest": 14.14,
-      "lowest": 3.66,
+      "lowest": 2.09,
       "frozen": false
     }
   },
@@ -606,11 +606,11 @@
     "gmp_extremes": {
       "opening": 32.31,
       "highest": 36.92,
-      "lowest": 32.31,
+      "lowest": 30.77,
       "frozen": false
     },
-    "last_gmp": 24,
-    "last_direction": "flat",
+    "last_gmp": 20,
+    "last_direction": "down",
     "last_seen_day": "2026-11-27",
     "prev_day_close_gmp": 24
   },
@@ -621,17 +621,21 @@
       "lowest": 12.21,
       "frozen": false
     },
-    "last_gmp": 27,
-    "last_direction": "flat",
+    "last_gmp": 22,
+    "last_direction": "down",
     "last_seen_day": "2026-11-27",
     "prev_day_close_gmp": 27
   },
   "Swara Baby Products": {
     "gmp_extremes": {
-      "opening": null,
-      "highest": null,
-      "lowest": null,
+      "opening": 6.31,
+      "highest": 6.31,
+      "lowest": 6.31,
       "frozen": false
-    }
+    },
+    "last_gmp": 7,
+    "last_direction": null,
+    "last_seen_day": "2026-11-27",
+    "prev_day_close_gmp": null
   }
 }
