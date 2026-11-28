@@ -621,8 +621,8 @@
       "lowest": 12.21,
       "frozen": false
     },
-    "last_gmp": 31,
-    "last_direction": "flat",
+    "last_gmp": 30,
+    "last_direction": "down",
     "last_seen_day": "2026-11-28",
     "prev_day_close_gmp": 31
   },
